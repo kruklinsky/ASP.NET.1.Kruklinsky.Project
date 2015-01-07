@@ -62,6 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EFDbContext.cs" />
+    <Compile Include="Model\Knowledge\Answer.cs" />
+    <Compile Include="Model\Knowledge\Fake.cs" />
+    <Compile Include="Model\Knowledge\Question.cs" />
+    <Compile Include="Model\Knowledge\Subject.cs" />
+    <Compile Include="Model\Knowledge\Test.cs" />
     <Compile Include="Model\Membership\Profile.cs" />
     <Compile Include="Model\Membership\Role.cs" />
     <Compile Include="Model\Membership\User.cs" />

@@ -1,0 +1,12 @@
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\KnowlegesTestConsoleUI.exe.config
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\KnowlegesTestConsoleUI.exe
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\KnowlegesTestConsoleUI.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\EntityFramework.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\ORM.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\ORM.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\obj\Debug\KnowlegesTestConsoleUI.csprojResolveAssemblyReference.cache
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\obj\Debug\KnowlegesTestConsoleUI.exe
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\KnowlegesTestConsoleUI\obj\Debug\KnowlegesTestConsoleUI.pdb

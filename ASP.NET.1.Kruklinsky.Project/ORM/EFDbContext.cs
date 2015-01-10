@@ -28,6 +28,16 @@ namespace ORM
                 .HasMany(u => u.Roles)
                 .WithMany(r => r.Users)
                 .Map(m => { m.ToTable("UsersInRoles"); m.MapLeftKey("UserId"); m.MapRightKey("RoleId"); });
+
+            modelBuilder.Entity<Subject>().HasMany(s => s.Tests).WithRequired(t => t.Subject).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Test>()
+                .HasMany(t => t.Questions)
+                .WithMany(q => q.Tests)
+                .Map(m => { m.ToTable("QuestionsInTests"); m.MapLeftKey("TestId"); m.MapRightKey("QuestionId");});
+
+            modelBuilder.Entity<Question>().HasMany(q => q.Answers).WithRequired(a => a.Question).Map(m => m.MapKey("QuestionId"));
+            modelBuilder.Entity<Question>().HasMany(q => q.Fakes).WithRequired(f => f.Question).Map(m => m.MapKey("QuestionId"));
         }
     }
 }

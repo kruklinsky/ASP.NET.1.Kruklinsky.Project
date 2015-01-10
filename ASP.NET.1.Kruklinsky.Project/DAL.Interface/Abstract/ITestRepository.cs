@@ -9,5 +9,12 @@ namespace DAL.Interface.Abstract
 {
     public interface ITestRepository: IRepository<Test>
     {
+        Test GetTest(int Id);
+        Test GetTest(int Id, out IEnumerable<Question> questions);
+
+        IEnumerable<Question> GetTestQuestions(int Id);
+        void AddTestQuestion(int Id, int questionId);
+        void AddTestQuestion(int Id, Question question, IEnumerable<Answer> answers, IEnumerable<Fake> fakes);
+        void DeleteTestQuestion(int Id, int questionId);
     }
 }

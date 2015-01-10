@@ -49,6 +49,7 @@
     <Compile Include="Concrete\Mapping\KnowledgeMap.cs" />
     <Compile Include="Concrete\Mapping\MembershipMap.cs" />
     <Compile Include="Concrete\QuestionRepository.cs" />
+    <Compile Include="Concrete\TestRepository.cs" />
     <Compile Include="Concrete\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

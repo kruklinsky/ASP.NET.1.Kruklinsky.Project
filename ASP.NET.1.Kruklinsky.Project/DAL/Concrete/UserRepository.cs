@@ -74,6 +74,21 @@ namespace DAL.Concrete
             return result;
         }
 
+        public User GetUser(string id, out Profile profile, out IEnumerable<Role> roles)
+        {
+            User result = null;
+            profile = null;
+            roles = new List<Role>();
+            var user = this.GetUser(id.ToGuid());
+            if (user != null)
+            {
+                result = user.ToDal();
+                profile = user.Profile.ToDal();
+                roles = user.Roles.Select(r => r.ToDal());
+            }
+            return result;
+        }
+
         public Profile GetUserProfile(string id)
         {
             Profile result = null;

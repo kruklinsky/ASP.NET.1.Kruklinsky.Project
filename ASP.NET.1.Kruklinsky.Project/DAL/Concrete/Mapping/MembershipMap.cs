@@ -7,7 +7,7 @@ using DAL.Interface.Entities;
 
 namespace DAL.Concrete
 {
-    public static class Map
+    public static class MembershipMap
     {
         public static ORM.Model.User ToOrm(this User item)
         {
@@ -20,7 +20,6 @@ namespace DAL.Concrete
                 CreateDate = item.CreateDate
             };
         }
-
         public static User ToDal(this ORM.Model.User item)
         {
             return new User()
@@ -43,7 +42,6 @@ namespace DAL.Concrete
                 Birthday = item.Birthday
             };
         }
-
         public static Profile ToDal(this ORM.Model.Profile item)
         {
             return new Profile()
@@ -64,7 +62,6 @@ namespace DAL.Concrete
                 Description = item.Description
             };
         }
-
         public static Guid ToGuid (this string item)
         {
             Guid result;

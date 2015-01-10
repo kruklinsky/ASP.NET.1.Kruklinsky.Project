@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.Interface", "DAL.Interf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "ORM\ORM.csproj", "{77093053-772C-4AEE-A340-22E7915D8E55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleUI", "TestConsoleUI\TestConsoleUI.csproj", "{FD92E7F7-ACC1-4AD1-AEF5-F4C9ADD32427}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserRepositoryTest", "TestConsoleUI\UserRepositoryTest.csproj", "{FD92E7F7-ACC1-4AD1-AEF5-F4C9ADD32427}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{FE6FD5E5-4A9E-4C7D-9A2C-689FA345935A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowlegesTestConsoleUI", "KnowlegesTestConsoleUI\KnowlegesTestConsoleUI.csproj", "{3C7DE8A8-7249-4E6C-BF65-31E4109BF51F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionRepositoryTest", "KnowlegesTestConsoleUI\QuestionRepositoryTest.csproj", "{3C7DE8A8-7249-4E6C-BF65-31E4109BF51F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

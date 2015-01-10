@@ -1,81 +1,176 @@
-﻿using System;
+﻿using DAL.Interface.Abstract;
+using DAL.Interface.Entities;
+using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ORM;
-using ORM.Model;
 
-namespace KnowlegesTestConsoleUI
+namespace QuestionRepositoryTest
 {
     class Program
     {
-        static void Main(string[] args)
+        static IQuestionRepository InjectQuestionRepository()
         {
-            EFDbContext newOne = new EFDbContext();
-            #region Add Questions
-            //newOne.Questions.Add(new Question
-            //{
-            //    SubjectId = 1,
-            //    Level = 1,
-            //    Text = "What is",
-            //    Topic = "asdf2",
-            //    Answers = new List<Answer> { new Answer { Text = "asfd" }, new Answer { Text = "fdsa" }, },
-            //    Fakes = new List<Fake> { new Fake { Text = "asfd" }, new Fake { Text = "fdsa" }, }
-            //}
-            //    );
-            //newOne.SaveChanges();
-            #endregion
-            #region Get Questions
-            //List<Question> questions = new List<Question>(newOne.Questions);
-            //foreach (var item in questions)
-            //{
-            //    Console.WriteLine("Question: " + item.Text);
-            //    Console.WriteLine("Subject: " + item.Subject.Name);
-            //    foreach (var item2 in item.Answers)
-            //    {
-            //        Console.WriteLine("Answers: " + item2.Text);
-            //    }
-            //    foreach (var item2 in item.Fakes)
-            //    {
-            //        Console.WriteLine("Fakes: " + item2.Text);
-            //    }
-            //    Console.WriteLine();
-            //}
-            #endregion
-            #region Add Tests
-            //newOne.Tests.Add(new Test
-            //{
-            //    SubjectId = 1,
-            //    Name = "Cool",
-            //    Topic = "asdf2",
-            //    Questions = new List<Question> (newOne.Questions.Where(q => q.Topic == "asdf2"))
-            //});
-            //newOne.SaveChanges();
-            #endregion
-            #region GetSubject tests
-            //List<Subject> tests = new List<Subject>(newOne.Subjects);
-            //foreach (var item in tests)
-            //{
-            //    Console.WriteLine("Subject: " + item.Name);
-            //    foreach (var item2 in item.Tests)
-            //    {
-            //        Console.WriteLine("test: " + item2.Topic);
-            //    }
-            //}
-            #endregion
-            #region Get test
-            List<Test> tests = new List<Test>(newOne.Tests);
-            foreach (var item in tests)
+            Console.Write("Inject repository: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<IQuestionRepository>();
+        }
+        static void Prepare(IQuestionRepository repository)
+        {
+            Console.Write("Prepare TestDb: ");
+            List<Question> questions = repository.Data.ToList();
+            for (int i = 0; i < questions.Count(); i++)
             {
-                Console.WriteLine("Test: " + item.Topic);
-                foreach (var item2 in item.Questions)
+                repository.Delete(questions[i]);
+            }
+            Console.WriteLine("Ok");
+        }
+
+        static void AddQuestions(IQuestionRepository repository)
+        {
+            Console.Write("Add questions: ");
+            List<Answer> answers = new List<Answer>() { new Answer { Text = "a"} };
+            List<Fake> fakes = new List<Fake>() { new Fake{ Text = "b"}, new Fake{Text = "c"}};
+            Question question = new Question
+            {
+                SubjectId = 1,
+                Level = 1,
+                Topic = "Topic",
+                Text = "Question a",
+                Description = "no"
+            };
+            repository.Add(question, answers, fakes);
+            question = new Question
+            {
+                SubjectId = 1,
+                Level = 2,
+                Topic = "Topic",
+                Text = "Question b",
+                Description = "no"
+            };
+            repository.Add(question, answers, fakes);
+            Console.WriteLine("Ok");
+        }
+        static void GetQuestions(IQuestionRepository repository)
+        {
+            Console.WriteLine("Get questions: ");
+            List<Question> questions = repository.Data.ToList();
+            foreach(var item in questions)
+            {
+                IEnumerable<Answer> answers;
+                IEnumerable<Fake> fakes;
+                repository.GetQuestion(item.Id, out answers, out fakes);
+                Console.WriteLine(item.Text);
+                foreach(var item2 in answers)
                 {
-                    Console.WriteLine("Question: " + item2.Text);
+                    Console.WriteLine("- " + item2.Text);
+                }
+                foreach (var item2 in fakes)
+                {
+                    Console.WriteLine("- " + item2.Text);
                 }
             }
-            #endregion
-            Console.WriteLine("Ok");
+            Console.WriteLine();
+        }
+
+        static void UpdateQuestion (IQuestionRepository repository)
+        {
+            Console.WriteLine("Update question: ");
+            Question question = repository.Data.First();
+            question.Text = "Updated";
+            repository.Update(question);
+            GetQuestions(repository);
+        }
+
+        static void GetQuestionAnswers(IQuestionRepository repository, Question question)
+        {
+            Console.WriteLine(question.Text);
+            foreach(var item in repository.GetQuestionAnswers(question.Id))
+            {
+                Console.WriteLine("-" + item.Text);
+            }
+        }
+        static void AddQuestionAnswer(IQuestionRepository repository)
+        {
+            Console.WriteLine("Add question answer: ");
+            Question question = repository.Data.First();
+            repository.AddQuestionAnswer(question.Id, new Answer { Text = "e" });
+            GetQuestionAnswers(repository, question);
+            Console.WriteLine();
+        }
+        static void DeleteQuestionAnswer(IQuestionRepository repository)
+        {
+            Console.WriteLine("Delete question answer: ");
+            Question question = repository.Data.First();
+            Answer answer = repository.GetQuestionAnswers(question.Id).Last();
+            repository.DeleteAnswer(answer.Id);
+            GetQuestionAnswers(repository, question);
+            Console.WriteLine();
+        }
+        static void UpdateQuestionAnswer (IQuestionRepository repository)
+        {
+            Console.WriteLine("Update question answer: ");
+            Question question = repository.Data.First();
+            Answer answer = repository.GetQuestionAnswers(question.Id).Last();
+            repository.UpdateAnswer(answer.Id, "e");
+            GetQuestionAnswers(repository, question);
+            Console.WriteLine();
+        }
+
+        static void GetQuestionFakes(IQuestionRepository repository, Question question)
+        {
+            Console.WriteLine(question.Text);
+            foreach (var item in repository.GetQuestionFakes(question.Id))
+            {
+                Console.WriteLine("-" + item.Text);
+            }
+        }
+        static void AddQuestionFake(IQuestionRepository repository)
+        {
+            Console.WriteLine("Add question fake: ");
+            Question question = repository.Data.First();
+            repository.AddQuestionFake(question.Id, new Fake { Text = "f" });
+            GetQuestionFakes(repository, question);
+            Console.WriteLine();
+        }
+        static void DeleteQuestionFake(IQuestionRepository repository)
+        {
+            Console.WriteLine("Delete question fake: ");
+            Question question = repository.Data.First();
+            Fake fake = repository.GetQuestionFakes(question.Id).Last();
+            repository.DeleteFake(fake.Id);
+            GetQuestionFakes(repository, question);
+            Console.WriteLine();
+        }
+        static void UpdateQuestionFake(IQuestionRepository repository)
+        {
+            Console.WriteLine("Update question fake: ");
+            Question question = repository.Data.First();
+            Fake fake= repository.GetQuestionFakes(question.Id).Last();
+            repository.UpdateFake(fake.Id, "f");
+            GetQuestionFakes(repository, question);
+            Console.WriteLine();
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Question repository test");
+            IQuestionRepository repository = InjectQuestionRepository();
+            Prepare(repository);
+            AddQuestions(repository);
+            GetQuestions(repository);
+            AddQuestionAnswer(repository);
+            DeleteQuestionAnswer(repository);
+            UpdateQuestionAnswer(repository);
+            AddQuestionFake(repository);
+            DeleteQuestionFake(repository);
+            UpdateQuestionFake(repository);
+            UpdateQuestion(repository);    
         }
     }
 }

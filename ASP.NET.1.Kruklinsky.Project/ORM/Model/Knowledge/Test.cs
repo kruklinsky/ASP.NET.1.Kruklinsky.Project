@@ -10,6 +10,8 @@ namespace ORM.Model
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int TestId { get; set; }
 
+        public int SubjectId { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -18,9 +20,8 @@ namespace ORM.Model
 
         public string Description { get; set; }
 
-        public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; }
 
+        public virtual Subject Subject { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
     }

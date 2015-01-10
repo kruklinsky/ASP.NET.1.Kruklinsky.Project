@@ -12,6 +12,15 @@ namespace TestConsoleUI
 {
     class Program
     {
+        static IUserRepository InjectUserRepository()
+        {
+            Console.Write("Inject repository: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<IUserRepository>();
+        }
+
         static void Prepare (IUserRepository repository)
         {
             Console.Write("Prepare TestDb: ");
@@ -21,15 +30,6 @@ namespace TestConsoleUI
                 repository.Delete(users[i]);
             }
             Console.WriteLine("Ok");
-        }
-
-        static IUserRepository InjectUserRepository()
-        {
-            Console.Write("Inject repository: ");
-            IKernel kernel = new StandardKernel();
-            kernel.Load(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Ok");
-            return kernel.Get<IUserRepository>();
         }
 
         static void AddUsers (IUserRepository repository)
@@ -170,12 +170,6 @@ namespace TestConsoleUI
             GetRoles(repository);
             AddUserRole(repository);
             DeleteUserRole(repository);
-            Prepare(repository);
-
-            foreach (var item in repository.Data)
-            {
-                Console.WriteLine(item.Email);
-            }
         }
 
     }

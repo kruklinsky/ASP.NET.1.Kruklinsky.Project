@@ -12,11 +12,10 @@ namespace ORM.Model
 
         public int SubjectId { get; set; }
 
-        [Required]
-        public string Topic { get; set; }
+        public int Level { get; set; }
 
         [Required]
-        public int Level { get; set; }
+        public string Topic { get; set; }
 
         [Required]
         public string Text { get; set; }

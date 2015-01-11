@@ -84,41 +84,6 @@ namespace DAL.Concrete
             };
         }
 
-        public static ORM.Model.Test ToOrm (this Test item)
-        {
-            return new ORM.Model.Test
-            {
-                TestId = item.Id,
-                SubjectId = item.SubjectId,
-                Name = item.Name,
-                Topic = item.Topic,
-                Description = item.Description
-            };
-        }
-        public static ORM.Model.Test ToOrm(this Test item, IEnumerable<Question> questions)
-        {
-            return new ORM.Model.Test
-            {
-                TestId = item.Id,
-                SubjectId = item.SubjectId,
-                Name = item.Name,
-                Topic = item.Topic,
-                Description = item.Description,
-                Questions = questions.Select(q => q.ToOrm()).ToList()
-            };
-        }
-        public static Test ToDal (this ORM.Model.Test item)
-        {
-            return new Test
-            {
-                 Id = item.TestId,
-                 SubjectId = item.SubjectId,
-                 Name = item.Name,
-                 Topic = item.Topic,
-                 Description = item.Description
-            };
-        }
-
         public static ORM.Model.Subject ToOrm (this Subject item)
         {
             return new ORM.Model.Subject

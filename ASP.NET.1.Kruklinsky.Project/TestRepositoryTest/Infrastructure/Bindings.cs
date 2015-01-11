@@ -18,6 +18,7 @@ namespace TestRepositoryTest.Infrastructure
             Bind<DbContext>().To<EFDbContext>().InSingletonScope();
             Bind<IQuestionRepository>().To<QuestionRepository>();
             Bind<ITestRepository>().To<TestRepository>();
+            Bind<ISubjectRepository>().To<SubjectRepository>();
         }
     }
 }

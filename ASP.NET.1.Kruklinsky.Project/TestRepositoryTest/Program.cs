@@ -12,6 +12,14 @@ namespace TestRepositoryTest
 {
     class Program
     {
+        static ISubjectRepository InjectSubjectRepository()
+        {
+            Console.Write("Inject repository: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<ISubjectRepository>();
+        }
         static IQuestionRepository InjectQuestionRepository()
         {
             Console.Write("Inject repository: ");
@@ -28,7 +36,7 @@ namespace TestRepositoryTest
             Console.WriteLine("Ok");
             return kernel.Get<ITestRepository>();
         }
-        static void Prepare(ITestRepository repository, IQuestionRepository _repository)
+        static void Prepare(ITestRepository repository, IQuestionRepository _repository, ISubjectRepository subjectRepository)
         {
             
             Console.Write("Prepare TestDb: ");
@@ -42,17 +50,40 @@ namespace TestRepositoryTest
             {
                 _repository.Delete(questions[i]);
             }
+            List<Subject> subjects = subjectRepository.Data.ToList();
+            for (int i = 0; i < subjects.Count(); i++)
+            {
+                subjectRepository.Delete(subjects[i]);
+            }
             Console.WriteLine("Ok");
         }
 
-        static void AddQuestions(IQuestionRepository repository)
+        static void AddSubjects(ISubjectRepository repository)
+        {
+            Console.Write("Add subjects: ");
+            repository.Add(new Subject
+            {
+                Name = "Sql",
+            });
+            repository.Add(new Subject
+            {
+                Name = "C#",
+            });
+            repository.Add(new Subject
+            {
+                Name = "Java",
+            });
+            Console.WriteLine("Ok");
+        }
+        static void AddQuestions(IQuestionRepository repository, ISubjectRepository subjectRepository)
         {
             Console.Write("Add questions: ");
+            var subject = subjectRepository.Data.First();
             List<Answer> answers = new List<Answer>() { new Answer { Text = "a" } };
             List<Fake> fakes = new List<Fake>() { new Fake { Text = "b" }, new Fake { Text = "c" } };
             Question question = new Question
             {
-                SubjectId = 1,
+                SubjectId = subject.Id,
                 Level = 1,
                 Topic = "Topic",
                 Text = "Question a",
@@ -61,7 +92,7 @@ namespace TestRepositoryTest
             repository.Add(question, answers, fakes);
             question = new Question
             {
-                SubjectId = 1,
+                SubjectId = subject.Id,
                 Level = 2,
                 Topic = "Topic",
                 Text = "Question b",
@@ -92,12 +123,13 @@ namespace TestRepositoryTest
             Console.WriteLine();
         }
 
-        static void AddTest(ITestRepository repository)
+        static void AddTest(ITestRepository repository, ISubjectRepository subjectRepository)
         {
             Console.Write("Add test: ");
+            var subject = subjectRepository.Data.First();
             repository.Add(new Test
             {
-                SubjectId = 1,
+                SubjectId = subject.Id,
                 Name = "Hard test",
                 Topic = "Some topic",
                 Description = "It's hard but esy too."
@@ -143,15 +175,16 @@ namespace TestRepositoryTest
             GetTests(repository, _repository);
             GetQuestions(_repository);
         }
-        static void AddTestQuestionV2(ITestRepository repository, IQuestionRepository _repository)
+        static void AddTestQuestionV2(ITestRepository repository, IQuestionRepository _repository, ISubjectRepository subjectRepository)
         {
             Console.WriteLine("Add test questionV2: ");
+            var subject = subjectRepository.Data.First();
             var test = repository.Data.First();
             List<Answer> answers = new List<Answer>() { new Answer { Text = "a" } };
             List<Fake> fakes = new List<Fake>() { new Fake { Text = "b" }, new Fake { Text = "c" } };
             Question question = new Question
             {
-                SubjectId = 1,
+                SubjectId = subject.Id,
                 Level = 1,
                 Topic = "Topic",
                 Text = "Question c",
@@ -177,18 +210,16 @@ namespace TestRepositoryTest
             Console.WriteLine("Test repository test");
             IQuestionRepository repository = InjectQuestionRepository();
             ITestRepository testRepository = InjectTestRepository();
-        Start:
-            Console.Clear();
-            Prepare(testRepository,repository);
-            AddQuestions(repository);
+            ISubjectRepository subjectRepository = InjectSubjectRepository();
+            Prepare(testRepository,repository,subjectRepository);
+            AddSubjects(subjectRepository);
+            AddQuestions(repository,subjectRepository);
             GetQuestions(repository);
-            AddTest(testRepository);
+            AddTest(testRepository,subjectRepository);
             GetTests(testRepository, repository);
             AddTestQuestion(testRepository, repository);
-            AddTestQuestionV2(testRepository, repository);
+            AddTestQuestionV2(testRepository, repository,subjectRepository);
             DeleteTestQuestion(testRepository, repository);
-            Console.ReadKey();
-            goto Start;
         }
     }
 }

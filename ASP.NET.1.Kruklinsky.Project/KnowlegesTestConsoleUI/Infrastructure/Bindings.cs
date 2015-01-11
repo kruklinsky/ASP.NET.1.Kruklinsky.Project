@@ -17,6 +17,7 @@ namespace KnowlegesTestConsoleUI.Infrastructure
         {
             Bind<DbContext>().To<EFDbContext>().InSingletonScope();
             Bind<IQuestionRepository>().To<QuestionRepository>();
+            Bind<ISubjectRepository>().To<SubjectRepository>();
         }
     }
 }

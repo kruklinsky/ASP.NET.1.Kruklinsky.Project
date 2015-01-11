@@ -143,7 +143,6 @@ namespace TestRepositoryTest
             GetTests(repository, _repository);
             GetQuestions(_repository);
         }
-
         static void AddTestQuestionV2(ITestRepository repository, IQuestionRepository _repository)
         {
             Console.WriteLine("Add test questionV2: ");
@@ -172,7 +171,6 @@ namespace TestRepositoryTest
             GetTests(repository, _repository);
             GetQuestions(_repository);
         }
-
 
         static void Main(string[] args)
         {

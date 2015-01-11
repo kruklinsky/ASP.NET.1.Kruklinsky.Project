@@ -66,7 +66,6 @@ namespace DAL.Concrete
             }
             return result;
         }
-
         public Test GetTest(int Id, out IEnumerable<Question> questions)
         {
             Test result = null;
@@ -75,7 +74,7 @@ namespace DAL.Concrete
             if (test != null)
             {
                 result = test.ToDal();
-                questions = test.Questions.Select(q => q.ToDal()).ToList();
+                if(test.Questions != null) questions = test.Questions.Select(q => q.ToDal()).ToList();
             }
             return result;
         }
@@ -90,7 +89,6 @@ namespace DAL.Concrete
             }
             return result;
         }
-
         public void AddTestQuestion(int Id, int questionId)
         {
             var test = this.GetOrmTest(Id);
@@ -102,7 +100,16 @@ namespace DAL.Concrete
                 this.context.SaveChanges();
             }
         }
-
+        public void AddTestQuestion(int Id, Question question, IEnumerable<Answer> answers, IEnumerable<Fake> fakes)
+        {
+            var test = this.GetOrmTest(Id);
+            if (test != null)
+            {
+                if (test.Questions == null) test.Questions = new List<ORM.Model.Question>();
+                test.Questions.Add(question.ToOrm(answers, fakes));
+                this.context.SaveChanges();
+            }
+        }
         public void DeleteTestQuestion(int Id, int questionId)
         {
             var test = this.GetOrmTest(Id);
@@ -128,7 +135,6 @@ namespace DAL.Concrete
             }
             return result;
         }
-
         private ORM.Model.Question GetOrmQuestion(int questionId)
         {
             ORM.Model.Question result = null;
@@ -141,17 +147,5 @@ namespace DAL.Concrete
         }
 
         #endregion
-
-
-        public void AddTestQuestion(int Id, Question question, IEnumerable<Answer> answers, IEnumerable<Fake> fakes)
-        {
-            var test = this.GetOrmTest(Id);
-            if (test != null)
-            {
-                if (test.Questions == null) test.Questions = new List<ORM.Model.Question>();
-                test.Questions.Add(question.ToOrm(answers,fakes));
-                this.context.SaveChanges();
-            }
-        }
     }
 }

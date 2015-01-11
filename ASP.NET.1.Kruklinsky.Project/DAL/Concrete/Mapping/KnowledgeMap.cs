@@ -119,5 +119,23 @@ namespace DAL.Concrete
             };
         }
 
+        public static ORM.Model.Subject ToOrm (this Subject item)
+        {
+            return new ORM.Model.Subject
+            {
+                 SubjectId = item.Id,
+                 Name = item.Name,
+                 Description = item.Description
+            };
+        }
+        public static Subject ToDal (this ORM.Model.Subject item)
+        {
+            return new Subject
+            {
+                Id = item.SubjectId,
+                Name = item.Name,
+                Description = item.Description
+            };
+        }
     }
 }

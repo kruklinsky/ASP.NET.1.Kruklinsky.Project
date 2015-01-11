@@ -81,8 +81,8 @@ namespace DAL.Concrete
             if (question != null)
             {
                 result = question.ToDal();
-                answers = question.Answers.Select(a => a.ToDal());
-                fakes = question.Fakes.Select(f => f.ToDal());
+                if(question.Answers != null) answers = question.Answers.Select(a => a.ToDal());
+                if(question.Fakes != null) fakes = question.Fakes.Select(f => f.ToDal());
             }
             return result;
         }
@@ -91,7 +91,7 @@ namespace DAL.Concrete
         {
             IEnumerable<Answer> result = new List<Answer>();
             var question = this.GetOrmQuestion(Id);
-            if (question != null)
+            if (question != null && question.Answers != null)
             {
                 result = question.Answers.Select(a => a.ToDal());
             }
@@ -129,7 +129,7 @@ namespace DAL.Concrete
         {
             IEnumerable<Fake> result = new List<Fake>();
             var question = this.GetOrmQuestion(Id);
-            if (question != null)
+            if (question != null && question.Fakes != null)
             {
                 result = question.Fakes.Select(a => a.ToDal());
             }

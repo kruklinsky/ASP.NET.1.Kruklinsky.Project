@@ -1,0 +1,8 @@
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\DAL.Interface\bin\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\DAL.Interface\bin\Debug\DAL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\DAL.Interface\obj\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\DAL.Interface\obj\Debug\DAL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL.Interface\bin\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL.Interface\bin\Debug\DAL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL.Interface\obj\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL.Interface\obj\Debug\DAL.Interface.pdb

@@ -1,0 +1,14 @@
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\ORM.dll.config
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\ORM.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\ORM.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\EntityFramework.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\obj\Debug\ORM.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ORM\obj\Debug\ORM.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\ORM\bin\Debug\ORM.dll.config
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\ORM\bin\Debug\ORM.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\ORM\bin\Debug\ORM.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\ORM\obj\Debug\ORM.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\ORM\obj\Debug\ORM.pdb

@@ -1,0 +1,5 @@
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL.Interface\bin\Debug\BLL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL.Interface\bin\Debug\BLL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL.Interface\obj\Debug\BLL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL.Interface\obj\Debug\BLL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL.Interface\obj\Debug\BLL.Interface.csprojResolveAssemblyReference.cache

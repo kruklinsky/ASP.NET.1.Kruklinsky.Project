@@ -43,8 +43,9 @@ namespace TestConsoleUI
             List<User> users = new List<User>(repository.Data);
             for (int i = 0; i < users.Count(); i++)
             {
-                result = repository.GetUser(users[i].Id);
-                Console.WriteLine(" " + result.Email);
+                result = repository.GetUser(users[i].Email);
+                Console.WriteLine(" " + result.Id);
+                Console.WriteLine(" role count: " +result.Roles.Value.Count());
             }
             Console.WriteLine("");
         }
@@ -58,7 +59,7 @@ namespace TestConsoleUI
                 IsApproved = false,
                 CreateDate = DateTime.Now
             });
-            repository.AddUserRole(repository.Data.Last().Id, "User");
+            repository.AddUserRole(repository.Data.Last().Email, "User");
             repository.Add(new User
             {
                 Email = "apsedianm@gmail.com",
@@ -66,7 +67,7 @@ namespace TestConsoleUI
                 IsApproved = false,
                 CreateDate = DateTime.Now
             });
-            repository.AddUserRole(repository.Data.Last().Id, "User");
+            repository.AddUserRole(repository.Data.Last().Email, "User");
             Console.WriteLine("Ok");
         }
         static void UpdateUsers(IUserRepository repository)
@@ -127,7 +128,7 @@ namespace TestConsoleUI
             for (int i = 0; i < users.Count(); i++)
             {
                 Console.Write(" " + users[i].Email + ": ");
-                foreach (var item in repository.GetUserRoles(users[i].Id))
+                foreach (var item in repository.GetUserRoles(users[i].Email))
                 {
                     Console.Write(item.Name + " ");
                 }
@@ -139,7 +140,7 @@ namespace TestConsoleUI
         {
             Console.WriteLine("Add user role: ");
             repository.Data.First();
-            repository.AddUserRole(repository.Data.First().Id, "Admin");
+            repository.AddUserRole(repository.Data.First().Email, "Admin");
             GetRoles(repository);
             Console.WriteLine("");
         }
@@ -147,7 +148,7 @@ namespace TestConsoleUI
         {
             Console.WriteLine("Delete user role: ");
             repository.Data.First();
-            repository.DeleteUserRole(repository.Data.First().Id, "Admin");
+            repository.DeleteUserRole(repository.Data.First().Email, "Admin");
             GetRoles(repository);
             Console.WriteLine("");
         }

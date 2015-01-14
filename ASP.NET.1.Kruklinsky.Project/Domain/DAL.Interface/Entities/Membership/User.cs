@@ -15,5 +15,9 @@ namespace DAL.Interface.Entities
         public bool IsApproved { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+
+        public Lazy<Profile> Profile { get; set; }
+        public Lazy<ICollection<Role>> Roles { get; set; }
     }
 }

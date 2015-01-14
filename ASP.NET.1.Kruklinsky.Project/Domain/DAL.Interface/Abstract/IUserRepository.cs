@@ -6,14 +6,15 @@ namespace DAL.Interface.Abstract
 {
     public interface IUserRepository : IRepository<User>
     {
-        User GetUser(string id);
-        User GetUser(string id, out Profile profile, out IEnumerable<Role> roles);
+        User GetUser(string email);
+        User GetUserById(string id);
 
         Profile GetUserProfile(string id);
         void UpdateUserProfile(string id, Profile profile);
 
-        IEnumerable<Role> GetUserRoles(string id);
-        void AddUserRole(string id, string roleName);
-        void DeleteUserRole(string id, string roleName);
+        IEnumerable<Role> GetUserRoles(string email);
+        void AddUserRole(string email, string roleName);
+        void DeleteUserRole(string email, string roleName);
+        IEnumerable<User> GetUsersInRole(string roleName);
     }
 }

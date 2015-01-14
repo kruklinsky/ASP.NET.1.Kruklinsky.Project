@@ -14,12 +14,10 @@ namespace DAL.Concrete
         #region IRepository
 
         private readonly DbContext context;
-
         public UserRepository(DbContext context)
         {
             this.context = context;
         }
-
         public IEnumerable<User> Data
         {
             get 
@@ -28,7 +26,6 @@ namespace DAL.Concrete
                 return result.Select(u => u.ToDal());
             }
         }
-
         public void Add(User item)
         {
             var result = item.ToOrm();
@@ -36,7 +33,6 @@ namespace DAL.Concrete
             this.context.Set<ORM.Model.User>().Add(result);
             this.context.SaveChanges();
         }
-
         public void Delete(User item)
         {
             var result = this.GetUser(item.Id.ToGuid());
@@ -58,32 +54,27 @@ namespace DAL.Concrete
                 this.context.SaveChanges();
             }
         }
-
         #endregion
 
         #region IUserRepository
 
-        public User GetUser(string id)
+        public User GetUser(string email)
         {
             User result = null;
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(email);
             if (user != null)
             {
                 result = user.ToDal();
             }
             return result;
         }
-        public User GetUser(string id, out Profile profile, out IEnumerable<Role> roles)
+        public User GetUserById(string id)
         {
             User result = null;
-            profile = null;
-            roles = new List<Role>();
             var user = this.GetUser(id.ToGuid());
             if (user != null)
             {
                 result = user.ToDal();
-                profile = user.Profile.ToDal();
-                roles = user.Roles.Select(r => r.ToDal());
             }
             return result;
         }
@@ -98,22 +89,12 @@ namespace DAL.Concrete
             }
             return result;
         }
-        public IEnumerable<Role> GetUserRoles(string id)
-        {
-            IEnumerable<Role> result = new List<Role>();
-            var user = this.GetUser(id.ToGuid());
-            if (user != null && user.Roles != null)
-            {
-                var roles = user.Roles;
-                result = roles.Select(r => r.ToDal());
-            }
-            return result;
-        }
         public void UpdateUserProfile(string id, Profile profile)
         {
-            var result = this.GetUser(id.ToGuid()).Profile;
-            if (result != null)
+            var user = this.GetUser(id.ToGuid());
+            if (user != null)
             {
+                var result = user.Profile;
                 result.FirstName = profile.FirstName;
                 result.SecondName = profile.SecondName;
                 result.Birthday = profile.Birthday;
@@ -121,10 +102,31 @@ namespace DAL.Concrete
             }
         }
 
-        public void AddUserRole(string id, string roleName)
+        public IEnumerable<Role> GetUserRoles(string email)
+        {
+            IEnumerable<Role> result = new List<Role>();
+            var user = this.GetOrmUser(email);
+            if (user != null && user.Roles != null)
+            {
+                var roles = user.Roles;
+                result = roles.Select(r => r.ToDal());
+            }
+            return result;
+        }
+        public IEnumerable<User> GetUsersInRole (string roleName)
+        {
+            IEnumerable<User> result = new List<User>();
+            var users = this.GetOrmUsersInRole(roleName);
+            if(users.Count() != 0)
+            {
+                result = users.Select(u => u.ToDal()).ToList();
+            }
+            return result;
+        }
+        public void AddUserRole(string email, string roleName)
         {
             var role = this.GetRole(roleName);
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(email);
             if (role != null && user != null)
             {
                 if (user.Roles == null) user.Roles = new List<ORM.Model.Role>();
@@ -132,10 +134,10 @@ namespace DAL.Concrete
                 context.SaveChanges();
             }
         }
-        public void DeleteUserRole(string id, string roleName)
+        public void DeleteUserRole(string email, string roleName)
         {
             var role = this.GetRole(roleName);
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(email);
             if (role != null && user != null)
             {
                 user.Roles.Remove(role);
@@ -147,6 +149,16 @@ namespace DAL.Concrete
 
         #region Private methods
 
+        private ORM.Model.User GetOrmUser(string email)
+        {
+            ORM.Model.User result = null;
+            var query = this.context.Set<ORM.Model.User>().Where(u => u.Email == email);
+            if (query.Count() != 0)
+            {
+                result = query.First();
+            }
+            return result;
+        }
         private ORM.Model.User GetUser(Guid userId)
         {
             ORM.Model.User result = null;
@@ -154,6 +166,16 @@ namespace DAL.Concrete
             if (query.Count() != 0)
             {
                 result = query.First();
+            }
+            return result;
+        }
+        private IEnumerable<ORM.Model.User> GetOrmUsersInRole (string roleName)
+        {
+            IEnumerable<ORM.Model.User> result = new List<ORM.Model.User>();
+            var query = this.context.Set<ORM.Model.Role>().Where(r => r.RoleName == roleName);
+            if(query.Count() != 0)
+            {
+                result = query.First().Users.ToList();
             }
             return result;
         }

@@ -8,7 +8,7 @@ namespace BLL.Interface.Entities
 {
     public class UserAnswer
     {
-        public int AnswerId { get; set; }
+        public int Id { get; set; }
 
         public int QuestionId { get; set; }
 
@@ -17,8 +17,6 @@ namespace BLL.Interface.Entities
         public bool IsRight { get; set; }
 
 
-        public virtual Question Question { get; set; }
-
-        public virtual Result Result { get; set; }
+        public Lazy<Question> Question { get; set; }
     }
 }

@@ -4,11 +4,8 @@ namespace BLL.Interface.Entities
 {
     public class Fake
     {
-        public int FakeId { get; set; }
+        public int Id { get; set; }
 
         public string Text { get; set; }
-
-
-        public virtual Question Question { get; set; }
     }
 }

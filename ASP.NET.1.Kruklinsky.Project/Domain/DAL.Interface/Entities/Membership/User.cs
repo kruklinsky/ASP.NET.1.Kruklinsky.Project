@@ -18,6 +18,6 @@ namespace DAL.Interface.Entities
 
 
         public Lazy<Profile> Profile { get; set; }
-        public Lazy<ICollection<Role>> Roles { get; set; }
+        public Lazy<IEnumerable<Role>> Roles { get; set; }
     }
 }

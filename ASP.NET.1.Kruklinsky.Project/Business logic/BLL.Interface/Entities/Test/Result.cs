@@ -8,7 +8,7 @@ namespace BLL.Interface.Entities
 {
     public class Result
     {
-        public int ResultId { get; set; }
+        public int Id { get; set; }
 
         public int TestId { get; set; }
 
@@ -17,10 +17,10 @@ namespace BLL.Interface.Entities
         public TimeSpan Time { get; set; }
 
 
-        public virtual Test Test { get; set; }
+        public Lazy<Test> Test { get; set; }
 
-        public virtual User User { get; set; }
+        public Lazy<User> User { get; set; }
 
-        public virtual ICollection<UserAnswer> Answers { get; set; }
+        public Lazy<IEnumerable<UserAnswer>> Answers { get; set; }
     }
 }

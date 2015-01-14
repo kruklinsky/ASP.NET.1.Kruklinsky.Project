@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BLL.Interface.Entities
 {
     public class Test
     {
-        public int TestId { get; set; }
+        public int Id { get; set; }
 
         public int SubjectId { get; set; }
 
@@ -15,8 +16,6 @@ namespace BLL.Interface.Entities
         public string Description { get; set; }
 
 
-        public virtual Subject Subject { get; set; }
-
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual Lazy<ICollection<Question>> Questions { get; set; }
     }
 }

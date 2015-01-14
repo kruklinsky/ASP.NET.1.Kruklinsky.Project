@@ -10,7 +10,6 @@ namespace DAL.Interface.Abstract
     public interface ITestRepository: IRepository<Test>
     {
         Test GetTest(int id);
-        Test GetTest(int id, out IEnumerable<Question> questions);
 
         IEnumerable<Question> GetTestQuestions(int id);
         void AddTestQuestion(int id, int questionId);

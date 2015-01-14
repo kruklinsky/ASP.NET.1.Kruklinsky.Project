@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\KnowledgeService.cs" />
+    <Compile Include="Concrete\Mapping\KnowledgeMap.cs" />
     <Compile Include="Concrete\Mapping\MembershipMap.cs" />
     <Compile Include="Concrete\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

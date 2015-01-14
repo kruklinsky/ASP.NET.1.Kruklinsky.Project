@@ -66,8 +66,8 @@ namespace QuestionRepositoryTest
         {
             Console.Write("Add questions: ");
             Subject subject = subjectRepository.Data.First();
-            List<Answer> answers = new List<Answer>() { new Answer { Text = "a"} };
-            List<Fake> fakes = new List<Fake>() { new Fake{ Text = "b"}, new Fake{Text = "c"}};
+            Answer[] answers = new Answer[] { new Answer { Text = "a"} };
+            Fake[] fakes = new Fake[] { new Fake{ Text = "b"}, new Fake{Text = "c"}};
             Question question = new Question
             {
                 SubjectId = subject.Id,
@@ -94,9 +94,9 @@ namespace QuestionRepositoryTest
             List<Question> questions = repository.Data.ToList();
             foreach(var item in questions)
             {
-                IEnumerable<Answer> answers;
-                IEnumerable<Fake> fakes;
-                repository.GetQuestion(item.Id, out answers, out fakes);
+                Question question = repository.GetQuestion(item.Id);
+                IEnumerable<Answer> answers = question.Answers.Value;
+                IEnumerable<Fake> fakes = question.Fakes.Value;
                 Console.WriteLine(item.Text);
                 foreach(var item2 in answers)
                 {

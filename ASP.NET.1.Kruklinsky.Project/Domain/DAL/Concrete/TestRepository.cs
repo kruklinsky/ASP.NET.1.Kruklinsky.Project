@@ -66,18 +66,6 @@ namespace DAL.Concrete
             }
             return result;
         }
-        public Test GetTest(int id, out IEnumerable<Question> questions)
-        {
-            Test result = null;
-            questions = new List<Question>(); 
-            var test = this.GetOrmTest(id);
-            if (test != null)
-            {
-                result = test.ToDal();
-                if(test.Questions != null) questions = test.Questions.Select(q => q.ToDal()).ToList();
-            }
-            return result;
-        }
 
         public IEnumerable<Question> GetTestQuestions(int id)
         {

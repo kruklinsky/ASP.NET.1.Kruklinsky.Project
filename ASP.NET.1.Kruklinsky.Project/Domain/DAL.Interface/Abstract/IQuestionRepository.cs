@@ -10,7 +10,6 @@ namespace DAL.Interface.Abstract
     public interface IQuestionRepository : IRepository<Question>
     {
         Question GetQuestion(int id);
-        Question GetQuestion(int id, out IEnumerable<Answer> answers, out IEnumerable<Fake> fakes);
         void Add(Question item, IEnumerable<Answer> answers, IEnumerable<Fake> fakes);
 
         IEnumerable<Answer> GetQuestionAnswers(int id);

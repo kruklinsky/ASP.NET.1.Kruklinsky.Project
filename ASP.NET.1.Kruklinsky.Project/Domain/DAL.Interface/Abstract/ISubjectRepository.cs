@@ -10,7 +10,6 @@ namespace DAL.Interface.Abstract
     public interface ISubjectRepository: IRepository<Subject>
     {
         Subject GetSubject(int id);
-        Subject GetSubject(int id, out IEnumerable<Test> tests);
 
         IEnumerable<Test> GetSubjectTests(int id);
     }

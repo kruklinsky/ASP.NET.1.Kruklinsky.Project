@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DAL.Interface.Entities
 {
@@ -13,7 +14,13 @@ namespace DAL.Interface.Entities
         public string Topic { get; set; }
 
         public string Text { get; set; }
+  
+        public string Example { get; set; }
 
         public string Description { get; set; }
+
+
+        public Lazy<IEnumerable<Answer>> Answers { get; set; }
+        public Lazy<IEnumerable<Fake>> Fakes { get; set; }
     }
 }

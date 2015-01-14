@@ -29,8 +29,8 @@ namespace DAL.Concrete
                 Password = item.Password,
                 IsApproved = item.IsApproved,
                 CreateDate = item.CreateDate,
-                Profile = new Lazy<Profile>( () => item.Profile.ToDal()),
-                Roles = new Lazy<ICollection<Role>>(() => item.Roles.Select( r => r.ToDal()).ToList())
+                Profile = new Lazy<Profile>(() => item.Profile == null ? null : item.Profile.ToDal()),
+                Roles = new Lazy<IEnumerable<Role>>(() => item.Roles == null ? new List<Role>() : item.Roles.Select(r => r.ToDal()).ToList())
             };
         }
 

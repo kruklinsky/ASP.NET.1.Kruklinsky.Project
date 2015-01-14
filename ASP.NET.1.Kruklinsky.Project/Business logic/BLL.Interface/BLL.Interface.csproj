@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IKnowledgeService.cs" />
     <Compile Include="Abstract\IUserService.cs" />
     <Compile Include="Entities\Knowledge\Answer.cs" />
     <Compile Include="Entities\Knowledge\Fake.cs" />
@@ -48,7 +49,7 @@
     <Compile Include="Entities\Membership\Role.cs" />
     <Compile Include="Entities\Membership\User.cs" />
     <Compile Include="Entities\Test\Result.cs" />
-    <Compile Include="Entities\Test\Test.cs" />
+    <Compile Include="Entities\Knowledge\Test.cs" />
     <Compile Include="Entities\Test\UserAnswer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -48,6 +48,7 @@ namespace DAL.Concrete
                 result.Level = item.Level;
                 result.Topic = item.Topic;
                 result.Text = item.Text;
+                result.Example = item.Example;
                 result.Description = item.Description;
                 this.context.SaveChanges();
             }
@@ -69,20 +70,6 @@ namespace DAL.Concrete
             if (question != null)
             {
                 result = question.ToDal();
-            }
-            return result;
-        }
-        public Question GetQuestion(int id, out IEnumerable<Answer> answers, out IEnumerable<Fake> fakes)
-        {
-            Question result = null;
-            answers = new List<Answer>();
-            fakes = new List<Fake>();
-            var question = this.GetOrmQuestion(id);
-            if (question != null)
-            {
-                result = question.ToDal();
-                if(question.Answers != null) answers = question.Answers.Select(a => a.ToDal());
-                if(question.Fakes != null) fakes = question.Fakes.Select(f => f.ToDal());
             }
             return result;
         }

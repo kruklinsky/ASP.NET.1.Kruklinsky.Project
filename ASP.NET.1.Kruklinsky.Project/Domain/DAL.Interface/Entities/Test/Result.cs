@@ -14,6 +14,10 @@ namespace DAL.Interface.Entities
 
         public string UserId { get; set; }
 
+        public DateTime Start { get; set; }
+
         public TimeSpan Time { get; set; }
+
+        public Lazy<IEnumerable<UserAnswer>> Answers { get; set; }
     }
 }

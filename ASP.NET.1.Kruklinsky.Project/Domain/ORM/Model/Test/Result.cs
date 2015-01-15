@@ -18,6 +18,7 @@ namespace ORM.Model
 
         public Guid UserId { get; set; }
 
+        public DateTime Start { get; set; }
         public TimeSpan Time { get; set; }
 
 

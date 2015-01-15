@@ -10,7 +10,7 @@ namespace DAL.Interface.Abstract
     public interface IResultRepository: IRepository<Result>
     {
         Result GetResult(int id);
-        Result GetResult(int id, out IEnumerable<UserAnswer> answers);
+        Result GetLastResult();
 
         IEnumerable<UserAnswer> GetUserAnswers(int resultId);
         void AddUserAnswer(int resultId, UserAnswer answer);

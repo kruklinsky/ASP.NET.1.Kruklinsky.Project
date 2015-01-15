@@ -15,8 +15,5 @@ namespace BLL.Interface.Entities
         public int ResultId { get; set; }
 
         public bool IsRight { get; set; }
-
-
-        public Lazy<Question> Question { get; set; }
     }
 }

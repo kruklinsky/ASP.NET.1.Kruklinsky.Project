@@ -12,14 +12,11 @@ namespace BLL.Interface.Entities
 
         public int TestId { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
+        public DateTime Start { get; set; }
         public TimeSpan Time { get; set; }
 
-
-        public Lazy<Test> Test { get; set; }
-
-        public Lazy<User> User { get; set; }
 
         public Lazy<IEnumerable<UserAnswer>> Answers { get; set; }
     }

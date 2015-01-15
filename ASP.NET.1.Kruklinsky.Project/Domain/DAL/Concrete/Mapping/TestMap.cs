@@ -16,6 +16,7 @@ namespace DAL.Concrete
                 ResultId = item.Id,
                 TestId = item.TestId,
                 UserId = item.UserId.ToGuid(),
+                Start = item.Start,
                 Time = item.Time
             };
         }
@@ -26,6 +27,7 @@ namespace DAL.Concrete
                 ResultId = item.Id,
                 TestId = item.TestId,
                 UserId = item.UserId.ToGuid(),
+                Start = item.Start,
                 Time = item.Time,
                 Answers = answers.Select(a => a.ToOrm()).ToList()
             };
@@ -37,7 +39,9 @@ namespace DAL.Concrete
                 Id = item.ResultId,
                 TestId = item.ResultId,
                 UserId = item.UserId.ToString(),
-                Time = item.Time
+                Start = item.Start,
+                Time = item.Time,
+                Answers = new Lazy<IEnumerable<UserAnswer>>(() => item.Answers == null ? new List<UserAnswer>() : item.Answers.Select(a => a.ToDal()).ToList())
             };
         }
 

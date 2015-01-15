@@ -42,6 +42,8 @@
     <Compile Include="Concrete\KnowledgeService.cs" />
     <Compile Include="Concrete\Mapping\KnowledgeMap.cs" />
     <Compile Include="Concrete\Mapping\MembershipMap.cs" />
+    <Compile Include="Concrete\Mapping\TestMap.cs" />
+    <Compile Include="Concrete\TestService.cs" />
     <Compile Include="Concrete\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

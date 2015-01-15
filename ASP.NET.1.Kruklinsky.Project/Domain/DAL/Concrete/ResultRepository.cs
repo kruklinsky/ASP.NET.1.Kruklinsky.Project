@@ -42,7 +42,13 @@ namespace DAL.Concrete
         }
         public void Update(Result item)
         {
-            throw new System.NotSupportedException("Impossible to update test results.");
+            var result = this.GetOrmResult(item.Id);
+            if(result != null)
+            {
+                result.Time = item.Time;
+                result.Answers = item.Answers.Value.Select(a => a.ToOrm()).ToList();
+                this.context.SaveChanges();
+            }
         }
 
         #endregion
@@ -59,15 +65,13 @@ namespace DAL.Concrete
             }
             return result;
         }
-        public Result GetResult(int id, out IEnumerable<UserAnswer> answers)
+        public Result GetLastResult()
         {
             Result result = null;
-            answers = new List<UserAnswer>();
-            var ormResult = this.GetOrmResult(id);
-            if (ormResult != null)
+            var lastResult = this.context.Set<ORM.Model.Result>().Last();
+            if(lastResult != null)
             {
-                result = ormResult.ToDal();
-                if (ormResult.Answers != null) answers = ormResult.Answers.Select(a => a.ToDal()).ToList();
+                result = lastResult.ToDal();
             }
             return result;
         }

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IKnowledgeService.cs" />
+    <Compile Include="Abstract\ITestService.cs" />
     <Compile Include="Abstract\IUserService.cs" />
     <Compile Include="Entities\Knowledge\Answer.cs" />
     <Compile Include="Entities\Knowledge\Fake.cs" />

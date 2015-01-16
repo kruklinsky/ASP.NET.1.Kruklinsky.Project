@@ -95,6 +95,10 @@ namespace DAL.Concrete
             if (user != null)
             {
                 var result = user.Profile;
+                if (result == null)
+                {
+                    user.Profile = new ORM.Model.Profile();
+                }
                 result.FirstName = profile.FirstName;
                 result.SecondName = profile.SecondName;
                 result.Birthday = profile.Birthday;

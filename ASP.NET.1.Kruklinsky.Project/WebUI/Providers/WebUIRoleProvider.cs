@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 
-namespace Providers
+namespace MvcUI.Providers
 {
     public class WebUIRoleProvider : RoleProvider
     {
         IUserService userService;
+
+        public WebUIRoleProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
 
         public WebUIRoleProvider(IUserService userService)
         {

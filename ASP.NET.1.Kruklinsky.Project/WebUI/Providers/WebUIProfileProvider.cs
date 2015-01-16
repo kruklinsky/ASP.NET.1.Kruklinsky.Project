@@ -14,6 +14,8 @@ namespace WebUI.Providers
     {
         IUserService userService;
 
+        public WebUIProfileProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
+
         public WebUIProfileProvider(IUserService userService)
         {
             if (userService == null)

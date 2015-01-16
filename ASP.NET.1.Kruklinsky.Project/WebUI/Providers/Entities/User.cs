@@ -8,7 +8,7 @@ namespace WebUI.Providers.Entities
 {
     public class User : MembershipUser
     {
-        private readonly string providerName = "WebUIMembershipProvider";
+        private readonly string providerName = "MvcUIMembershipProvider";
         private readonly bool isLockedOut = false;
 
         #region Added

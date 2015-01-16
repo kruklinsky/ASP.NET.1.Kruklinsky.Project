@@ -18,18 +18,21 @@ namespace WebUI.Providers
 
     public class WebUIMembershipProvider : MembershipProvider
     {
-        private Regex emailValidationRegex = new Regex(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}");
-
         private string providerDescription = "";
+
+        private string emailRegularExpression = @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}";
         private bool enablePasswordReset = true;
-        private int minRequiredNonalphanumericCharacters = 1;
-        private int minRequiredPasswordLength = 7;
+        private int minRequiredPasswordLength = 6;
+        private int minRequiredNonalphanumericCharacters = 0;
         private string passwordStrengthRegularExpression = string.Empty;
-        private ConnectionStringSettings connectionString;
+
         private IUserService userService;
+
+        public WebUIMembershipProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
 
         public WebUIMembershipProvider(IUserService userService)
         {
+        
             if (userService == null)
             {
                 throw new System.ArgumentNullException("userService", "User service is null.");
@@ -85,6 +88,11 @@ namespace WebUI.Providers
             get { return this.passwordStrengthRegularExpression; }
         }
 
+        /// <summary>
+        /// Checked
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="config"></param>
         public override void Initialize(string name, NameValueCollection config)
         {
             if (config == null)
@@ -109,7 +117,6 @@ namespace WebUI.Providers
             {
                 this.ApplicationName = GetDefaultAppName();
             }
-            this.connectionString = GetConnectionString(config["connectionStringName"]);
             config.Remove("connectionStringName");
             if (config["enablePasswordReset"] != null)
             {
@@ -126,6 +133,10 @@ namespace WebUI.Providers
             if (config["passwordStrengthRegularExpression"] != null)
             {
                 this.passwordStrengthRegularExpression = config["passwordStrengthRegularExpression"];
+            }
+            if (config["emailRegularExpression"] != null)
+            {
+                this.emailRegularExpression = config["emailRegularExpression"];
             }
         }
 
@@ -343,9 +354,10 @@ namespace WebUI.Providers
         private bool IsEmail(string email)
         {
             bool result = true;
-            if (this.emailValidationRegex != null)
+            if (!String.IsNullOrWhiteSpace(this.emailRegularExpression))
             {
-                result = this.emailValidationRegex.IsMatch(email);
+                Regex regex = new Regex(this.emailRegularExpression);
+                result = regex.IsMatch(email);
             }
             return result;
         }
@@ -376,6 +388,5 @@ namespace WebUI.Providers
                 return obj.GetHashCode();
             }
         }
-    
     }
 }

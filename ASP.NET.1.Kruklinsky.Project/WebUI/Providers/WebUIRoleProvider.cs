@@ -1,12 +1,11 @@
 ﻿using BLL.Interface.Abstract;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 
 namespace Providers
 {
-    //провайдер ролей указывает системе на статус пользователя и наделяет 
-    //его определенные правами доступа
     public class WebUIRoleProvider : RoleProvider
     {
         IUserService userService;
@@ -20,54 +19,90 @@ namespace Providers
             this.userService = userService;
         }
 
+        #region Overridden
+
         public override string ApplicationName { get; set; }
 
 
         public override string[] GetRolesForUser(string email)
         {
-            throw new System.NotImplementedException();
+            List<string> result = new List<string>();
+            var user = this.userService.GetUser(email);
+            if (user != null)
+            {
+                result = user.Roles.Value.Select(r => r.Name).ToList();
+            }
+            return result.ToArray();
         }
         public override bool IsUserInRole(string email, string roleName)
         {
-            throw new System.NotImplementedException();
+            return userService.IsUserInRole(email,roleName);
         }
         public override string[] GetUsersInRole(string roleName)
         {
-            throw new NotImplementedException();
+            return userService.GetUsersInRole(roleName);
         }
-        public override void AddUsersToRoles(string[] usernames, string[] roleNames)
+        public override void AddUsersToRoles(string[] userNames, string[] roleNames)
         {
-            throw new NotImplementedException();
+            if (userNames == null)
+            {
+                throw new System.ArgumentNullException("userNames", "User names is null.");
+            }
+            if (roleNames == null)
+            {
+                throw new System.ArgumentNullException("roleNames", "Role names is null.");
+            }
+            foreach (var email in userNames)
+            {
+                foreach (var roleName in roleNames)
+                {
+                    this.userService.AddUserToRole(email, roleName);
+                }
+            }
         }
-        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
+        public override void RemoveUsersFromRoles(string[] userNames, string[] roleNames)
         {
-            throw new NotImplementedException();
+            if (userNames == null)
+            {
+                throw new System.ArgumentNullException("userNames", "User names is null.");
+            }
+            if (roleNames == null)
+            {
+                throw new System.ArgumentNullException("roleNames", "Role names is null.");
+            }
+            foreach (var email in userNames)
+            {
+                foreach (var roleName in roleNames)
+                {
+                    this.userService.RemoveUserFromRole(email, roleName);
+                }
+            }
         }
 
         public override string[] GetAllRoles()
         {
-            throw new NotImplementedException();
+            return this.userService.GetAllRoles();
         }
         public override bool RoleExists(string roleName)
         {
-            throw new NotImplementedException();
+            return this.userService.RoleExists(roleName);
         }
 
-        #region Not suported
+        #endregion
+
+        #region Not supported
 
         public override void CreateRole(string roleName)
         {
-            throw new System.NotImplementedException();
+            throw new System.NotSupportedException("Role creation is not supported.");
         }
-
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            throw new NotImplementedException();
+            throw new System.NotSupportedException("Role deleting is not supported.");
         }
-
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            throw new NotImplementedException();
+            throw new System.NotSupportedException("Finding users in role is not supported.");
         }
 
         #endregion

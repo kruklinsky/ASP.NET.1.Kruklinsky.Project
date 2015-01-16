@@ -23,7 +23,7 @@ namespace DAL.Concrete
             get
             {
                 IEnumerable<ORM.Model.Result> result = this.context.Set<ORM.Model.Result>();
-                return result.Select(t => t.ToDal());
+                return result.Select(t => t.ToDal()).ToList();
             }
         }
         public void Add(Result item)

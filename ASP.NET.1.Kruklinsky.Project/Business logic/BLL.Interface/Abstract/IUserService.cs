@@ -33,6 +33,9 @@ namespace BLL.Interface.Abstract
         void AddUserToRole(string email, string roleName);
         void RemoveUserFromRole(string email, string roleName);
 
+        string[] GetAllRoles();
+        bool RoleExists(string roleName);
+
         #endregion
 
         #region Profile

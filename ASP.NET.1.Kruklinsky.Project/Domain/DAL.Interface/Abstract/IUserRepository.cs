@@ -16,5 +16,8 @@ namespace DAL.Interface.Abstract
         void AddUserRole(string email, string roleName);
         void DeleteUserRole(string email, string roleName);
         IEnumerable<User> GetUsersInRole(string roleName);
+
+        IEnumerable<Role> GetAllRoles();
+        bool RoleExists(string roleName);
     }
 }

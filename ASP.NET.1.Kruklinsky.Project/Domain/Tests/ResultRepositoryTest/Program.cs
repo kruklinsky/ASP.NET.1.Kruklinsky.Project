@@ -170,6 +170,7 @@ namespace ResultRepositoryTest
                 {
                     TestId = test.Id,
                     UserId = user.Id,
+                    Start = DateTime.UtcNow,
                     Time = new TimeSpan(0, 2, 15)
                 });
             Console.WriteLine("Ok");

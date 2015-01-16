@@ -23,7 +23,7 @@ namespace DAL.Concrete
             get 
             {
                 IEnumerable<ORM.Model.Question> result = this.context.Set<ORM.Model.Question>();
-                return result.Select(q => q.ToDal());
+                return result.Select(q => q.ToDal()).ToList();
             }
         }
         public void Add(Question item)
@@ -80,7 +80,7 @@ namespace DAL.Concrete
             var question = this.GetOrmQuestion(id);
             if (question != null && question.Answers != null)
             {
-                result = question.Answers.Select(a => a.ToDal());
+                result = question.Answers.Select(a => a.ToDal()).ToList();
             }
             return result;
         }
@@ -118,7 +118,7 @@ namespace DAL.Concrete
             var question = this.GetOrmQuestion(id);
             if (question != null && question.Fakes != null)
             {
-                result = question.Fakes.Select(a => a.ToDal());
+                result = question.Fakes.Select(a => a.ToDal()).ToList();
             }
             return result;
         }

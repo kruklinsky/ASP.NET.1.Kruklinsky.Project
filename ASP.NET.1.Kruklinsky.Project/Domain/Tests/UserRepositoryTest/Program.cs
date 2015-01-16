@@ -168,6 +168,5 @@ namespace TestConsoleUI
             DeleteUserRole(repository);
             Console.ReadKey();
         }
-
     }
 }

@@ -23,7 +23,7 @@ namespace DAL.Concrete
             get
             {
                 IEnumerable<ORM.Model.Subject> result = this.context.Set<ORM.Model.Subject>();
-                return result.Select(t => t.ToDal());
+                return result.Select(t => t.ToDal()).ToList();
             }
         }
         public void Add(Subject item)
@@ -82,7 +82,7 @@ namespace DAL.Concrete
             var subject = this.GetOrmSubject(id);
             if (subject != null && subject.Tests != null)
             {
-                result = subject.Tests.Select(t => t.ToDal());
+                result = subject.Tests.Select(t => t.ToDal()).ToList();
             }
             return result;
         }

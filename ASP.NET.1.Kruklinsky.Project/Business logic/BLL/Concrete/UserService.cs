@@ -136,7 +136,7 @@ namespace BLL.Concrete
             User user = this.GetUser(email);
             if(user != null)
             {
-                result = user.Roles.Value.Select(r => r.ToString()).ToList();
+                result = user.Roles.Value.Select(r => r.Name).ToList();
             }
             return result == null ? null : result.ToArray();
         }
@@ -175,6 +175,22 @@ namespace BLL.Concrete
             this.GetEmailExceptions(email);
             this.GetRoleNameExceptions(roleName);
             this.userRepository.DeleteUserRole(email, roleName);
+        }
+
+        public string[] GetAllRoles()
+        {
+            List<string> result = new List<string>();
+            var roles = this.userRepository.GetAllRoles();
+            if (roles.Count() != 0)
+            {
+                result = roles.Select(r => r.Name).ToList();
+            }
+            return result.ToArray();
+        }
+        public bool RoleExists(string roleName)
+        {
+            this.GetRoleNameExceptions(roleName);
+            return this.userRepository.RoleExists(roleName);
         }
 
         #endregion
@@ -283,6 +299,5 @@ namespace BLL.Concrete
         }
 
         #endregion
-
     }
 }

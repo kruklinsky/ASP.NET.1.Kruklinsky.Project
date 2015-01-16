@@ -23,7 +23,7 @@ namespace DAL.Concrete
             get 
             {
                 IEnumerable<ORM.Model.User> result = this.context.Set<ORM.Model.User>();
-                return result.Select(u => u.ToDal());
+                return result.Select(u => u.ToDal()).ToList();
             }
         }
         public void Add(User item)
@@ -54,6 +54,7 @@ namespace DAL.Concrete
                 this.context.SaveChanges();
             }
         }
+
         #endregion
 
         #region IUserRepository
@@ -113,7 +114,7 @@ namespace DAL.Concrete
             if (user != null && user.Roles != null)
             {
                 var roles = user.Roles;
-                result = roles.Select(r => r.ToDal());
+                result = roles.Select(r => r.ToDal()).ToList();
             }
             return result;
         }
@@ -147,6 +148,16 @@ namespace DAL.Concrete
                 user.Roles.Remove(role);
                 context.SaveChanges();
             }
+        }
+
+        public IEnumerable<Role> GetAllRoles()
+        {
+            IEnumerable<ORM.Model.Role> result = this.context.Set<ORM.Model.Role>();
+            return result.Select(r => r.ToDal()).ToList();
+        }
+        public bool RoleExists(string roleName)
+        {
+            return this.GetRole(roleName) != null;
         }
 
         #endregion

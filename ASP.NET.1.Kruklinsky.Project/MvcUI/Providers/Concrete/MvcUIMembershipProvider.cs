@@ -39,6 +39,21 @@ namespace MvcUI.Providers
             this.userService = userService;
         }
 
+        #region Added
+
+        public bool IsDuplicateEmail(string email)
+        {
+            bool result = false;
+            if (IsValidEmail(email))
+            {
+                var user = this.userService.GetUser(email);
+                result = user != null;
+            }
+            return result;
+        }
+
+        #endregion
+
         #region Overridden
 
         #region Filds
@@ -191,14 +206,17 @@ namespace MvcUI.Providers
             if (!IsValidPassword(password))
             {
                 status = MembershipCreateStatus.InvalidPassword;
+                return null;
             }
             if (!IsValidEmail(email))
             {
                 status = MembershipCreateStatus.InvalidEmail;
+                return null;
             }
             if (IsDuplicateEmail(email))
             {
                 status = MembershipCreateStatus.DuplicateEmail;
+                return null;
             }
             var result = this.userService.CreateUser(email, Crypto.HashPassword(password), isApproved);
             status = MembershipCreateStatus.Success;
@@ -359,11 +377,6 @@ namespace MvcUI.Providers
                 result = regex.IsMatch(email);
             }
             return result;
-        }
-        private bool IsDuplicateEmail(string email)
-        {
-            var user = this.userService.GetUser(email);
-            return user != null;
         }
 
         #endregion

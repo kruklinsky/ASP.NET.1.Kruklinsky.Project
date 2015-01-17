@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DependencyResolver
 {
-    public class RevolverModule : NinjectModule
+    public class ResolverModule : NinjectModule
     {
         public override void Load()
         {

@@ -23,9 +23,14 @@ namespace MvcUI
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new StyleBundle("~/Content/bootstrap/css").Include("~/Content/bootstrap/css/bootstrap.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/error/css").Include("~/Content/error/error.css"));
+            bundles.Add(new StyleBundle("~/Content/signup/css").Include("~/Content/signup/signup.css"));
+            bundles.Add(new StyleBundle("~/Content/verify/css").Include("~/Content/verify/verify.css"));
+            bundles.Add(new StyleBundle("~/Content/login/css").Include("~/Content/login/login.css"));
+            bundles.Add(new StyleBundle("~/Content/home/css").Include("~/Content/home/home.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

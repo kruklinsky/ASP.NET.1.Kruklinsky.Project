@@ -1,0 +1,40 @@
+﻿body {
+    margin: 20px;
+    min-width: 700px;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url(images\\background.jpg);
+    text-align: center; 
+}
+
+/*Div.description {
+       margin-top: 20px;
+       display: inline-table;
+       background-color: #0093ff;
+       padding-bottom: 30px;
+}
+    Div.description h2
+    {
+        margin:0px;
+        padding-left: 10px;
+        padding-right: 10px; 
+        color:white;
+    }
+    Div.description p
+    {
+        margin:0px;
+        font-size: 16px;
+        padding-left: 10px;
+        padding-right: 10px; 
+        color:white;
+    }
+
+Div.editor-label label {
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px; 
+    color:white;
+    background-color: #0093ff;
+}*/
+

@@ -1,0 +1,25 @@
+﻿@model MvcUI.Models.SignUpModel
+
+@section Links
+{
+    @Styles.Render("~/Content/signup/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<div class="description">
+    <h2>Create a new account</h2>
+    <p>Use the form below to create a new account</p>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.EditorForModel()
+    <br />
+    <input class="btn btn-inverse" type="submit" value="Log In" />
+}

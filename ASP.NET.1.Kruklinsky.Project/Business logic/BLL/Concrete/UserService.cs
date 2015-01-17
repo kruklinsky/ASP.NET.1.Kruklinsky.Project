@@ -91,7 +91,12 @@ namespace BLL.Concrete
         public void UpdateUser(User user)
         {
             this.GetIdExceptions(user.Id);
-            this.userRepository.Update(user.ToDal());
+            var dalUser = this.userRepository.GetUserById(user.Id);
+            if (dalUser != null)
+            {
+                dalUser.IsApproved = user.IsApproved;
+                this.userRepository.Update(dalUser);
+            }
         }
 
         public bool ValidateUser(string email, string password, IEqualityComparer<string> passwordComparer)

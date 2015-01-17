@@ -4,11 +4,46 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    @if (IsSectionDefined("Links"))
+    {
+        @RenderSection("Links", required: false)
+    }
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @RenderBody()
+    <div id="page_layout">
+        <div id="header">
+            <div class="LogButtons">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.RouteLink("Log Out", new { controller = "Account", action = "LogOut" }, new { @id = "Button" })
+                }
+                else
+                {
+                    if (@Url.RequestContext.RouteData.Values["action"] != "SignUp")
+                    {
+                        @Html.RouteLink("Sing Up", new { controller = "Account", action = "SignUp" }, new { @id = "Button" })
+                    }
+                    else
+                    {
+                        @Html.RouteLink("Log In", new { controller = "Account", action = "LogIn" }, new { @id = "Button" })
+                    }
+                }
+            </div>
+            <div class="title">Panda Quest</div>
+        </div>
+
+        <div id="Menu">
+
+        </div>
+
+        <div id="content">
+            @RenderBody()
+        </div>
+
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)

@@ -39,7 +39,7 @@ textarea {
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error {
-    color: #f00;
+    color: #0093ff;
 }
 
 .field-validation-valid {
@@ -47,15 +47,104 @@ textarea {
 }
 
 .input-validation-error {
-    border: 1px solid #f00;
-    background-color: #fee;
+    border: 1px solid #0093ff;
+    background-color: #fff;
 }
 
 .validation-summary-errors {
     font-weight: bold;
-    color: #f00;
+    color: #0093ff;
 }
 
 .validation-summary-valid {
     display: none;
+}
+
+
+BODY {
+    font-family: Cambria, Georgia, "Times New Roman";
+    margin: 0;
+}
+
+
+A#Button {
+    text-decoration: none;
+    font: -webkit-small-control;
+}
+
+DIV#header DIV.title, DIV.Message H3, DIV.Message H4, DIV.PageLinks A {
+    font: bold lem "Arial Narrow", "Franklin Gothic Medium", Arial;
+}
+
+DIV#header {
+    background-color:#353535;
+    border-bottom: 2px solid #111;
+    color: White;
+}
+    DIV#header DIV.title {
+        font-size: 2em;
+        padding: .6em;
+    }
+    DIV#header DIV.LogButtons {
+        display: block;
+        float: right;
+        padding: .6em;
+    }
+
+DIV#content {
+
+    margin-left: 9em;
+    padding: 1em;
+}
+
+DIV#Menu {
+    float: left;
+    width: 8em;
+    padding: .3em;
+}
+    DIV#Menu A{
+        font: bold-1.1em "Arial Narrow","Franklin Gothic Medium",Arial;
+        display: block;
+        text-decoration: none;
+        padding: .6em;
+        color: Black;
+        border-bottom: 1px solid silver;
+    }
+        DIV#Menu A.selected {
+            background-color: #666;
+            color: White;
+        }
+            DIV#Menu A.selected:hover{
+                background-color: #666;
+            }
+        DIV#Menu A:hover{
+            background-color: #CCC;
+        }
+
+DIV.PageLinks {
+    text-align: right;
+    border-top: 2px solid silver;
+    padding: .5em 0 0 0;
+    margin-top: 1em;
+}
+    DIV.PageLinks A {
+        font-size: 1.1em;
+        color: #666;
+        text-decoration: none;
+        padding: 0 .4em 0 .4em;
+    }
+        DIV.PageLinks A:hover {
+            background-color: Silver;
+        }
+        DIV.PageLinks A.selected {
+            background-color: #353535;
+            color: White;
+        }
+
+DIV#page_layout {
+    padding: 0px;
+    margin: 0px auto;
+    position: relative;
+    z-index: 6;
+    width: 800px;
 }

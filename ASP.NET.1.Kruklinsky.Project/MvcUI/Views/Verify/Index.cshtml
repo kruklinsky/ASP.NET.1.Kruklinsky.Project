@@ -1,0 +1,18 @@
+﻿@section Links
+{
+    @Styles.Render("~/Content/verify/css")
+}
+
+@{
+    ViewBag.Title = "Sign Up is completed";
+}
+
+<div class="completedMessage">
+    <div class="description">
+        <h2>Welcome to us!!!</h2>
+        <p>Please activate your account.</p>
+    </div>
+    <br />
+    <br />
+    <p>The activation email has been sent to your email: <a href="http://www.@ViewBag.userHost">@ViewBag.userEmail</a>. (click to activate)</p>
+</div>

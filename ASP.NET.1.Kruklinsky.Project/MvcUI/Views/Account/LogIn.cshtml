@@ -1,0 +1,20 @@
+﻿@model MvcUI.Models.LogInModel
+@section Links
+{
+    @Styles.Render("~/Content/login/css")
+}
+@{
+    ViewBag.Title = "Log In";
+}
+
+<div class="description">
+    <h1>Log In</h1>
+    <p>Please log in:</p>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.EditorForModel()
+    <br />
+    <input class="btn btn-inverse" type="submit" value="Log In" />
+}

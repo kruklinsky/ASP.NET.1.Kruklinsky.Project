@@ -1,0 +1,25 @@
+﻿@model MvcUI.Models.Subjects
+
+@section Links
+{
+    @Styles.Render("~/Content/admin/css")
+}
+@{
+    ViewBag.Title = "Administration";
+}
+
+<div class="stroke">
+    @foreach(var subject in Model.Data)
+    {
+        <div class="subject">
+            @subject.subject.Name
+            <br/>
+            @foreach (var test in subject.Tests)
+            {
+                @Html.ActionLink(" " + test.Name, "Edit", "Admin", new { Test = test })
+            <a> @test.Name</a>
+                            <br />
+            }
+        </div>
+    }
+</div>

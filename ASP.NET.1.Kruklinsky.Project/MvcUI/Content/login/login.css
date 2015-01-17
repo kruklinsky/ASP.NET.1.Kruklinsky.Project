@@ -7,5 +7,7 @@
     background-image: url(images\\background.jpg);
     text-align: center; 
 }
-
+.stroke {
+    text-shadow: white 0 0 1px;
+}
 

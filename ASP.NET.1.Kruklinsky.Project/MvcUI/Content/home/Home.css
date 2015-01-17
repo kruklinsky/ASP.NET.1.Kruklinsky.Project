@@ -4,5 +4,12 @@
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-image: url(images\\background.jpg);
-    text-align: center; 
+}
+.stroke {
+    text-shadow: white 0 0 1px;
+}
+
+DIV#content {
+    margin-left: 0em;
+    padding: 0em;
 }

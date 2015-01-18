@@ -141,6 +141,11 @@ A#Button-black {
     color:black;
 }
 
+A#Button-white {
+    text-decoration: none;
+    color:white;
+}
+
 .stroke {
     text-shadow: white 0 0 1px;
 }

@@ -16,7 +16,7 @@
                 @Html.LogButtons(User.Identity.IsAuthenticated, User.IsInRole("admin"), Url.RequestContext.RouteData.Values["action"].ToString())  
             </div>
             <div class="title">
-                Panda Quest
+                @Html.RouteLink("Panda Quest", new { controller = "Home", action = "Index" }, new { @id = "Button-white" })
             </div>
         </div>
         <div id="content">

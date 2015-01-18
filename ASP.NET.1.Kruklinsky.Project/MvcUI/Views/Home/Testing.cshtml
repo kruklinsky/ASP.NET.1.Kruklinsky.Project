@@ -1,0 +1,74 @@
+﻿@model MvcUI.Models.Testing
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Testing</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/home/css")
+</head>
+@*@(1200000 - (DateTime.UtcNow - Model.StartTime).TotalMilliseconds))*@
+<body onload="stopwatch('time','@Url.Action("Index","Home")',@(1200000 - (DateTime.UtcNow - Model.StartTime).TotalMilliseconds))">
+    <div id="page_layout">
+        <div id="header">
+            <div class="LogButtons">
+                @Html.LogButtons(User.Identity.IsAuthenticated, User.IsInRole("admin"), Url.RequestContext.RouteData.Values["action"].ToString())
+            </div>
+            <div class="title">
+                Panda Quest
+            </div>
+        </div>
+        <div id="content">
+
+            <div class="stroke">
+                <div id="time"></div>
+                <div class="testing">
+                    <h1>@Model.Test.Name: @Model.Test.Topic</h1>
+                    <br />
+
+                    @using (Html.BeginForm("Testing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+
+                        for (int i = 0; i < @Model.Questions.Count(); i++)
+                        {
+                            <div class="question">
+                                @Html.HideImage(@Model.Questions[i].Question.Id)
+                                <label>@Model.Questions[i].Question.Text</label>
+                                <div id="@Model.Questions[i].Question.Id">
+                                    @if (@Model.Questions[i].Question.Example != null)
+                                    {
+                                        <textarea readonly rows="5">@Model.Questions[i].Question.Example</textarea>
+                                    }
+                                    <div class="answers">
+                                        @for (int j = 0; j < @Model.Answers[i].UserAnswers.Count(); j++)
+                                        {
+                                            @Html.EditorFor(m => m.Answers[i].UserAnswers[j].UserAnswer, new { @class = "useranswer" })
+                                            @Html.DisplayFor(m => m.Answers[i].UserAnswers[j].Text)
+                                            <br />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <br />
+                        <input class="btn btn-inverse" type="submit" value="Finish" />
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Content/home/js")
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+
+</html>

@@ -11,14 +11,12 @@ namespace MvcUI.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        IKnowledgeService knowledgeService;
+        private IKnowledgeService knowledgeService;
 
         public AdminController(IKnowledgeService knowledgeService)
         {
             this.knowledgeService = knowledgeService;
         }
-        //
-        // GET: /Admin/
 
         public ActionResult Index()
         {
@@ -193,7 +191,6 @@ namespace MvcUI.Controllers
             {
                 this.knowledgeService.AddNewQuestionAnswers(answer.QuestionId, new List<BLL.Interface.Entities.Answer> { answer.ToBll() });
                 return RedirectToAction("EditQuestion", "Admin", new { questionId = answer.QuestionId });
-
             }
             return View(answer);
         }

@@ -1,0 +1,31 @@
+﻿@model MvcUI.Models.Results
+
+@section Links
+{
+    @Styles.Render("~/Content/result/css")
+}
+@section scripts
+{
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@{
+    ViewBag.Title = "Results";
+}
+
+<div class="stroke">
+    @for(int i = 0; i < Model.Result.Count(); i++)
+    {
+        <div class="result">
+            @Html.HideImage(@Model.Result[i].Id)
+            <label> Test @Model.Tests[i].Name</label>
+            <div id="@Model.Result[i].Id">
+                <label>Time: @Model.Result[i].Time.Minutes: @Model.Result[i].Time.Seconds</label> <br />
+                <label>Answers: @Model.Result[i].Answers.Value.Count()</label> <br />
+                <label>Right: @Model.Result[i].Answers.Value.Where(a => a.IsRight).Count()</label> 
+            </div>
+        </div>
+        <br />
+    }
+</div>

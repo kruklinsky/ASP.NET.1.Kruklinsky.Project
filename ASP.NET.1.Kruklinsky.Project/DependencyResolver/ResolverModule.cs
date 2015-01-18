@@ -17,7 +17,7 @@ namespace DependencyResolver
     {
         public override void Load()
         {
-            Bind<DbContext>().To<EFDbContext>().InSingletonScope();
+            Bind<DbContext>().To<EFDbContext>();
 
             Bind<IUserRepository>().To<UserRepository>();
             Bind<ISubjectRepository>().To<SubjectRepository>();

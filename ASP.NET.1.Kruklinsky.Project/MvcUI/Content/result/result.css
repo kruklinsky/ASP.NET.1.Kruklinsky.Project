@@ -1,0 +1,11 @@
+﻿body {
+    min-width: 700px;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url(images\\background.jpg);
+}
+
+DIV#content {
+    margin-left: 0em;
+}

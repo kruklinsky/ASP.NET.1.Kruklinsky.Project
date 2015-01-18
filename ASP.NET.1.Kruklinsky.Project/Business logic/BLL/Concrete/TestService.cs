@@ -88,7 +88,7 @@ namespace BLL.Concrete
             Result result = this.GetResult(resultId);
             if (result != null && (result.Answers.Value == null || result.Answers.Value.Count() == 0))
             {
-                result.Time = DateTime.UtcNow - result.Start;
+                result.Time = (DateTime.UtcNow - result.Start);
                 this.resultRepository.Update(result.ToDal(answers));
             }
         }

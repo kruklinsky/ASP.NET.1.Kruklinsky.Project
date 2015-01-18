@@ -13,23 +13,33 @@ namespace MvcUI.HtmlHelpers
     {
         public static MvcHtmlString TestQuestions(this HtmlHelper html, IEnumerable<Question> questions, int hideId, string label)
         {
-            return MvcHtmlString.Create(Hider(label, hideId, DisplayForQuestions(html, questions)));
+            return MvcHtmlString.Create(Hider(label, hideId, EditForQuestions(html, questions)));
         }
 
-        private static string DisplayForQuestions(HtmlHelper html, IEnumerable<Question> questions)
+        private static string EditForQuestions(HtmlHelper html, IEnumerable<Question> questions)
         {
             StringBuilder result = new StringBuilder();
             foreach (var question in questions)
             {
-                result.Append(html.ActionLink(question.Text.Substring(0,50)+"...", "EditQuestion", "Admin", new { questionId = question.Id }, null));
+                result.Append(html.ActionLink(Subtext(question.Text), "EditQuestion", "Admin", new { questionId = question.Id }, null));
                 result.Append("<br /> <br />");
             }
             return result.ToString();
         }
 
+        private static string Subtext(string text)
+        {
+            string result = text;
+            if (text.Length > 60)
+            {
+                result = text.Substring(0, 50) + "...";
+            }
+            return result;
+        }
+
         #region Hider
 
-        public static string Hider(string label, int hideId, string innerHtml)
+        private static string Hider(string label, int hideId, string innerHtml)
         {
             StringBuilder result = new StringBuilder();
             result.Append(Image(hideId));
@@ -38,7 +48,7 @@ namespace MvcUI.HtmlHelpers
             return result.ToString();
         }
 
-        public static string Image(int hideId)
+        private static string Image(int hideId)
         {
             TagBuilder result = new TagBuilder("img");
             result.MergeAttribute("onclick", "hide(" + hideId + ")&changeImage(jQuery.event.fix(event).target)");
@@ -47,13 +57,13 @@ namespace MvcUI.HtmlHelpers
             result.MergeAttribute("height", "15");
             return result.ToString();
         }
-        public static string Label(string label)
+        private static string Label(string label)
         {
             TagBuilder result = new TagBuilder("label");
             result.InnerHtml = label;
             return result.ToString();
         }
-        public static string InnerHtml (int hideId, string innerHtml)
+        private static string InnerHtml (int hideId, string innerHtml)
         {
             TagBuilder result = new TagBuilder("div");
             result.MergeAttribute("id", hideId.ToString());

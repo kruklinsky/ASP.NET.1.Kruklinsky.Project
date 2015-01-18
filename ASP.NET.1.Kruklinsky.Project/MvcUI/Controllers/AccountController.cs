@@ -12,7 +12,7 @@ namespace MvcUI.Controllers
 {
     public class AccountController : Controller
     {
-        IAuthProvider authProvider;
+        private IAuthProvider authProvider;
 
         public AccountController(IAuthProvider authProvider)
         {

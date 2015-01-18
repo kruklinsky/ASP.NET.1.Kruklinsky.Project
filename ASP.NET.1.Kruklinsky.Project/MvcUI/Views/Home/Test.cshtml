@@ -1,0 +1,27 @@
+﻿@model MvcUI.Models.Test
+
+@section Links
+{
+    @Styles.Render("~/Content/home/css")
+
+}
+@section scripts
+{
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@{
+    ViewBag.Title = "Test";
+}
+
+<div class="stroke">
+
+    <div class="test">
+        <h1>@Model.Name: @Model.Topic</h1>
+        <textarea  readonly rows="5" maxlength="200" >@Model.Description</textarea>
+        <br />
+        <input type="button" class="btn btn-inverse" value="Start" onclick="location.href='@Url.Action("StartTest","Home", new {testId = Model.Id})'" />
+    </div>
+</div>

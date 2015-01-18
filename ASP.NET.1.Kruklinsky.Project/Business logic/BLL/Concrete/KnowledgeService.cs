@@ -61,7 +61,6 @@ namespace BLL.Concrete
         public void CreateSubject(string name, string description)
         {
             this.GetSubjectNameExceptions(name);
-            this.GetSubjectDescriptionExceptions(description);
             var newSubject = new Subject 
             { 
                 Name = name,
@@ -119,8 +118,6 @@ namespace BLL.Concrete
             this.GetQuestionLevelExceptions(level);
             this.GetQuestionTopicExcetpions(topic);
             this.GetQuestionTextExceptions(text);
-            this.GetQuestionExampleExceptions(example);
-            this.GetQuestionDescriptionExceptions(description);
             var newQuestion = new Question
             {
                 SubjectId = subjectId,
@@ -138,8 +135,6 @@ namespace BLL.Concrete
             this.GetQuestionLevelExceptions(level);
             this.GetQuestionTopicExcetpions(topic);
             this.GetQuestionTextExceptions(text);
-            this.GetQuestionExampleExceptions(example);
-            this.GetQuestionDescriptionExceptions(description);
             this.GetQuestionAnswersExceptions(answers);
             this.GetQuestionFakesExceptions(fakes);
             var newQuestion = new Question
@@ -171,8 +166,6 @@ namespace BLL.Concrete
             this.GetQuestionLevelExceptions(question.Level);
             this.GetQuestionTopicExcetpions(question.Topic);
             this.GetQuestionTextExceptions(question.Text);
-            this.GetQuestionExampleExceptions(question.Example);
-            this.GetQuestionDescriptionExceptions(question.Description);
             this.questionRepository.Update(question.ToDal());
         }
 
@@ -293,7 +286,6 @@ namespace BLL.Concrete
             this.GetIdExceptions(subjectId, "subjectId");
             this.GetTestNameExceptions(name);
             this.GetTestTopicExceptions(topic);
-            this.GetTestDescriptionExceptions(description);
             Test newTest = new Test
             {
                 SubjectId = subjectId,
@@ -321,7 +313,6 @@ namespace BLL.Concrete
             this.GetIdExceptions(test.Id);
             this.GetTestNameExceptions(test.Name);
             this.GetTestTopicExceptions(test.Topic);
-            this.GetTestDescriptionExceptions(test.Description);
             this.testRepository.Update(test.ToDal());
         }
 
@@ -396,13 +387,6 @@ namespace BLL.Concrete
                 throw new System.ArgumentException("Subject name is null, empty or consists only of white-space characters.", "name");
             }
         }
-        private void GetSubjectDescriptionExceptions(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                throw new System.ArgumentException("Subject description is null, empty or consists only of white-space characters.", "description");
-            }
-        }
 
         #endregion
 
@@ -427,20 +411,6 @@ namespace BLL.Concrete
             if (string.IsNullOrWhiteSpace(text))
             {
                 throw new System.ArgumentException("Question text is null, empty or consists only of white-space characters.", "text");
-            }
-        }
-        private void GetQuestionExampleExceptions(string example)
-        {
-            if (string.IsNullOrWhiteSpace(example))
-            {
-                throw new System.ArgumentException("Question example is null, empty or consists only of white-space characters.", "example");
-            }
-        }
-        private void GetQuestionDescriptionExceptions(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                throw new System.ArgumentException("Question description is null, empty or consists only of white-space characters.", "description");
             }
         }
         private void GetQuestionAnswersExceptions(IEnumerable<Answer> answers)
@@ -499,13 +469,6 @@ namespace BLL.Concrete
                 throw new System.ArgumentException("Test topic is null, empty or consists only of white-space characters.", "topic");
             }
         }
-        private void GetTestDescriptionExceptions(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                throw new System.ArgumentException("Test description is null, empty or consists only of white-space characters.", "description");
-            }
-        }
 
         private void GetQuestionsEceptions(IEnumerable<Question> questions)
         {
@@ -518,8 +481,6 @@ namespace BLL.Concrete
                 this.GetQuestionLevelExceptions(item.Level);
                 this.GetQuestionTopicExcetpions(item.Topic);
                 this.GetQuestionTextExceptions(item.Text);
-                this.GetQuestionExampleExceptions(item.Example);
-                this.GetQuestionDescriptionExceptions(item.Description);
                 if(item.Answers!= null) this.GetQuestionAnswersExceptions(item.Answers.Value);
                 if (item.Fakes!= null) this.GetQuestionFakesExceptions(item.Fakes.Value);
             }

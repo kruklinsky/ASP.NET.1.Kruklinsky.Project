@@ -5,11 +5,59 @@
     background-repeat: no-repeat;
     background-image: url(images\\background.jpg);
 }
-.stroke {
-    text-shadow: white 0 0 1px;
-}
 
 DIV#content {
     margin-left: 0em;
-    padding: 0em;
 }
+
+Div.subject {
+    float: left;
+    margin-left: 5px;
+    margin-right: 50px;
+}
+
+Div.test {
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align:center;
+}
+    Div.test h1{
+        text-align:center;
+    }
+    Div.test textarea {
+        text-indent: 20px;
+        text-align:justify;
+        margin: 0px 5% 0px 5%;
+        width: 90%;
+        max-width: 90%;
+        max-height: 200px;
+    }
+
+Div.test input{
+    margin-top:10%;
+}
+
+
+Div.testing {
+
+}
+    Div.testing h1{
+        text-align:center;
+    }
+    Div.testing div.question{
+    }
+        Div.testing div.answers{
+            margin-left:5%;
+    }
+    Div.testing textarea {
+        text-indent: 20px;
+        text-align:justify;
+        margin: 0px 5% 0px 5%;
+        width: 90%;
+        max-width: 90%;
+        max-height: 200px;
+    }
+
+    input.check-box {
+        margin-right: 5px;
+    }

@@ -68,10 +68,10 @@ namespace DAL.Concrete
         public Result GetLastResult()
         {
             Result result = null;
-            var lastResult = this.context.Set<ORM.Model.Result>().Last();
+            var lastResult = this.Data.Last();
             if(lastResult != null)
             {
-                result = lastResult.ToDal();
+                result = lastResult;
             }
             return result;
         }

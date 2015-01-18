@@ -12,7 +12,7 @@ namespace MvcUI.Controllers
     [NoAuthorize]
     public class VerifyController : Controller
     {
-        IVerifyProvider verifyProvider;
+        private IVerifyProvider verifyProvider;
 
         public VerifyController(IVerifyProvider verifyProvider)
         {

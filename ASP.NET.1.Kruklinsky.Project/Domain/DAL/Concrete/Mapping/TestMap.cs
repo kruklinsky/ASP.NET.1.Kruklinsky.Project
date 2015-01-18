@@ -37,7 +37,7 @@ namespace DAL.Concrete
             return new Result
             {
                 Id = item.ResultId,
-                TestId = item.ResultId,
+                TestId = item.TestId,
                 UserId = item.UserId.ToString(),
                 Start = item.Start,
                 Time = item.Time,

@@ -139,19 +139,32 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\VerifyController.cs" />
     <Compile Include="Filters\NoAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\AdminHelpers.cs" />
+    <Compile Include="HtmlHelpers\Helpers.cs" />
+    <Compile Include="HtmlHelpers\HomeHelpers.cs" />
     <Compile Include="HtmlHelpers\LayoutHelpers.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AdminModel.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\Knowledge\Answer.cs" />
+    <Compile Include="Models\Knowledge\Fake.cs" />
+    <Compile Include="Models\Knowledge\Question.cs" />
+    <Compile Include="Models\Knowledge\Subject.cs" />
+    <Compile Include="Models\Knowledge\Test.cs" />
     <Compile Include="Models\Mapping\KnowledgeMap.cs" />
     <Compile Include="Models\Mapping\MembershipMap.cs" />
     <Compile Include="Models\Mapping\TestMap.cs" />
+    <Compile Include="Models\Results.cs" />
+    <Compile Include="Models\Test\Result.cs" />
+    <Compile Include="Models\Test\UserAnswer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\Abstract\IAuthProvider.cs" />
     <Compile Include="Providers\Abstract\IVerifyProvider.cs" />
@@ -184,8 +197,11 @@
     <Content Include="Content\home\images\background.jpg" />
     <Content Include="Content\login\images\background.jpg" />
     <Content Include="Content\login\login.css" />
+    <Content Include="Content\result\images\background.jpg" />
+    <Content Include="Content\result\result.css" />
     <Content Include="Content\signup\images\background.jpg" />
     <Content Include="Content\signup\signup.css" />
+    <Content Include="Content\stopwatch.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -292,9 +308,13 @@
     <Content Include="Views\Admin\AddTest.cshtml" />
     <Content Include="Views\Admin\EditAnswer.cshtml" />
     <Content Include="Views\Admin\EditFake.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\Testing.cshtml" />
+    <Content Include="Views\Result\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Membership\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

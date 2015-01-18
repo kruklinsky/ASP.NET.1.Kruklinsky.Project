@@ -20,6 +20,9 @@ namespace MvcUI
 
             bundles.Add(new ScriptBundle("~/Content/admin/js").Include("~/Content/admin/admin.js"));
 
+            bundles.Add(new ScriptBundle("~/Content/home/js").Include("~/Content/stopwatch.js"));
+            
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -33,6 +36,7 @@ namespace MvcUI
             bundles.Add(new StyleBundle("~/Content/verify/css").Include("~/Content/verify/verify.css"));
             bundles.Add(new StyleBundle("~/Content/login/css").Include("~/Content/login/login.css"));
             bundles.Add(new StyleBundle("~/Content/home/css").Include("~/Content/home/home.css"));
+            bundles.Add(new StyleBundle("~/Content/result/css").Include("~/Content/result/result.css"));
             bundles.Add(new StyleBundle("~/Content/admin/css").Include("~/Content/admin/admin.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

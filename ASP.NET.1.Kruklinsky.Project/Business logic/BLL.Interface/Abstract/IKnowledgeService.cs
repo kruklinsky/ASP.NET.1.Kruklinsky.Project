@@ -37,7 +37,9 @@ namespace BLL.Interface.Abstract
         int AddNewQuestionFakes(int id, IEnumerable<Fake> fakes);
         int DeleteQuestionFakes(int id, IEnumerable<Fake> fakes);
 
+        Answer GetAnswer(int id);
         void UpdateAnswer(int id, string text);
+        Fake GetFake(int id);
         void UpdateFake(int id, string text);
 
         #endregion

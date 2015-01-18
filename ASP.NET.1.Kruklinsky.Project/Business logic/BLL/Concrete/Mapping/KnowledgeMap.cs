@@ -109,6 +109,7 @@ namespace BLL.Concrete
         {
             return new DAL.Interface.Entities.Test
             {
+                Id = item.Id,
                 SubjectId = item.SubjectId,
                 Topic = item.Topic,
                 Name = item.Name,

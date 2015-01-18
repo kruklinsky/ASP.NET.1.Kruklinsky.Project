@@ -16,8 +16,8 @@ namespace MvcUI
             RegisterAccountRoutes(routes);
             RegisterVerifyRoutes(routes);
 
-            routes.MapRoute(null, "Verify/{Email}/", new { controller = "Verify", action = "Index" });
-            routes.MapRoute(null, "Verify/Verify/{Email}/{SecretCode}", new { controller = "Verify", action = "Verify" });
+            RegisterAdminRoutes(routes);
+
 
 
             routes.MapRoute(
@@ -41,7 +41,16 @@ namespace MvcUI
 
         private static void RegisterVerifyRoutes(RouteCollection routes)
         {
+            routes.MapRoute(null, "Verify/{Email}/", new { controller = "Verify", action = "Index" });
+            routes.MapRoute(null, "Verify/Verify/{Email}/{SecretCode}", new { controller = "Verify", action = "Verify" });
+        }
 
+        private static void RegisterAdminRoutes(RouteCollection routes)
+        {
+            routes.MapRoute(null, "Admin/EditTest{testId}", new { controller = "Admin", action = "EditTest" }, new { testId = @"\d+" });
+            routes.MapRoute(null, "Admin/EditTest/{testId}", new { controller = "Admin", action = "EditTest" }, new { testId = @"\d+" });
+            routes.MapRoute(null, "Admin/EditQuestion{questionId}", new { controller = "Admin", action = "EditQuestion" }, new { questionId = @"\d+" });
+            routes.MapRoute(null, "Admin/EditQuestion/{questionId}", new { controller = "Admin", action = "EditQuestion" }, new { questionId = @"\d+" });
         }
     }
 }

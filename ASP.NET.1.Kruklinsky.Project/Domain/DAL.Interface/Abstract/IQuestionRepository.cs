@@ -21,5 +21,8 @@ namespace DAL.Interface.Abstract
         void AddQuestionFake(int id, Fake fake);
         void DeleteFake(int id);
         void UpdateFake(int id, string text);
+
+        Answer GetAnswer(int id);
+        Fake GetFake(int id);
     }
 }

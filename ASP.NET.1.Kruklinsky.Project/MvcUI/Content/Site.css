@@ -9,7 +9,6 @@ header, footer, nav, section {
     display: block;
 }
 
-
 /* Styles for basic forms
 -----------------------------------------------------------*/
 fieldset {
@@ -17,63 +16,43 @@ fieldset {
     padding: 0 1.4em 1.4em 1.4em;
     margin: 0 0 1.5em 0;
 }
-
 legend {
     font-size: 1.2em;
     font-weight: bold;
 }
-
 textarea {
     min-height: 75px;
 }
-
 .editor-label {
     margin: 1em 0 0 0;
 }
-
 .editor-field {
     margin: 0.5em 0 0 0;
 }
-
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error {
     color: #0093ff;
 }
-
 .field-validation-valid {
     display: none;
 }
-
 .input-validation-error {
     border: 1px solid #0093ff;
     background-color: #fff;
 }
-
 .validation-summary-errors {
     font-weight: bold;
     color: #0093ff;
 }
-
 .validation-summary-valid {
     display: none;
 }
 
-
 BODY {
     font-family: Cambria, Georgia, "Times New Roman";
     margin: 0;
-}
-
-
-A#Button {
-    text-decoration: none;
-    font: -webkit-small-control;
-}
-
-DIV#header DIV.title, DIV.Message H3, DIV.Message H4, DIV.PageLinks A {
-    font: bold lem "Arial Narrow", "Franklin Gothic Medium", Arial;
 }
 
 DIV#header {
@@ -81,6 +60,9 @@ DIV#header {
     border-bottom: 2px solid #111;
     color: White;
 }
+    DIV#header DIV.title, DIV.Message H3, DIV.Message H4, DIV.PageLinks A {
+        font: bold lem "Arial Narrow", "Franklin Gothic Medium", Arial;
+    }
     DIV#header DIV.title {
         font-size: 2em;
         padding: .6em;
@@ -91,9 +73,17 @@ DIV#header {
         padding: .6em;
     }
 
-DIV#content {
+    DIV#content {
     margin-left: 9em;
     padding: 1em;
+}
+
+DIV#page_layout {
+    padding: 0px;
+    margin: 0px auto;
+    position: relative;
+    z-index: 6;
+    width: 800px;
 }
 
 DIV#Menu {
@@ -140,10 +130,17 @@ DIV.PageLinks {
             color: White;
         }
 
-DIV#page_layout {
-    padding: 0px;
-    margin: 0px auto;
-    position: relative;
-    z-index: 6;
-    width: 800px;
+A#Button {
+    text-decoration: none;
+    font: -webkit-small-control;
+}
+
+A#Button-black {
+    text-decoration: none;
+    font: -webkit-small-control;
+    color:black;
+}
+
+.stroke {
+    text-shadow: white 0 0 1px;
 }

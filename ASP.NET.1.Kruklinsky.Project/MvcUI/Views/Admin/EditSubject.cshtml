@@ -1,0 +1,44 @@
+﻿@model MvcUI.Models.SubjectEditor
+
+@section Links
+{
+    @Styles.Render("~/Content/admin/css")
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@{
+    ViewBag.Title = "Administration";
+}
+
+<div class="stroke">
+
+    <div class="subject-editor">
+        @using (Html.BeginForm("EditSubject", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label>Edit subject</label>
+
+            @Html.EditorFor(m => m.Subject)
+   
+            <br />
+            <input class="btn btn-inverse" type="submit" value="Update" />
+        }
+    </div>
+
+    <div class="subjectTests">
+        <img onclick="hide(@Model.Subject.Id)&changeImage(jQuery.event.fix(event).target)" src="~/Content/admin/images/hide.png" width="15" height="15">
+        <label>Subject tests</label>
+        <div id="@Model.Subject.Id">
+            @foreach (var test in Model.Tests)
+            {
+                @Html.ActionLink(test.Name, "EditTest", "Admin", new { testId = test.Id }, null)
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="test-editor-add">
+        @{Html.RenderAction("AddTest","Admin",new{controllerName = "Admin",subjectId = Model.Subject.Id});}
+    </div>
+
+</div>

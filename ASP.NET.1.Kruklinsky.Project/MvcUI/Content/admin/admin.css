@@ -7,16 +7,59 @@
     background-image: url(images\\background.jpg);
 }
 
-.stroke {
-    text-shadow: white 0 0 1px;
+DIV#content {
+    margin-left: 0em;
 }
 
 Div.subject {
-    display:inline-block;
+    float: left;
     margin-left: 5px;
-    margin-right: 5px;
+    margin-right: 50px;
+}
+Div.subject-editor {
+    padding: 5px;
+    float: left;
+}
+Div.subject-editor-add{
+    padding: 5px;
+    float: right;
 }
 
-DIV#content {
-    margin-left: 0em;
+Div.subjectTests {
+    margin-left: 10%;
+    float: left;
+}
+Div.test-editor {
+    padding: 5px;
+    float: left;
+}
+Div.test-editor-add {
+    padding: 5px;
+    float: right;
+}
+
+Div.testQuestions {
+    margin-left: 10%;
+    float: left;
+}
+Div.question-editor {
+    padding: 5px;
+    float: left;
+}
+Div.question-editor-add {
+    padding: 5px;
+    float: right;
+}
+
+Div.questionAnswers{
+    margin-left: 5%;
+    float: left;
+}
+Div.questionFakes{
+    margin-left: 5%;
+    float: left;
+}
+Div.answer-editor-add {
+    padding: 5px;
+    float: right;
 }

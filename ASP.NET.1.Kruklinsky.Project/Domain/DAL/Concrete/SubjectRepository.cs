@@ -45,6 +45,7 @@ namespace DAL.Concrete
             var result = this.GetOrmSubject(item.Id);
             if (result != null)
             {
+                result.Name = item.Name;
                 result.Description = item.Description;
                 this.context.SaveChanges();
             }

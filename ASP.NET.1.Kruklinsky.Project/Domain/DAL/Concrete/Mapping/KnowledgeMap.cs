@@ -35,8 +35,8 @@ namespace DAL.Concrete
                 Text = item.Text,
                 Example = item.Example,
                 Description = item.Description,
-                Answers = answers.Select(a => a.ToOrm()).ToList(),
-                Fakes = fakes.Select(f => f.ToOrm()).ToList()
+                Answers = answers == null ? null : answers.Select(a => a.ToOrm()).ToList(),
+                Fakes = fakes == null ? null : fakes.Select(f => f.ToOrm()).ToList()
             };
         }
         public static Question ToDal(this ORM.Model.Question item)

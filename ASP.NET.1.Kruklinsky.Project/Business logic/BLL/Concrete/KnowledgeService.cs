@@ -239,6 +239,29 @@ namespace BLL.Concrete
             this.questionRepository.UpdateFake(id, text);
         }
 
+        public Answer GetAnswer(int id)
+        {
+            this.GetIdExceptions(id);
+            Answer result = null;
+            var answer = this.questionRepository.GetAnswer(id);
+            if(answer != null)
+            {
+                result = answer.ToBll();
+            }
+            return result;
+        }
+        public Fake GetFake(int id)
+        {
+            this.GetIdExceptions(id);
+            Fake result = null;
+            var fake = this.questionRepository.GetFake(id);
+            if (fake != null)
+            {
+                result = fake.ToBll();
+            }
+            return result;
+        }
+
         #endregion
 
         #region Test
@@ -324,7 +347,7 @@ namespace BLL.Concrete
             int result = 0;
             foreach (var item in questions)
             {
-                this.testRepository.AddTestQuestion(id, item.ToDal(), item.Answers.Value.Select(a => a.ToDal()).ToList(), item.Fakes.Value.Select(f => f.ToDal()).ToList());
+                this.testRepository.AddTestQuestion(id, item.ToDal(), item.Answers == null ? null : item.Answers.Value.Select(a => a.ToDal()).ToList(), item.Fakes == null ? null : item.Fakes.Value.Select(f => f.ToDal()).ToList());
                 result++;
             }
             return result;
@@ -492,14 +515,13 @@ namespace BLL.Concrete
             }
             foreach (var item in questions)
             {
-                this.GetIdExceptions(item.SubjectId, "subjectId");
                 this.GetQuestionLevelExceptions(item.Level);
                 this.GetQuestionTopicExcetpions(item.Topic);
                 this.GetQuestionTextExceptions(item.Text);
                 this.GetQuestionExampleExceptions(item.Example);
                 this.GetQuestionDescriptionExceptions(item.Description);
-                this.GetQuestionAnswersExceptions(item.Answers.Value);
-                this.GetQuestionFakesExceptions(item.Fakes.Value);
+                if(item.Answers!= null) this.GetQuestionAnswersExceptions(item.Answers.Value);
+                if (item.Fakes!= null) this.GetQuestionFakesExceptions(item.Fakes.Value);
             }
 
         }

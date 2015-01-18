@@ -1,0 +1,54 @@
+﻿@model MvcUI.Models.QuestionEditor
+
+@section Links
+{
+    @Styles.Render("~/Content/admin/css")
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@{
+    ViewBag.Title = "Administration";
+}
+
+<div class="stroke">
+    <div class="question-editor">
+        @using (Html.BeginForm("EditQuestion", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label>Edit question</label>
+            @Html.EditorFor(m => m.Question);
+            <br />
+            <input class="btn btn-inverse" type="submit" value="Update" />
+        }
+    </div>
+
+    <div class="questionAnswers">
+        <img onclick="hide(@(Model.Question.Id+1))&changeImage(jQuery.event.fix(event).target)" src="~/Content/admin/images/hide.png" width="15" height="15">
+        <label>Answers</label>
+        <div id="@(Model.Question.Id+1)">
+            @foreach (var answer in Model.Answers)
+            {
+                @Html.ActionLink(answer.Text, "EditAnswer", "Admin", new { answerId = answer.Id }, null)
+                <br />
+            }
+        </div>
+    </div>
+    
+    <div class="questionFakes">
+        <img onclick="hide(@Model.Question.Id)&changeImage(jQuery.event.fix(event).target)" src="~/Content/admin/images/hide.png" width="15" height="15">
+        <label>Fakse</label>
+        <div id="@Model.Question.Id">
+            @foreach (var fake in Model.Fakes)
+            {
+                @Html.ActionLink(fake.Text, "EditFake", "Admin", new { fakeId = fake.Id }, null)
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="answer-editor-add"> 
+        @{Html.RenderAction("AddAnswer","Admin",new{controllerName = "Admin",questionId = Model.Question.Id});}
+        <br />
+        @{ Html.RenderAction( "AddFake","Admin",new{controllerName = "Admin",questionId = Model.Question.Id});}
+    </div>
+</div>

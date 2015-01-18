@@ -1,0 +1,15 @@
+﻿@model MvcUI.Models.Subject
+
+@{
+    Layout = null;
+}
+
+<div class="stroke">
+    @using (Html.BeginForm("AddSubject", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label>Add new subject</label>
+        @Html.EditorForModel();
+        <br />
+        <input class="btn btn-inverse" type="submit" value="Add" />
+    }
+</div>

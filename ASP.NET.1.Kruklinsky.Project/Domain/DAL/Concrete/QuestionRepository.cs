@@ -89,13 +89,14 @@ namespace DAL.Concrete
             var question = this.GetOrmQuestion(id);
             if (question != null)
             {
+                if (question.Answers == null) question.Answers = new List<ORM.Model.Answer>();
                 question.Answers.Add(answer.ToOrm());
                 this.context.SaveChanges();
             }
         }
         public void DeleteAnswer(int id)
         {
-            var answer = this.GetAnswer(id);
+            var answer = this.GetOrmAnswer(id);
             if (answer != null)
             {
                 this.context.Set<ORM.Model.Answer>().Remove(answer);
@@ -104,7 +105,7 @@ namespace DAL.Concrete
         }
         public void UpdateAnswer(int id, string text)
         {
-            var answer = this.GetAnswer(id);
+            var answer = this.GetOrmAnswer(id);
             if (answer != null)
             {
                 answer.Text = text;
@@ -127,13 +128,14 @@ namespace DAL.Concrete
             var question = this.GetOrmQuestion(id);
             if (question != null)
             {
+                if (question.Fakes == null) question.Fakes = new List<ORM.Model.Fake>();
                 question.Fakes.Add(fake.ToOrm());
                 this.context.SaveChanges();
             }
         }
         public void DeleteFake(int id)
         {
-            var fake = this.GetFake(id);
+            var fake = this.GetOrmFake(id);
             if (fake != null)
             {
                 this.context.Set<ORM.Model.Fake>().Remove(fake);
@@ -142,12 +144,34 @@ namespace DAL.Concrete
         }
         public void UpdateFake(int id, string text)
         {
-            var fake = this.GetFake(id);
+            var fake = this.GetOrmFake(id);
             if (fake != null)
             {
                 fake.Text = text;
                 this.context.SaveChanges();
             }
+        }
+
+        public Answer GetAnswer(int id)
+        {
+            Answer result = null;
+            var answer = this.GetOrmAnswer(id);
+            if(answer != null)
+            {
+                result = answer.ToDal();
+            }
+            return result;
+        }
+
+        public Fake GetFake(int id)
+        {
+            Fake result = null;
+            var fake = this.GetOrmFake(id);
+            if (fake != null)
+            {
+                result = fake.ToDal();
+            }
+            return result;
         }
 
         #endregion
@@ -165,7 +189,7 @@ namespace DAL.Concrete
             return result;
         }
 
-        private ORM.Model.Answer GetAnswer(int answerId)
+        private ORM.Model.Answer GetOrmAnswer(int answerId)
         {
             ORM.Model.Answer result = null;
             var query = this.context.Set<ORM.Model.Answer>().Where(a => a.AnswerId == answerId);
@@ -176,7 +200,7 @@ namespace DAL.Concrete
             return result;
         }
 
-        private ORM.Model.Fake GetFake(int fakeId)
+        private ORM.Model.Fake GetOrmFake(int fakeId)
         {
             ORM.Model.Fake result = null;
             var query = this.context.Set<ORM.Model.Fake>().Where(a => a.FakeId == fakeId);

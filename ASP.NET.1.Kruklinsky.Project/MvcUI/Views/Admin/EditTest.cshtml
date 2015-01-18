@@ -1,0 +1,42 @@
+﻿@model MvcUI.Models.TestEditor
+
+@section Links
+{
+    @Styles.Render("~/Content/admin/css")
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@{
+    ViewBag.Title = "Administration";
+}
+
+<div class="stroke">
+
+    <div class="test-editor">
+        @using (Html.BeginForm("EditTest", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label>Edit test</label>
+            @Html.EditorFor(m => m.Test);
+            <br/>
+            <input class="btn btn-inverse" type="submit" value="Update" />
+        }
+    </div>
+
+    <div class="testQuestions">
+        <img onclick="hide(@Model.Test.Id)&changeImage(jQuery.event.fix(event).target)" src="~/Content/admin/images/hide.png" width="15" height="15">
+        <label>Test questions</label>
+        <div id="@Model.Test.Id">
+            @foreach (var question in Model.Questions)
+            {
+                @Html.ActionLink(question.Text, "EditQuestion", "Admin", new { questionId = question.Id }, null)
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="question-editor-add">
+        @{Html.RenderAction("AddQuestion","Admin",new{controllerName = "Admin",testId = Model.Test.Id,subjectId = Model.Test.SubjectId});}
+    </div>
+
+</div>

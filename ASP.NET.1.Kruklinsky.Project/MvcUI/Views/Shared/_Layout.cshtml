@@ -16,6 +16,17 @@
     <div id="page_layout">
         <div id="header">
             <div class="LogButtons">
+
+                @if (this.User.IsInRole("admin"))
+                {
+                    @Html.RouteLink("Administration |", new { controller = "Admin", action = "Index" }, new { @id = "Button" })
+                }
+                else if (this.User.IsInRole("user"))
+                {
+                    
+                    @Html.RouteLink("Profile |", new { controller = "Profile", action = "Index" }, new { @id = "Button" })
+                }
+                
                 @if (User.Identity.IsAuthenticated)
                 {
                     @Html.RouteLink("Log Out", new { controller = "Account", action = "LogOut" }, new { @id = "Button" })
@@ -32,7 +43,9 @@
                     }
                 }
             </div>
-            <div class="title">Panda Quest</div>
+            <div class="title">
+                Panda Quest
+            </div>
         </div>
 
 

@@ -1,0 +1,24 @@
+﻿@model MvcUI.Models.Fake
+
+@section Links
+{
+    @Styles.Render("~/Content/admin/css")
+    @Scripts.Render("~/Content/admin/js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@{
+    ViewBag.Title = "Administration";
+}
+
+<div class="stroke">
+    <div class="question-editor">
+        @using (Html.BeginForm("EditFake", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <label>Edit fake</label>
+            @Html.EditorForModel()
+            <br />
+            <input class="btn btn-inverse" type="submit" value="Update" />
+        }
+    </div>
+</div>

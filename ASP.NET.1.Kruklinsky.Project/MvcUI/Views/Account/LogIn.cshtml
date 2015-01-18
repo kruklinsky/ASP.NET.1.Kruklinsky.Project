@@ -3,6 +3,11 @@
 {
     @Styles.Render("~/Content/login/css")
 }
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
 @{
     ViewBag.Title = "Log In";
 }

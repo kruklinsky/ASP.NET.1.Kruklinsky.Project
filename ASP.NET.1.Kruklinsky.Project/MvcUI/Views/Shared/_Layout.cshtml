@@ -7,54 +7,22 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/bootstrap/css")
     @Scripts.Render("~/bundles/modernizr")
-    @if (IsSectionDefined("Links"))
-    {
-        @RenderSection("Links", required: false)
-    }
+    @RenderSection("Links", required: false)
 </head>
 <body>
     <div id="page_layout">
         <div id="header">
             <div class="LogButtons">
-
-                @if (this.User.IsInRole("admin"))
-                {
-                    @Html.RouteLink("Administration |", new { controller = "Admin", action = "Index" }, new { @id = "Button" })
-                }
-                else if (this.User.IsInRole("user"))
-                {
-                    
-                    @Html.RouteLink("Profile |", new { controller = "Profile", action = "Index" }, new { @id = "Button" })
-                }
-                
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @Html.RouteLink("Log Out", new { controller = "Account", action = "LogOut" }, new { @id = "Button" })
-                }
-                else
-                {
-                    if (@Url.RequestContext.RouteData.Values["action"] != "SignUp")
-                    {
-                        @Html.RouteLink("Sing Up", new { controller = "Account", action = "SignUp" }, new { @id = "Button" })
-                    }
-                    else
-                    {
-                        @Html.RouteLink("Log In", new { controller = "Account", action = "LogIn" }, new { @id = "Button" })
-                    }
-                }
+                @Html.LogButtons(User.Identity.IsAuthenticated, User.IsInRole("admin"), Url.RequestContext.RouteData.Values["action"].ToString())  
             </div>
             <div class="title">
                 Panda Quest
             </div>
         </div>
-
-
         <div id="content">
             @RenderBody()
         </div>
-
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>

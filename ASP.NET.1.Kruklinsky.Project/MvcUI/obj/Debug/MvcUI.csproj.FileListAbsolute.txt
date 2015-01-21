@@ -46,3 +46,5 @@ C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Krukl
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\ORM.pdb
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\EntityFramework.SqlServer.dll
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\EntityFramework.SqlServer.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\log4net.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\log4net.xml

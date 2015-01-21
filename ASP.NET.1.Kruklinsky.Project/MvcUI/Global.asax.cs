@@ -25,6 +25,7 @@ namespace MvcUI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
            System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver());
+           log4net.Config.XmlConfigurator.Configure();
         }
     }
 }

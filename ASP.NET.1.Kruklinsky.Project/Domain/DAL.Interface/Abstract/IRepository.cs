@@ -12,5 +12,6 @@ namespace DAL.Interface.Abstract
         void Delete(T item);
 
         void Update(T item);
+
     }
 }

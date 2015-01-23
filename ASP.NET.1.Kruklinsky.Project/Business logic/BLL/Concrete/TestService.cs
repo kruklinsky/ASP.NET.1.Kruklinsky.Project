@@ -1,4 +1,6 @@
-﻿using BLL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using BLL.Concrete.ExceptionsHelpers;
+using BLL.Interface.Abstract;
 using BLL.Interface.Entities;
 using DAL.Interface.Abstract;
 using System;
@@ -11,92 +13,77 @@ namespace BLL.Concrete
 {
     public class TestService : ITestService
     {
-        IResultRepository resultRepository;
+        private IResultRepository resultRepository;
+        private IDbContextScopeFactory dbContextScopeFactory;
 
-        public TestService(IResultRepository resultRepository)
+        public TestService(IResultRepository resultRepository, IDbContextScopeFactory dbContextScopeFactory)
         {
             if (resultRepository == null)
             {
                 throw new System.ArgumentNullException("resultRepository", "Result repository is null.");
             }
+            if (dbContextScopeFactory == null)
+            {
+                throw new System.ArgumentNullException("dbContextScopeFactory", "DbContextScope factory is null.");
+            }
             this.resultRepository = resultRepository;
+            this.dbContextScopeFactory = dbContextScopeFactory;
         }
 
         #region ITestService
 
-        public Result GetResult(int id)
-        {
-            this.GetIdExceptions(id);
-            Result result = null;
-            var dalResult = this.resultRepository.GetResult(id);
-            if(dalResult != null)
-            {
-                result = dalResult.ToBll();
-            }
-            return result;
-        }
-        public IEnumerable<Result> GetAllResults ()
-        {
-            IEnumerable<Result> result = new List<Result>();
-            var results = this.resultRepository.Data;
-            if (results.Count() != 0)
-            {
-                result = results.Select(r => r.ToBll()).ToList();
-            }
-            return result;
-        }
-        public IEnumerable<Result> GetUserResults(string userId)
-        {
-            this.GetIdExceptions(userId);
-            IEnumerable<Result> result = new List<Result>();
-            var results = this.resultRepository.GetUserResults(userId);
-            if(results.Count() != 0)
-            {
-                result = results.Select(r => r.ToBll()).ToList();
-            }
-            return result;
-        }
-
         public int StartTest(string userId, int testId, int duration)
         {
-            this.GetIdExceptions(userId);
-            this.GetIdExceptions(testId);
-            this.GetDurationExceptions(duration);
+            UserExceptionsHelper.GetIdExceptions(userId);
+            TestExceptionsHelper.GetIdExceptions(testId);
+            TestExceptionsHelper.GetDurationExceptions(duration);
             int result = -1;
             this.CreateResult(userId, testId, DateTime.UtcNow, new TimeSpan(duration / 60, duration % 60, 0));
-            var lastResult = this.resultRepository.GetLastResult();
-            if (lastResult != null)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = lastResult.Id;
+                var lastResult = this.resultRepository.GetLastResult();
+                if (lastResult != null)
+                {
+                    result = lastResult.Id;
+                }
             }
             return result;
         }
         public TimeSpan TimeLeft(int resultId)
         {
-            this.GetIdExceptions(resultId);
+            ResultExceptionsHelper.GetIdExceptions(resultId);
             TimeSpan timeLeft = new TimeSpan();
-            Result result = this.GetResult(resultId);
-            if (result != null && (result.Answers.Value == null || result.Answers.Value.Count() == 0))
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                timeLeft = result.Time - (DateTime.UtcNow - result.Start);
+                var result = this.resultRepository.GetResult(resultId);
+                if (result != null && (result.Answers == null || result.Answers.Value.Count() == 0))
+                {
+                    timeLeft = result.Time - (DateTime.UtcNow - result.Start);
+                }
             }
             return timeLeft;
         }
+
         public void FinishTest(int resultId, IEnumerable<Interface.Entities.UserAnswer> answers)
         {
-            this.GetIdExceptions(resultId);
-            Result result = this.GetResult(resultId);
-            if (result != null && (result.Answers.Value == null || result.Answers.Value.Count() == 0))
+            ResultExceptionsHelper.GetIdExceptions(resultId);
+            using (var context = dbContextScopeFactory.Create())
             {
-                result.Time = (DateTime.UtcNow - result.Start);
-                this.resultRepository.Update(result.ToDal(answers));
+                var result = this.resultRepository.GetResult(resultId);
+                if (result != null && (result.Answers == null || result.Answers.Value.Count() == 0))
+                {
+                    result.Time = (DateTime.UtcNow - result.Start);
+                    result.Answers = new Lazy<IEnumerable<DAL.Interface.Entities.UserAnswer>>(() => answers.Select(a => a.ToDal()).ToList());
+                    this.resultRepository.Update(result);
+                }
+                context.SaveChanges();
             }
         }
 
         private void CreateResult(string userId, int testId, DateTime start, TimeSpan time)
         {
-            this.GetIdExceptions(userId);
-            this.GetIdExceptions(testId);
+            UserExceptionsHelper.GetIdExceptions(userId);
+            TestExceptionsHelper.GetIdExceptions(testId);
             Result newResult = new Result
             {
                 UserId = userId,
@@ -104,46 +91,59 @@ namespace BLL.Concrete
                 Start = start,
                 Time = time
             };
-            this.resultRepository.Add(newResult.ToDal());
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void GetIdExceptions(int id)
-        {
-            if (id < 0)
+            using (var context = dbContextScopeFactory.Create())
             {
-                throw new System.ArgumentOutOfRangeException("id", id, "Id is less than zero.");
-            }
-        }
-        private void GetIdExceptions(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new System.ArgumentException("User id is null, empty or consists only of white-space characters.", "id");
-            }
-            if (!IsGuid(id))
-            {
-                throw new System.ArgumentException("Cannot convert user id to guid.", "id");
-            }
-        }
-        private bool IsGuid(string id)
-        {
-            Guid temp;
-            return Guid.TryParse(id, out temp);
-        }
-
-        private void GetDurationExceptions(int duration)
-        {
-            if (duration < 0)
-            {
-                throw new System.ArgumentOutOfRangeException("duration", duration, "Duration is less than zero.");
+                this.resultRepository.Add(newResult.ToDal());
+                context.SaveChanges();
             }
         }
 
         #endregion
 
+        #region ResultsService
+
+        public Result GetResult(int id)
+        {
+            ResultExceptionsHelper.GetIdExceptions(id);
+            Result result = null;
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var dalResult = this.resultRepository.GetResult(id);
+                if (dalResult != null)
+                {
+                    result = dalResult.ToBll();
+                }
+            }
+            return result;
+        }
+        public IEnumerable<Result> GetAllResults()
+        {
+            IEnumerable<Result> result = new List<Result>();
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var results = this.resultRepository.Data;
+                if (results.Count() != 0)
+                {
+                    result = results.Select(r => r.ToBll()).ToList();
+                }
+            }
+            return result;
+        }
+        public IEnumerable<Result> GetUserResults(string userId)
+        {
+            UserExceptionsHelper.GetIdExceptions(userId);
+            IEnumerable<Result> result = new List<Result>();
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var results = this.resultRepository.GetUserResults(userId);
+                if (results.Count() != 0)
+                {
+                    result = results.Select(r => r.ToBll()).ToList();
+                }
+            }
+            return result;
+        }
+
+        #endregion
     }
 }

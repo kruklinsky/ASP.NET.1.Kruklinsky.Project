@@ -18,6 +18,6 @@ namespace BLL.Interface.Entities
         public TimeSpan Time { get; set; }
 
 
-        public Lazy<IEnumerable<UserAnswer>> Answers { get; set; }
+        public IEnumerable<UserAnswer> Answers { get; set; }
     }
 }

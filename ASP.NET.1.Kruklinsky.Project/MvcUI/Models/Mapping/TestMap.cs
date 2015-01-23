@@ -17,7 +17,7 @@ namespace MvcUI.Models
                 UserId = item.UserId,
                 Start = item.Start,
                 Time = item.Time,
-                Answers = new Lazy<IEnumerable<UserAnswer>>(() => item.Answers == null ? new List<UserAnswer>() : item.Answers.Value.Select(a => a.ToWeb()).ToList())
+                Answers = new Lazy<IEnumerable<UserAnswer>>(() => item.Answers == null ? new List<UserAnswer>() : item.Answers.Select(a => a.ToWeb()).ToList())
             };
         }
 

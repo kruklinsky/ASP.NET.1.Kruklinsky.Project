@@ -1,4 +1,5 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
 using Ninject;
 using System;
@@ -27,6 +28,14 @@ namespace QuestionRepositoryTest
             kernel.Load(Assembly.GetExecutingAssembly());
             Console.WriteLine("Ok");
             return kernel.Get<ISubjectRepository>();
+        }
+        static IDbContextScopeFactory InjectScopeFactory()
+        {
+            Console.Write("Inject factory: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<IDbContextScopeFactory>();
         }
         static void Prepare(IQuestionRepository repository,ISubjectRepository subjectRepository)
         {
@@ -194,17 +203,22 @@ namespace QuestionRepositoryTest
             Console.WriteLine("Question repository test");
             IQuestionRepository repository = InjectQuestionRepository();
             ISubjectRepository subjectRepository = InjectSubjectRepository();
-            Prepare(repository,subjectRepository);
-            AddSubjects(subjectRepository);
-            AddQuestions(repository,subjectRepository);
-            GetQuestions(repository);
-            AddQuestionAnswer(repository);
-            DeleteQuestionAnswer(repository);
-            UpdateQuestionAnswer(repository);
-            AddQuestionFake(repository);
-            DeleteQuestionFake(repository);
-            UpdateQuestionFake(repository);
-            UpdateQuestion(repository);
+            IDbContextScopeFactory dbContextScopeFactory = InjectScopeFactory();
+            using (var context = dbContextScopeFactory.Create())
+            {
+                Prepare(repository, subjectRepository);
+                AddSubjects(subjectRepository);
+                AddQuestions(repository, subjectRepository);
+                GetQuestions(repository);
+                AddQuestionAnswer(repository);
+                DeleteQuestionAnswer(repository);
+                UpdateQuestionAnswer(repository);
+                AddQuestionFake(repository);
+                DeleteQuestionFake(repository);
+                UpdateQuestionFake(repository);
+                UpdateQuestion(repository);
+                context.SaveChanges();
+            }
             Console.ReadKey();
         }
     }

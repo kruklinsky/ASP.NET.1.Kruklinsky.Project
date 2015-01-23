@@ -1,4 +1,6 @@
-﻿using BLL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using BLL.Concrete.ExceptionsHelpers;
+using BLL.Interface.Abstract;
 using BLL.Interface.Entities;
 using DAL.Interface.Abstract;
 using System;
@@ -14,22 +16,32 @@ namespace BLL.Concrete
     {
         private Regex emailValidationRegex = new Regex(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}");
         private IUserRepository userRepository;
+        private IDbContextScopeFactory dbContextScopeFactory;
 
-        public UserService(IUserRepository userRepository)
-        {
-            if(userRepository == null)
-            {
-                throw new System.ArgumentNullException("userRepository", "User repository is null.");
-            }
-            this.userRepository = userRepository;
-        }
-        public UserService(IUserRepository userRepository, string emailRegularExpression)
+        public UserService(IUserRepository userRepository, IDbContextScopeFactory dbContextScopeFactory)
         {
             if (userRepository == null)
             {
                 throw new System.ArgumentNullException("userRepository", "User repository is null.");
             }
-            emailValidationRegex = emailRegularExpression == null ? null : new Regex(emailRegularExpression);
+            if(dbContextScopeFactory == null)
+            {
+                throw new System.ArgumentNullException("dbContextScopeFactory", "DbContextScope factory is null.");
+            }
+            this.userRepository = userRepository;
+            this.dbContextScopeFactory = dbContextScopeFactory;
+        }
+        public UserService(IUserRepository userRepository, IDbContextScopeFactory dbContextScopeFactory, string emailRegularExpression)
+        {
+            if (userRepository == null)
+            {
+                throw new System.ArgumentNullException("userRepository", "User repository is null.");
+            }
+            if (dbContextScopeFactory == null)
+            {
+                throw new System.ArgumentNullException("dbContextScopeFactory", "DbContextScope factory is null.");
+            }
+            this.emailValidationRegex = emailRegularExpression == null ? null : new Regex(emailRegularExpression);
             this.userRepository = userRepository;
         }
 
@@ -37,94 +49,45 @@ namespace BLL.Concrete
 
         #region User
 
-        public User GetUser(string email)
+        #region Query
+
+        public User GetUser(string id)
         {
-            this.GetEmailExceptions(email);
+            UserExceptionsHelper.GetIdExceptions(id);
             User result = null;
-            var user = this.userRepository.GetUser(email);
-            if(user != null)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = user.ToBll();
+                var user = this.userRepository.GetUser(id);
+                if (user != null)
+                {
+                    result = user.ToBll();
+                }
             }
             return result;
         }
-        public User GetUserById(string id)
+        public User GetUserByEmail(string email)
         {
-            this.GetIdExceptions(id);
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
             User result = null;
-            var user = this.userRepository.GetUserById(id);
-            if (user != null)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = user.ToBll();
+                var user = this.userRepository.GetUserByEmail(email);
+                if (user != null)
+                {
+                    result = user.ToBll();
+                }
             }
             return result;
         }
         public IEnumerable<User> GetAllUsers()
         {
             IEnumerable<User> result = new List<User>();
-            var users = this.userRepository.Data;
-            if(users.Count() != 0)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = users.Select(u => u.ToBll());
-            }
-            return result;
-        }
-
-        public User CreateUser(string email, string password, bool isApproved)
-        {
-            this.GetEmailExceptions(email);
-            this.GetPasswordExceptions(password);
-            this.CreateUser(email, password, isApproved, DateTime.Now);
-            return this.GetUser(email);
-        }
-        public bool DeleteUser(string email)
-        {
-            this.GetEmailExceptions(email);
-            User user = this.GetUser(email);
-            if (user != null)
-            {
-                    this.userRepository.Delete(user.ToDal());
-                    return true;
-            }
-            return false;
-        }
-        public void UpdateUser(User user)
-        {
-            this.GetIdExceptions(user.Id);
-            var dalUser = this.userRepository.GetUserById(user.Id);
-            if (dalUser != null)
-            {
-                dalUser.IsApproved = user.IsApproved;
-                this.userRepository.Update(dalUser);
-            }
-        }
-
-        public bool ValidateUser(string email, string password, IEqualityComparer<string> passwordComparer)
-        {
-            this.GetEmailExceptions(email);
-            this.GetPasswordExceptions(password);
-            bool result = false;
-            var user = this.userRepository.GetUser(email);
-            if(user != null)
-            {
-                result = passwordComparer.Equals(user.Password, password);
-            }
-            return result;
-        }
-        public bool ChangePassword(string email, string oldPassword, string newPassword,IEqualityComparer<string> passwordComparer)
-        {
-            this.GetEmailExceptions(email);
-            this.GetPasswordExceptions(oldPassword,"oldPassword");
-            this.GetPasswordExceptions(newPassword, "newPassword");
-            bool result = false;
-            var user = this.userRepository.GetUser(email);
-            if (user != null)
-            {
-                if(passwordComparer.Equals(user.Password, oldPassword))
+                var users = this.userRepository.Data;
+                if (users.Count() != 0)
                 {
-                    user.Password = newPassword;
-                    this.userRepository.Update(user);
-                    result = true;
+                    result = users.Select(u => u.ToBll());
                 }
             }
             return result;
@@ -132,98 +95,44 @@ namespace BLL.Concrete
 
         #endregion
 
-        #region Role
+        #region Creation
 
-        public string[] GetRolesForUser(string email)
+        public User CreateUser(string email, string password, bool isApproved)
         {
-            this.GetEmailExceptions(email);
-            List<string> result = null;
-            User user = this.GetUser(email);
-            if(user != null)
-            {
-                result = user.Roles.Value.Select(r => r.Name).ToList();
-            }
-            return result == null ? null : result.ToArray();
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            UserExceptionsHelper.GetPasswordExceptions(password);
+            this.CreateUser(email, password, isApproved, DateTime.Now);
+            return this.GetUserByEmail(email);
         }
-        public string[] GetUsersInRole(string roleName)
+        public bool DeleteUser(string email)
         {
-            this.GetRoleNameExceptions(roleName);
-            List<string> result = new List<string>();
-            var usersInRole = this.userRepository.GetUsersInRole(roleName);
-            if(usersInRole.Count() != 0)
-            {
-                result = usersInRole.Select(u => u.Email).ToList();
-            }
-            return result.ToArray();
-        }
-        public bool IsUserInRole(string email, string roleName)
-        {
-            this.GetEmailExceptions(email);
-            this.GetRoleNameExceptions(roleName);
-            bool result = false;
-            User user = this.GetUser(email);
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            User user = this.GetUserByEmail(email);
             if (user != null)
             {
-                result = user.Roles.Value.Where(r => r.Name == roleName).Count() > 0;
+                using (var context = dbContextScopeFactory.Create())
+                {
+                    this.userRepository.Delete(user.ToDal());
+                    context.SaveChanges();
+                }
+                return true;
             }
-            return result;
+            return false;
         }
-
-        public void AddUserToRole(string email, string roleName)
+        public void UpdateUser(User user)
         {
-            this.GetEmailExceptions(email);
-            this.GetRoleNameExceptions(roleName);
-            this.userRepository.AddUserRole(email, roleName);
-        }
-        public void RemoveUserFromRole(string email, string roleName)
-        {
-            this.GetEmailExceptions(email);
-            this.GetRoleNameExceptions(roleName);
-            this.userRepository.DeleteUserRole(email, roleName);
-        }
-
-        public string[] GetAllRoles()
-        {
-            List<string> result = new List<string>();
-            var roles = this.userRepository.GetAllRoles();
-            if (roles.Count() != 0)
+            UserExceptionsHelper.GetIdExceptions(user.Id);
+            using (var context = dbContextScopeFactory.Create())
             {
-                result = roles.Select(r => r.Name).ToList();
+                var dalUser = this.userRepository.GetUser(user.Id);
+                if (dalUser != null)
+                {
+                    dalUser.IsApproved = user.IsApproved;
+                    this.userRepository.Update(dalUser);
+                }
+                context.SaveChanges();
             }
-            return result.ToArray();
         }
-        public bool RoleExists(string roleName)
-        {
-            this.GetRoleNameExceptions(roleName);
-            return this.userRepository.RoleExists(roleName);
-        }
-
-        #endregion
-
-        #region Profile
-
-        public Profile GetUserProfile(string id)
-        {
-            this.GetIdExceptions(id);
-            Profile result = null;
-            var profile = this.userRepository.GetUserProfile(id);
-            if(profile != null)
-            {
-                result = profile.ToBll();
-            }
-            return result;
-        }
-        public void UpdateUserProfile(string id, Profile profile)
-        {
-            this.GetIdExceptions(id);
-            if (profile == null)
-            {
-                throw new System.ArgumentNullException("profile", "Profile is null.");
-            }
-            this.userRepository.UpdateUserProfile(id, profile.ToDal());
-        }
-
-        #endregion
 
         private void CreateUser(string email, string password, bool isApproved, DateTime createDate, string roleName = "user")
         {
@@ -233,75 +142,189 @@ namespace BLL.Concrete
                 IsApproved = isApproved,
                 CreateDate = DateTime.Now
             };
-            this.userRepository.Add(result.ToDal(password));
-            this.userRepository.AddUserRole(email, roleName);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.userRepository.Add(result.ToDal(password));
+                this.userRepository.AddUserRole(email, roleName);
+                context.SaveChanges();
+            }
         }
 
         #endregion
 
-        #region Private methods
+        #region UserPasswordSecurity
 
-        private void GetEmailExceptions(string email)
+        public bool ValidateUser(string email, string password, IEqualityComparer<string> passwordComparer)
         {
-            if (string.IsNullOrWhiteSpace(email))
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            UserExceptionsHelper.GetPasswordExceptions(password);
+            bool result = false;
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                throw new System.ArgumentException("Email is null, empty or consists only of white-space characters.", "email");
-            }
-            if (!this.IsEmail(email))
-            {
-                string message = string.Format("Email: {0} does not satisfy the expression: \"{1}\".", email, this.emailValidationRegex.ToString());
-                throw new System.ArgumentException(message, "email");
-            }
-        }
-        private bool IsEmail(string email)
-        {
-            bool result = true;
-            if (this.emailValidationRegex != null)
-            {
-                result = this.emailValidationRegex.IsMatch(email);
+                var user = this.userRepository.GetUserByEmail(email);
+                if (user != null)
+                {
+                    result = passwordComparer.Equals(user.Password, password);
+                }
             }
             return result;
         }
 
-        private void GetIdExceptions(string id)
+        public bool ChangePassword(string email, string oldPassword, string newPassword, IEqualityComparer<string> passwordComparer)
         {
-            if (string.IsNullOrWhiteSpace(id))
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            UserExceptionsHelper.GetPasswordExceptions(oldPassword, "oldPassword");
+            UserExceptionsHelper.GetPasswordExceptions(newPassword, "newPassword");
+            bool result = false;
+            using (var context = dbContextScopeFactory.Create())
             {
-                throw new System.ArgumentException("User id is null, empty or consists only of white-space characters.", "id");
+                var user = this.userRepository.GetUserByEmail(email);
+                if (user != null)
+                {
+                    if (passwordComparer.Equals(user.Password, oldPassword))
+                    {
+                        user.Password = newPassword;
+                        this.userRepository.Update(user);
+                        result = true;
+                    }
+                }
+                context.SaveChanges();
             }
-            if (!IsGuid(id))
-            {
-                throw new System.ArgumentException("Cannot convert user id to guid.", "id");
-            }
-        }
-        private bool IsGuid(string id)
-        {
-            Guid temp;
-            return Guid.TryParse(id, out temp);
-        }
-
-        private void GetPasswordExceptions(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new System.ArgumentException("Password is null, empty or consists only of white-space characters.", "password");
-            }
-        }
-        private void GetPasswordExceptions(string password, string paramName)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new System.ArgumentException("Password is null, empty or consists only of white-space characters.",paramName);
-            }
+            return result;
         }
 
-        private void GetRoleNameExceptions(string roleName)
+        #endregion
+
+        #endregion
+
+        #region Role
+
+        #region Query
+
+        public string[] GetAllRoles()
         {
-            if (string.IsNullOrWhiteSpace(roleName))
+            List<string> result = new List<string>();
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                throw new System.ArgumentException("Role name is null, empty or consists only of white-space characters.", "roleName");
+                var roles = this.userRepository.GetAllRoles();
+                if (roles.Count() != 0)
+                {
+                    result = roles.Select(r => r.Name).ToList();
+                }
+            }
+            return result.ToArray();
+        }
+        public bool RoleExists(string roleName)
+        {
+            RoleExceptionsHelper.GetNameExceptions(roleName);
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                return this.userRepository.RoleExists(roleName);
             }
         }
+
+        #endregion
+
+        #region UserRolesQueryService
+
+        public string[] GetRolesForUser(string email)
+        {
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            List<string> result = null;
+            User user = this.GetUserByEmail(email);
+            if (user != null)
+            {
+                result = user.Roles.Select(r => r.Name).ToList();
+            }
+            return result == null ? null : result.ToArray();
+        }
+        public string[] GetUsersInRole(string roleName)
+        {
+            RoleExceptionsHelper.GetNameExceptions(roleName);
+            List<string> result = new List<string>();
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var usersInRole = this.userRepository.GetUsersInRole(roleName);
+                if (usersInRole.Count() != 0)
+                {
+                    result = usersInRole.Select(u => u.Email).ToList();
+                }
+            }
+            return result.ToArray();
+        }
+        public bool IsUserInRole(string email, string roleName)
+        {
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            RoleExceptionsHelper.GetNameExceptions(roleName);
+            bool result = false;
+            User user = this.GetUserByEmail(email);
+            if (user != null)
+            {
+                result = user.Roles.Where(r => r.Name == roleName).Count() > 0;
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region UserRolesManagementService
+
+        public void AddUserToRole(string email, string roleName)
+        {
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            RoleExceptionsHelper.GetNameExceptions(roleName);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.userRepository.AddUserRole(email, roleName);
+                context.SaveChanges();
+            }
+        }
+        public void RemoveUserFromRole(string email, string roleName)
+        {
+            UserExceptionsHelper.GetEmailExceptions(email, this.emailValidationRegex);
+            RoleExceptionsHelper.GetNameExceptions(roleName);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.userRepository.DeleteUserRole(email, roleName);
+                context.SaveChanges();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Profile
+
+        public Profile GetUserProfile(string id)
+        {
+            UserExceptionsHelper.GetIdExceptions(id);
+            Profile result = null;
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var profile = this.userRepository.GetUserProfile(id);
+                if (profile != null)
+                {
+                    result = profile.ToBll();
+                }
+            }
+            return result;
+        }
+        public void UpdateUserProfile(string id, Profile profile)
+        {
+            UserExceptionsHelper.GetIdExceptions(id);
+            if (profile == null)
+            {
+                throw new System.ArgumentNullException("profile", "Profile is null.");
+            }
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.userRepository.UpdateUserProfile(id, profile.ToDal());
+                context.SaveChanges();
+            }
+        }
+
+        #endregion
 
         #endregion
     }

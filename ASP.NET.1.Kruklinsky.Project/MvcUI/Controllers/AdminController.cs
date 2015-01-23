@@ -13,15 +13,21 @@ namespace MvcUI.Controllers
     {
         private IKnowledgeService knowledgeService;
 
-        public AdminController(IKnowledgeService knowledgeService)
+        private ISubjectCreationService subjectCreationService;
+        private ISubjectQueryService subjectQueryService;
+
+
+        public AdminController(IKnowledgeService knowledgeService, ISubjectCreationService subjectCreationService, ISubjectQueryService subjectQueryService)
         {
             this.knowledgeService = knowledgeService;
+            this.subjectCreationService = subjectCreationService;
+            this.subjectQueryService = subjectQueryService;
         }
 
         public ActionResult Index()
         {
-            var subjects = knowledgeService.GetAllSubjects();
-            var model = new Subjects { Data = subjects.Select(s => new SubjectEditor { Subject = s.ToWeb(), Tests = s.Tests.Value.Select(t => t.ToWeb()).ToList() }) };
+            var subjects = this.subjectQueryService.GetAllSubjects();
+            var model = new Subjects { Data = subjects.Select(s => new SubjectEditor { Subject = s.ToWeb(), Tests = s.Tests.Select(t => t.ToWeb()).ToList() }) };
             return View(model);
         }
 
@@ -37,7 +43,7 @@ namespace MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.knowledgeService.CreateSubject(subject.Name, subject.Description);
+                this.subjectCreationService.CreateSubject(subject.Name, subject.Description);
                 return RedirectToAction("Index", "Admin");
             }
             return View(subject);
@@ -46,13 +52,13 @@ namespace MvcUI.Controllers
         {
             if (subjectId > 0)
             {
-                var subject = knowledgeService.GetSubject(subjectId);
+                var subject = this.subjectQueryService.GetSubject(subjectId);
                 if (subject != null)
                 {
                     var model = new SubjectEditor
                     {
                         Subject = subject.ToWeb(),
-                        Tests = subject.Tests.Value.Select(t => t.ToWeb()).ToList()
+                        Tests = subject.Tests.Select(t => t.ToWeb()).ToList()
                     };
                     return View(model);
                 }
@@ -66,7 +72,7 @@ namespace MvcUI.Controllers
             {
                 if (subject.Id > 0)
                 {
-                    this.knowledgeService.UpdateSubject(subject.ToBll());
+                    this.subjectCreationService.UpdateSubject(subject.ToBll());
                 }
                 return RedirectToAction("Index", "Admin");
             }
@@ -102,7 +108,7 @@ namespace MvcUI.Controllers
                     var model = new TestEditor
                     {
                         Test = test.ToWeb(),
-                        Questions = test.Questions.Value.Select(q => q.ToWeb()).ToList()
+                        Questions = test.Questions.Select(q => q.ToWeb()).ToList()
                     };
                     return View(model);
                 }
@@ -152,8 +158,8 @@ namespace MvcUI.Controllers
                     var model = new QuestionEditor
                     {
                         Question  = question.ToWeb(),
-                        Answers = question.Answers.Value.Select(a=> a.ToWeb()).ToList(),
-                        Fakes = question.Fakes.Value.Select(f => f.ToWeb()).ToList()
+                        Answers = question.Answers.Select(a=> a.ToWeb()).ToList(),
+                        Fakes = question.Fakes.Select(f => f.ToWeb()).ToList()
                     };
 
                         return View(model);

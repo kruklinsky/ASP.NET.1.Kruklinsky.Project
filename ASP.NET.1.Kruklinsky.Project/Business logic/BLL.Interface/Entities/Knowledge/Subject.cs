@@ -12,6 +12,6 @@ namespace BLL.Interface.Entities
         public string Description { get; set; }
 
 
-        public Lazy<IEnumerable<Test>> Tests { get; set; }
+        public IEnumerable<Test> Tests { get; set; }
     }
 }

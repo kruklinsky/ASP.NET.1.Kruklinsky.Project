@@ -38,8 +38,8 @@ namespace BLL.Concrete
                 Email = item.Email,
                 IsApproved = item.IsApproved,
                 CreateDate = item.CreateDate,
-                Profile = new Lazy<Profile>(() => item == null ? null : item.Profile.Value.ToBll()),
-                Roles = new Lazy<IEnumerable<Role>>(() => item.Roles == null ? new List<Role>() : item.Roles.Value.Select(r => r.ToBll()).ToList())
+                Profile = item == null ? null : item.Profile.Value.ToBll(),
+                Roles = item.Roles == null ? new List<Role>() : item.Roles.Value.Select(r => r.ToBll()).ToList()
             };
         }
 

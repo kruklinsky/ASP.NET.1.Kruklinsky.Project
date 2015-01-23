@@ -41,7 +41,7 @@ namespace BLL.Concrete
                 UserId = item.UserId,
                 Start = item.Start,
                 Time = item.Time,
-                Answers = new Lazy<IEnumerable<UserAnswer>>(() => item.Answers == null ? new List<UserAnswer>() : item.Answers.Value.Select(a => a.ToBll()).ToList())
+                Answers = item.Answers == null ? new List<UserAnswer>() : item.Answers.Value.Select(a => a.ToBll()).ToList()
             };
         }
 

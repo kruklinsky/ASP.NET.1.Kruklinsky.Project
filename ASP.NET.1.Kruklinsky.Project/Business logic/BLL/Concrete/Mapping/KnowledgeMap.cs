@@ -16,7 +16,7 @@ namespace BLL.Concrete
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                Tests = new Lazy<IEnumerable<Test>>(() => item.Tests == null ? new List<Test>() : item.Tests.Value.Select(t => t.ToBll()).ToList())
+                Tests = item.Tests == null ? new List<Test>() : item.Tests.Value.Select(t => t.ToBll()).ToList()
             };
         }
         public static DAL.Interface.Entities.Subject ToDal(this Subject item)
@@ -40,8 +40,8 @@ namespace BLL.Concrete
                 Text = item.Text,
                 Example = item.Example,
                 Description = item.Description,
-                Answers = new Lazy<IEnumerable<Answer>>(() => item.Answers == null ? new List<Answer>() : item.Answers.Value.Select(a => a.ToBll()).ToList()),
-                Fakes = new Lazy<IEnumerable<Fake>>(() => item.Fakes == null ? new List<Fake>() : item.Fakes.Value.Select(f => f.ToBll()).ToList())
+                Answers = item.Answers == null ? new List<Answer>() : item.Answers.Value.Select(a => a.ToBll()).ToList(),
+                Fakes = item.Fakes == null ? new List<Fake>() : item.Fakes.Value.Select(f => f.ToBll()).ToList()
             };
         }
         public static DAL.Interface.Entities.Question ToDal(this Question item)
@@ -101,7 +101,7 @@ namespace BLL.Concrete
                 Topic = item.Topic,
                 Name = item.Name,
                 Description = item.Description,
-                Questions = new Lazy<ICollection<Question>>(() => item.Questions == null ? new List<Question>() : item.Questions.Value.Select(q => q.ToBll()).ToList())
+                Questions = item.Questions == null ? new List<Question>() : item.Questions.Value.Select(q => q.ToBll()).ToList()
             };
         }
 

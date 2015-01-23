@@ -92,6 +92,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Ambient DbContext\AmbientDbContext.Interface\AmbientDbContext.Interface.csproj">
+      <Project>{47cad024-1f6e-4b70-a730-b42c592763b4}</Project>
+      <Name>AmbientDbContext.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ambient DbContext\AmbientDbContext\AmbientDbContext.csproj">
+      <Project>{0581097e-be19-4e6a-8ee4-6b1166ac1f53}</Project>
+      <Name>AmbientDbContext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DAL.Interface\DAL.Interface.csproj">
       <Project>{dbe3a9b7-aec9-4fd0-a9e9-195f4f0f7c48}</Project>
       <Name>DAL.Interface</Name>

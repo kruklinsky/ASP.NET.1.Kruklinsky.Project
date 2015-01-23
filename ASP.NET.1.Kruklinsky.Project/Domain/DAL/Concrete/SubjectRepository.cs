@@ -1,5 +1,7 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
+using ORM;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,11 +15,29 @@ namespace DAL.Concrete
     {
         #region IRepository
 
-        private readonly DbContext context;
-        public SubjectRepository(DbContext context)
+        private readonly IAmbientDbContextLocator ambientDbContextLocator;
+        private DbContext context
         {
-            this.context = context;
+            get
+            {
+                var dbContext = this.ambientDbContextLocator.Get<EFDbContext>();
+                if (dbContext == null)
+                {
+                    throw new InvalidOperationException("It is impossible to use repository because DbContextScope has not been created.");
+                }
+                return dbContext;
+            }
         }
+
+        public SubjectRepository(IAmbientDbContextLocator ambientDbContextLocator)
+        {
+            if (ambientDbContextLocator == null)
+            {
+                throw new System.ArgumentNullException("ambientDbContextLocator", "Ambient dbContext locator is null.");
+            }
+            this.ambientDbContextLocator = ambientDbContextLocator;
+        }
+
         public IEnumerable<Subject> Data
         {
             get

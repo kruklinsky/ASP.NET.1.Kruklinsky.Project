@@ -1,9 +1,12 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
+using ORM;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +16,29 @@ namespace DAL.Concrete
     {
         #region IRepository
 
-        private readonly DbContext context;
-        public ResultRepository(DbContext context)
+        private readonly IAmbientDbContextLocator ambientDbContextLocator;
+        private DbContext context
         {
-            this.context = context;
+            get
+            {
+                var dbContext = this.ambientDbContextLocator.Get<EFDbContext>();
+                if (dbContext == null)
+                {
+                    throw new InvalidOperationException("It is impossible to use repository because DbContextScope has not been created.");
+                }
+                return dbContext;
+            }
         }
+
+        public ResultRepository(IAmbientDbContextLocator ambientDbContextLocator)
+        {
+            if (ambientDbContextLocator == null)
+            {
+                throw new System.ArgumentNullException("ambientDbContextLocator", "Ambient dbContext locator is null.");
+            }
+            this.ambientDbContextLocator = ambientDbContextLocator;
+        }
+
         public IEnumerable<Result> Data
         {
             get
@@ -100,7 +121,7 @@ namespace DAL.Concrete
         public IEnumerable<Result> GetUserResults(string userId)
         {
             IEnumerable<Result> result = new List<Result>();
-            var results = this.GetResults(userId);
+            var results = this.GetOrmResults(r => r.UserId.ToString() == userId);
             if(results.Count() != 0)
             {
                 result = results.Select(r => r.ToDal()).ToList();
@@ -111,17 +132,6 @@ namespace DAL.Concrete
         #endregion
 
         #region Private Methods
-
-        private IEnumerable<ORM.Model.Result> GetResults (string userId)
-        {
-            IEnumerable<ORM.Model.Result> result = new List<ORM.Model.Result>();
-            var query = this.context.Set<ORM.Model.Result>().Where(r => r.UserId.ToString() == userId);
-            if (query.Count() != 0)
-            {
-                result = query.ToList();
-            }
-            return result;
-        }
 
         private ORM.Model.Result GetOrmResult(int resultId)
         {
@@ -134,7 +144,17 @@ namespace DAL.Concrete
             return result;
         }
 
-        #endregion
+        private IEnumerable<ORM.Model.Result> GetOrmResults(Expression<Func<ORM.Model.Result, bool>> predicate)
+        {
+            IEnumerable<ORM.Model.Result> result = new List<ORM.Model.Result>();
+            var query = this.context.Set<ORM.Model.Result>().Where(predicate);
+            if (query.Count() != 0)
+            {
+                result = query.ToList();
+            }
+            return result;
+        }
 
+        #endregion
     }
 }

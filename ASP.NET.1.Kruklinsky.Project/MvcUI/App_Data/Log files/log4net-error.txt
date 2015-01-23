@@ -1,12 +1,46 @@
 
-DATE: 2015-01-20 16:19:02,982 
+DATE: 2015-01-23 17:34:25,174 
  ERROR log4net-error.txt 
- as is null.
-Имя параметра: as
+ An error occurred while executing the command definition. See the inner exception for details.
 
-System.ArgumentNullException: as is null.
-Имя параметра: as
-   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
+System.Data.Entity.Core.EntityCommandExecutionException: An error occurred while executing the command definition. See the inner exception for details. ---> System.InvalidOperationException: Существует назначенный этой команде Command открытый DataReader, который требуется предварительно закрыть.
+   в System.Data.SqlClient.SqlInternalConnectionTds.ValidateConnectionForExecute(SqlCommand command)
+   в System.Data.SqlClient.SqlConnection.ValidateConnectionForExecute(String method, SqlCommand command)
+   в System.Data.SqlClient.SqlCommand.ValidateCommand(String method, Boolean async)
+   в System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   в System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   в System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   в System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   в System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.<Reader>b__c(DbCommand t, DbCommandInterceptionContext`1 c)
+   в System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   в System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.Reader(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   в System.Data.Entity.Internal.InterceptableDbCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   в System.Data.Entity.Core.EntityClient.Internal.EntityCommandDefinition.ExecuteStoreCommands(EntityCommand entityCommand, CommandBehavior behavior)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Data.Entity.Core.EntityClient.Internal.EntityCommandDefinition.ExecuteStoreCommands(EntityCommand entityCommand, CommandBehavior behavior)
+   в System.Data.Entity.Core.Objects.Internal.ObjectQueryExecutionPlan.Execute[TResultType](ObjectContext context, ObjectParameterCollection parameterValues)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__6()
+   в System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   в System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.Subject_7FF00593B64019F228752569AB998259C254891D67A3B1EE874E9042A32BA3E7.get_Tests()
+   в DAL.Concrete.KnowledgeMap.ToDal(Subject item) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\KnowledgeMap.cs:строка 103
+   в DAL.Concrete.SubjectRepository.<get_Data>b__0(Subject t) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\SubjectRepository.cs:строка 26
+   в System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   в System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   в System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   в DAL.Concrete.SubjectRepository.get_Data() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\SubjectRepository.cs:строка 26
+   в BLL.Concrete.KnowledgeService.GetAllSubjects() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\KnowledgeService.cs:строка 53
+   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
    в lambda_method(Closure , ControllerBase , Object[] )
    в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
    в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
@@ -23,14 +57,49 @@ System.ArgumentNullException: as is null.
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
 
-DATE: 2015-01-20 16:19:05,323 
+DATE: 2015-01-23 17:36:50,843 
  ERROR log4net-error.txt 
- as is null.
-Имя параметра: as
+ An error occurred while executing the command definition. See the inner exception for details.
 
-System.ArgumentNullException: as is null.
-Имя параметра: as
-   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
+System.Data.Entity.Core.EntityCommandExecutionException: An error occurred while executing the command definition. See the inner exception for details. ---> System.InvalidOperationException: Существует назначенный этой команде Command открытый DataReader, который требуется предварительно закрыть.
+   в System.Data.SqlClient.SqlInternalConnectionTds.ValidateConnectionForExecute(SqlCommand command)
+   в System.Data.SqlClient.SqlConnection.ValidateConnectionForExecute(String method, SqlCommand command)
+   в System.Data.SqlClient.SqlCommand.ValidateCommand(String method, Boolean async)
+   в System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   в System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   в System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   в System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   в System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.<Reader>b__c(DbCommand t, DbCommandInterceptionContext`1 c)
+   в System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   в System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.Reader(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   в System.Data.Entity.Internal.InterceptableDbCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   в System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   в System.Data.Entity.Core.EntityClient.Internal.EntityCommandDefinition.ExecuteStoreCommands(EntityCommand entityCommand, CommandBehavior behavior)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Data.Entity.Core.EntityClient.Internal.EntityCommandDefinition.ExecuteStoreCommands(EntityCommand entityCommand, CommandBehavior behavior)
+   в System.Data.Entity.Core.Objects.Internal.ObjectQueryExecutionPlan.Execute[TResultType](ObjectContext context, ObjectParameterCollection parameterValues)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__6()
+   в System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.<>c__DisplayClass7.<GetResults>b__5()
+   в System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.Load()
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.Subject_7FF00593B64019F228752569AB998259C254891D67A3B1EE874E9042A32BA3E7.get_Tests()
+   в DAL.Concrete.KnowledgeMap.ToDal(Subject item) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\KnowledgeMap.cs:строка 103
+   в DAL.Concrete.SubjectRepository.<get_Data>b__0(Subject t) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\SubjectRepository.cs:строка 26
+   в System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   в System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   в System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   в DAL.Concrete.SubjectRepository.get_Data() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\SubjectRepository.cs:строка 26
+   в BLL.Concrete.KnowledgeService.GetAllSubjects() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\KnowledgeService.cs:строка 53
+   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
    в lambda_method(Closure , ControllerBase , Object[] )
    в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
    в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
@@ -47,38 +116,203 @@ System.ArgumentNullException: as is null.
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
 
-DATE: 2015-01-20 16:19:05,976 
+DATE: 2015-01-23 17:38:13,674 
  ERROR log4net-error.txt 
- as is null.
-Имя параметра: as
+ The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
 
-System.ArgumentNullException: as is null.
-Имя параметра: as
-   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
-   в lambda_method(Closure , ControllerBase , Object[] )
-   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
-   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
-   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass42.<BeginInvokeSynchronousActionMethod>b__41()
-   в System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)
-   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<>c__DisplayClass39.<BeginInvokeActionMethodWithFilters>b__33()
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass4f.<InvokeActionMethodFilterAsynchronously>b__49()
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeActionMethodWithFilters>b__36(IAsyncResult asyncResult)
-   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()
-   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+System.ObjectDisposedException: The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+   в System.Data.Entity.Core.Objects.ObjectContext.get_Connection()
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.Load()
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.User_B365ADA6D184AB13D26DBF424FDD2F79E3FF17998570781438916EB41D11A1B1.get_Roles()
+   в DAL.Concrete.MembershipMap.<>c__DisplayClass5.<ToDal>b__3() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\MembershipMap.cs:строка 33
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в BLL.Concrete.MembershipMap.<>c__DisplayClass6.<ToBll>b__4() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\Mapping\MembershipMap.cs:строка 42
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в MvcUI.Providers.MvcUIRoleProvider.GetRolesForUser(String email) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Providers\Concrete\MvcUIRoleProvider.cs:строка 35
+   в System.Web.Security.RolePrincipal.IsInRole(String role)
+   в ASP._Page_Views_Shared__Layout_cshtml.Execute() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Views\Shared\_Layout.cshtml:строка 16
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   в System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.WebPages.WebPageBase.<>c__DisplayClass7.<RenderPageCore>b__6(TextWriter writer)
+   в System.Web.WebPages.HelperResult.WriteTo(TextWriter writer)
+   в System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   в System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   в System.Web.WebPages.WebPageBase.PopContext()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   в System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   в System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<InvokeActionResultWithFilters>b__17()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
    в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
 
-DATE: 2015-01-20 16:19:06,371 
+DATE: 2015-01-23 17:59:32,360 
  ERROR log4net-error.txt 
- as is null.
-Имя параметра: as
+ The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
 
-System.ArgumentNullException: as is null.
-Имя параметра: as
-   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
+System.ObjectDisposedException: The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+   в System.Data.Entity.Core.Objects.ObjectContext.get_Connection()
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.User_B365ADA6D184AB13D26DBF424FDD2F79E3FF17998570781438916EB41D11A1B1.get_Roles()
+   в DAL.Concrete.MembershipMap.<>c__DisplayClass5.<ToDal>b__3() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\MembershipMap.cs:строка 33
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в BLL.Concrete.MembershipMap.<>c__DisplayClass6.<ToBll>b__4() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\Mapping\MembershipMap.cs:строка 42
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в MvcUI.Providers.MvcUIRoleProvider.GetRolesForUser(String email) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Providers\Concrete\MvcUIRoleProvider.cs:строка 35
+   в System.Web.Security.RolePrincipal.IsInRole(String role)
+   в ASP._Page_Views_Shared__Layout_cshtml.Execute() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Views\Shared\_Layout.cshtml:строка 16
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   в System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.WebPages.WebPageBase.<>c__DisplayClass7.<RenderPageCore>b__6(TextWriter writer)
+   в System.Web.WebPages.HelperResult.WriteTo(TextWriter writer)
+   в System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   в System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   в System.Web.WebPages.WebPageBase.PopContext()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   в System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   в System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<InvokeActionResultWithFilters>b__17()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+
+DATE: 2015-01-23 18:01:44,305 
+ ERROR log4net-error.txt 
+ The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+
+System.ObjectDisposedException: The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+   в System.Data.Entity.Core.Objects.ObjectContext.get_Connection()
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.Load()
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.User_B365ADA6D184AB13D26DBF424FDD2F79E3FF17998570781438916EB41D11A1B1.get_Roles()
+   в DAL.Concrete.MembershipMap.<>c__DisplayClass5.<ToDal>b__3() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\MembershipMap.cs:строка 33
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в BLL.Concrete.MembershipMap.<>c__DisplayClass6.<ToBll>b__4() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\Mapping\MembershipMap.cs:строка 42
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в MvcUI.Providers.MvcUIRoleProvider.GetRolesForUser(String email) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Providers\Concrete\MvcUIRoleProvider.cs:строка 35
+   в System.Web.Security.RolePrincipal.IsInRole(String role)
+   в ASP._Page_Views_Shared__Layout_cshtml.Execute() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Views\Shared\_Layout.cshtml:строка 16
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   в System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.WebPages.WebPageBase.<>c__DisplayClass7.<RenderPageCore>b__6(TextWriter writer)
+   в System.Web.WebPages.HelperResult.WriteTo(TextWriter writer)
+   в System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   в System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   в System.Web.WebPages.WebPageBase.PopContext()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   в System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   в System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<InvokeActionResultWithFilters>b__17()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+
+DATE: 2015-01-23 18:03:03,740 
+ ERROR log4net-error.txt 
+ The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+
+System.ObjectDisposedException: The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+   в System.Data.Entity.Core.Objects.ObjectContext.get_Connection()
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.GetResults(Nullable`1 forMergeOption)
+   в System.Data.Entity.Core.Objects.ObjectQuery`1.Execute(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(List`1 collection, MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.EntityCollection`1.Load(MergeOption mergeOption)
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.Load()
+   в System.Data.Entity.Core.Objects.DataClasses.RelatedEnd.DeferredLoad()
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.LoadProperty[TItem](TItem propertyValue, String relationshipName, String targetRoleName, Boolean mustBeNull, Object wrapperObject)
+   в System.Data.Entity.Core.Objects.Internal.LazyLoadBehavior.<>c__DisplayClass7`2.<GetInterceptorDelegate>b__1(TProxy proxy, TItem item)
+   в System.Data.Entity.DynamicProxies.User_B365ADA6D184AB13D26DBF424FDD2F79E3FF17998570781438916EB41D11A1B1.get_Roles()
+   в DAL.Concrete.MembershipMap.<>c__DisplayClass5.<ToDal>b__3() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\Mapping\MembershipMap.cs:строка 33
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в BLL.Concrete.MembershipMap.<>c__DisplayClass6.<ToBll>b__4() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\Mapping\MembershipMap.cs:строка 42
+   в System.Lazy`1.CreateValue()
+   в System.Lazy`1.LazyInitValue()
+   в System.Lazy`1.get_Value()
+   в MvcUI.Providers.MvcUIRoleProvider.GetRolesForUser(String email) в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Providers\Concrete\MvcUIRoleProvider.cs:строка 35
+   в System.Web.Security.RolePrincipal.IsInRole(String role)
+   в ASP._Page_Views_Shared__Layout_cshtml.Execute() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Views\Shared\_Layout.cshtml:строка 16
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   в System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.WebPages.WebPageBase.<>c__DisplayClass7.<RenderPageCore>b__6(TextWriter writer)
+   в System.Web.WebPages.HelperResult.WriteTo(TextWriter writer)
+   в System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   в System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   в System.Web.WebPages.WebPageBase.PopContext()
+   в System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   в System.Web.Mvc.RazorView.RenderView(ViewContext viewContext, TextWriter writer, Object instance)
+   в System.Web.Mvc.BuildManagerCompiledView.Render(ViewContext viewContext, TextWriter writer)
+   в System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<InvokeActionResultWithFilters>b__17()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilter(IResultFilter filter, ResultExecutingContext preContext, Func`1 continuation)
+   в System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass1a.<>c__DisplayClass1c.<InvokeActionResultWithFilters>b__19()
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<>c__DisplayClass2a.<BeginInvokeAction>b__20()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass25.<BeginInvokeAction>b__22(IAsyncResult asyncResult)
+
+DATE: 2015-01-23 18:19:14,612 
+ ERROR log4net-error.txt 
+ Ссылка на объект не указывает на экземпляр объекта.
+
+System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в System.Data.Entity.Internal.Linq.InternalQuery`1.GetEnumerator()
+   в System.Data.Entity.Internal.Linq.InternalSet`1.GetEnumerator()
+   в System.Data.Entity.Infrastructure.DbQuery`1.System.Collections.Generic.IEnumerable<TResult>.GetEnumerator()
+   в System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   в System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   в System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   в DAL.Concrete.SubjectRepository.get_Data() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\Concrete\SubjectRepository.cs:строка 26
+   в BLL.Concrete.KnowledgeService.GetAllSubjects() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\Concrete\KnowledgeService.cs:строка 53
+   в MvcUI.Controllers.HomeController.Index() в c:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\Controllers\HomeController.cs:строка 34
    в lambda_method(Closure , ControllerBase , Object[] )
    в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
    в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)

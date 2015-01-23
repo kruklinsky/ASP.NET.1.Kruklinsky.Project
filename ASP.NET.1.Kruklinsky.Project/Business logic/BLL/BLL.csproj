@@ -39,15 +39,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\ExceptionsHelpers\AnswerExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\QuestionExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\ResultExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\RoleExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\SubjectExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\TestExceptionsHelper.cs" />
+    <Compile Include="Concrete\ExceptionsHelpers\UserExceptionsHelper.cs" />
     <Compile Include="Concrete\KnowledgeService.cs" />
     <Compile Include="Concrete\Mapping\KnowledgeMap.cs" />
     <Compile Include="Concrete\Mapping\MembershipMap.cs" />
     <Compile Include="Concrete\Mapping\TestMap.cs" />
+    <Compile Include="Concrete\Subject services\SubjectCreationService.cs" />
+    <Compile Include="Concrete\Subject services\SubjectQueryService.cs" />
     <Compile Include="Concrete\TestService.cs" />
     <Compile Include="Concrete\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Ambient DbContext\AmbientDbContext.Interface\AmbientDbContext.Interface.csproj">
+      <Project>{47cad024-1f6e-4b70-a730-b42c592763b4}</Project>
+      <Name>AmbientDbContext.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Domain\DAL.Interface\DAL.Interface.csproj">
       <Project>{dbe3a9b7-aec9-4fd0-a9e9-195f4f0f7c48}</Project>
       <Name>DAL.Interface</Name>

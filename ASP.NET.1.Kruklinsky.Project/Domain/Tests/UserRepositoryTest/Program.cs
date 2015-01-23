@@ -7,6 +7,7 @@ using Ninject;
 using System.Reflection;
 using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
+using AmbientDbContext.Interface;
 
 namespace TestConsoleUI
 {
@@ -19,6 +20,14 @@ namespace TestConsoleUI
             kernel.Load(Assembly.GetExecutingAssembly());
             Console.WriteLine("Ok");
             return kernel.Get<IUserRepository>();
+        }
+        static IDbContextScopeFactory InjectScopeFactory()
+        {
+            Console.Write("Inject factory: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<IDbContextScopeFactory>();
         }
         static void Prepare (IUserRepository repository)
         {
@@ -34,7 +43,7 @@ namespace TestConsoleUI
         static void GetUsers(IUserRepository repository)
         {
             Console.WriteLine("Get users: ");
-            User result = repository.GetUser("Nonexistent");
+            User result = repository.GetUserByEmail("Nonexistent");
             if (result != null)
             {
                 Console.WriteLine("No");
@@ -43,7 +52,7 @@ namespace TestConsoleUI
             List<User> users = new List<User>(repository.Data);
             for (int i = 0; i < users.Count(); i++)
             {
-                result = repository.GetUser(users[i].Email);
+                result = repository.GetUserByEmail(users[i].Email);
                 Console.WriteLine(" " + result.Id);
                 Console.WriteLine(" role count: " +result.Roles.Value.Count());
             }
@@ -141,7 +150,6 @@ namespace TestConsoleUI
             Console.WriteLine("Add user role: ");
             repository.Data.First();
             repository.AddUserRole(repository.Data.First().Email, "Admin");
-            GetRoles(repository);
             Console.WriteLine("");
         }
         static void DeleteUserRole(IUserRepository repository)
@@ -149,7 +157,6 @@ namespace TestConsoleUI
             Console.WriteLine("Delete user role: ");
             repository.Data.First();
             repository.DeleteUserRole(repository.Data.First().Email, "Admin");
-            GetRoles(repository);
             Console.WriteLine("");
         }
 
@@ -157,15 +164,22 @@ namespace TestConsoleUI
         {
             Console.WriteLine("User repository test");
             IUserRepository repository = InjectUserRepository();
-            Prepare(repository);
-            AddUsers(repository);
-            UpdateUsers(repository);
-            GetUsers(repository);
-            UpdateUsersProfiles(repository);
-            GetUsersProfiles(repository);
-            GetRoles(repository);
-            AddUserRole(repository);
-            DeleteUserRole(repository);
+            IDbContextScopeFactory dbContextScopeFactory = InjectScopeFactory();
+            using (var context = dbContextScopeFactory.Create())
+            {
+                Prepare(repository);
+                AddUsers(repository);
+                UpdateUsers(repository);
+                GetUsers(repository);
+                UpdateUsersProfiles(repository);
+                GetUsersProfiles(repository);
+                GetRoles(repository);
+                AddUserRole(repository);
+                GetRoles(repository);
+                DeleteUserRole(repository);
+                GetRoles(repository);
+                context.SaveChanges();
+            }
             Console.ReadKey();
         }
     }

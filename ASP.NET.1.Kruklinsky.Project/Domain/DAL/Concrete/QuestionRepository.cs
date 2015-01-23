@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
 using System.Data.Entity;
+using System.Linq.Expressions;
+using AmbientDbContext.Interface;
+using ORM;
 
 namespace DAL.Concrete
 {
@@ -13,11 +16,29 @@ namespace DAL.Concrete
     {
         #region IRepository
 
-        private readonly DbContext context;
-        public QuestionRepository(DbContext context)
+        private readonly IAmbientDbContextLocator ambientDbContextLocator;
+        private DbContext context
         {
-            this.context = context;
+            get
+            {
+                var dbContext = this.ambientDbContextLocator.Get<EFDbContext>();
+                if (dbContext == null)
+                {
+                    throw new InvalidOperationException("It is impossible to use repository because DbContextScope has not been created.");
+                }
+                return dbContext;
+            }
         }
+
+        public QuestionRepository(IAmbientDbContextLocator ambientDbContextLocator)
+        {
+            if (ambientDbContextLocator == null)
+            {
+                throw new System.ArgumentNullException("ambientDbContextLocator", "Ambient dbContext locator is null.");
+            }
+            this.ambientDbContextLocator = ambientDbContextLocator;
+        }
+
         public IEnumerable<Question> Data
         {
             get 

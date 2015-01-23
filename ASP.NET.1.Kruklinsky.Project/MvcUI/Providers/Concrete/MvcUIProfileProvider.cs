@@ -112,12 +112,12 @@ namespace MvcUI.Providers
         private SettingsPropertyValueCollection GetPropertyValues(string email, SettingsContext context, SettingsPropertyCollection collection)
         {
             var result = new SettingsPropertyValueCollection();
-            var user = this.userService.GetUser(email);
+            var user = this.userService.GetUserByEmail(email);
             if (user != null)
             {
-                if (user.Profile.Value != null)
+                if (user.Profile != null)
                 {
-                    result = this.GetPropertyValues(user.Profile.Value.ToWeb(), context, collection);
+                    result = this.GetPropertyValues(user.Profile.ToWeb(), context, collection);
                 }
             }
             return result;
@@ -138,10 +138,10 @@ namespace MvcUI.Providers
 
         private void SetPropertyValues(string email, SettingsContext context, SettingsPropertyValueCollection collection)
         {
-            var user = this.userService.GetUser(email);
+            var user = this.userService.GetUserByEmail(email);
             if (user != null)
             {
-                Profile result = user.Profile.Value == null ? new Profile() : user.Profile.Value.ToWeb();
+                Profile result = user.Profile == null ? new Profile() : user.Profile.ToWeb();
                 this.SetPropertyValues(result, user.Id, context, collection);
             }
         }

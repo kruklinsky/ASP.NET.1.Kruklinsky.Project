@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DAL.Interface.Abstract
 {
@@ -12,6 +14,5 @@ namespace DAL.Interface.Abstract
         void Delete(T item);
 
         void Update(T item);
-
     }
 }

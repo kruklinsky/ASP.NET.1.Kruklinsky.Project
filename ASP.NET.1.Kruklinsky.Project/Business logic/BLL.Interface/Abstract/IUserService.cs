@@ -11,8 +11,8 @@ namespace BLL.Interface.Abstract
     {
         #region User
 
-        User GetUser(string email);
-        User GetUserById(string id);
+        User GetUser(string id);
+        User GetUserByEmail(string email);
         IEnumerable<User> GetAllUsers();
 
         User CreateUser(string email, string password, bool isApproved);

@@ -1,4 +1,5 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
 using Ninject;
 //using ORM;
@@ -229,18 +230,23 @@ namespace ResultRepositoryTest
             ISubjectRepository subjectRepository = kernel.Get<ISubjectRepository>();
             IResultRepository resultRepository = kernel.Get<IResultRepository>();
             IUserRepository userRepository = kernel.Get<IUserRepository>();
+            IDbContextScopeFactory dbContextScopeFactory = kernel.Get<IDbContextScopeFactory>();
             #endregion
-            Prepare(testRepository, questionRepository, subjectRepository,resultRepository,userRepository);
-            AddUsers(userRepository);
-            AddSubjects(subjectRepository);
-            AddQuestions(questionRepository, subjectRepository);
-            AddTest(testRepository, subjectRepository);
-            AddTestQuestion(testRepository, questionRepository);
-            AddTestQuestion(testRepository,subjectRepository);
-            AddResult(resultRepository, testRepository, userRepository);
-            AddUserAnswer(resultRepository, testRepository);
-            GetUsersAnswers(resultRepository, questionRepository);
-            GetUserResults(resultRepository, questionRepository, userRepository);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                Prepare(testRepository, questionRepository, subjectRepository, resultRepository, userRepository);
+                AddUsers(userRepository);
+                AddSubjects(subjectRepository);
+                AddQuestions(questionRepository, subjectRepository);
+                AddTest(testRepository, subjectRepository);
+                AddTestQuestion(testRepository, questionRepository);
+                AddTestQuestion(testRepository, subjectRepository);
+                AddResult(resultRepository, testRepository, userRepository);
+                AddUserAnswer(resultRepository, testRepository);
+                GetUsersAnswers(resultRepository, questionRepository);
+                GetUserResults(resultRepository, questionRepository, userRepository);
+                context.SaveChanges();
+            }
             Console.ReadKey();
         }
     }

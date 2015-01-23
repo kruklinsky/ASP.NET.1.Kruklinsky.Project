@@ -22,3 +22,15 @@ C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Krukl
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.dll
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.pdb
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\DAL.dll.config
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\DAL.dll
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\DAL.pdb
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\ORM.dll
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\DAL.Interface.pdb
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\ORM.pdb
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.dll
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\obj\Debug\DAL.pdb
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\DAL\bin\Debug\AmbientDbContext.Interface.pdb

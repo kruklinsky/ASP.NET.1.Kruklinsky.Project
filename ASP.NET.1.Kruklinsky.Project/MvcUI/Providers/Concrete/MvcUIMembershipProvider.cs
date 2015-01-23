@@ -46,7 +46,7 @@ namespace MvcUI.Providers
             bool result = false;
             if (IsValidEmail(email))
             {
-                var user = this.userService.GetUser(email);
+                var user = this.userService.GetUserByEmail(email);
                 result = user != null;
             }
             return result;
@@ -165,7 +165,7 @@ namespace MvcUI.Providers
                 throw new System.ArgumentNullException("providerUserKey", "User key is null.");
             }
             User result = null;
-            var user = this.userService.GetUserById(providerUserKey.ToString());
+            var user = this.userService.GetUser(providerUserKey.ToString());
             if (user != null)
             {
                 result = user.ToWeb();
@@ -179,7 +179,7 @@ namespace MvcUI.Providers
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             User result = null;
-            var user = this.userService.GetUser(username);
+            var user = this.userService.GetUserByEmail(username);
             if (user != null)
             {
                 result = user.ToWeb();

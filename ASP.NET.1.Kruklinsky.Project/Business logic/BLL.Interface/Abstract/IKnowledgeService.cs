@@ -9,17 +9,6 @@ namespace BLL.Interface.Abstract
 {
     public interface IKnowledgeService
     {
-        #region Subject
-
-        Subject GetSubject(int id);
-        IEnumerable<Subject> GetAllSubjects();
-
-        void CreateSubject(string name, string description);
-        bool DeleteSubject(int id);
-        void UpdateSubject(Subject subjects);
-
-        #endregion
-
         #region Question
 
         Question GetQuestion(int id);

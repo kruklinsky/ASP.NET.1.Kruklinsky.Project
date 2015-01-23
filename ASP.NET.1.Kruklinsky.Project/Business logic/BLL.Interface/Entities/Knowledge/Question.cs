@@ -20,7 +20,7 @@ namespace BLL.Interface.Entities
         public string Description { get; set; }
 
 
-        public Lazy<IEnumerable<Answer>> Answers { get; set; }
-        public Lazy<IEnumerable<Fake>> Fakes { get; set; }
+        public IEnumerable<Answer> Answers { get; set; }
+        public IEnumerable<Fake> Fakes { get; set; }
     }
 }

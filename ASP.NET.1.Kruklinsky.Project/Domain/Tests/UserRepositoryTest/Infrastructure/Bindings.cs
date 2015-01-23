@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AmbientDbContext;
+using AmbientDbContext.Interface;
 
 namespace TestConsoleUI.Infrastructure
 {
@@ -15,8 +17,11 @@ namespace TestConsoleUI.Infrastructure
     {
         public override void Load()
         {
-            Bind<DbContext>().To<EFDbContext>().InSingletonScope();
+            //Bind<DbContext>().To<EFDbContext>().InSingletonScope();
+
+            Bind<IAmbientDbContextLocator>().To<AmbientDbContextLocator>();
             Bind<IUserRepository>().To<UserRepository>();
+            Bind<IDbContextScopeFactory>().To<DbContextScopeFactory>().WithConstructorArgument((IDbContextFactory)null);
         }
     }
 }

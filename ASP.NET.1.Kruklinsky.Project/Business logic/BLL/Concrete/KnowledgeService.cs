@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 using BLL.Interface.Entities;
 using BLL.Interface.Abstract;
 using DAL.Interface.Abstract;
+using AmbientDbContext.Interface;
+using BLL.Concrete.ExceptionsHelpers;
 
 namespace BLL.Concrete
 {
     public class KnowledgeService: IKnowledgeService
     {
-        private ISubjectRepository subjectRepository;
         private IQuestionRepository questionRepository;
         private ITestRepository testRepository;
+        private IDbContextScopeFactory dbContextScopeFactory;
 
-        public KnowledgeService(ISubjectRepository subjectRepository, IQuestionRepository questionRepository, ITestRepository testRepository)
+
+        public KnowledgeService(IQuestionRepository questionRepository, ITestRepository testRepository, IDbContextScopeFactory dbContextScopeFactory)
         {
-            if(subjectRepository == null)
-            {
-                throw new System.ArgumentNullException("subjectRepository", "Subject repository is null.");
-            }
             if (questionRepository == null)
             {
                 throw new System.ArgumentNullException("questionRepository", "Question repository is null.");
@@ -29,263 +28,291 @@ namespace BLL.Concrete
             {
                 throw new System.ArgumentNullException("testRepository", "Test repository is null.");
             }
-            this.subjectRepository = subjectRepository;
+            if (dbContextScopeFactory == null)
+            {
+                throw new System.ArgumentNullException("dbContextScopeFactory", "DbContextScope factory is null.");
+            }
             this.questionRepository = questionRepository;
             this.testRepository = testRepository;
+            this.dbContextScopeFactory = dbContextScopeFactory;
         }
 
-        #region Subject
-
-        public Subject GetSubject(int id)
-        {
-            this.GetIdExceptions(id);
-            Subject result = null;
-            var subject = this.subjectRepository.GetSubject(id);
-            if(subject != null)
-            {
-                result = subject.ToBll();
-            }
-            return result;
-        }
-        public IEnumerable<Subject> GetAllSubjects()
-        {
-            IEnumerable<Subject> result = new List<Subject>();
-            var subjects = this.subjectRepository.Data;
-            if (subjects.Count() != 0)
-            {
-                result = subjects.Select(s => s.ToBll()).ToList();
-            }
-            return result;
-        }
-
-        public void CreateSubject(string name, string description)
-        {
-            this.GetSubjectNameExceptions(name);
-            var newSubject = new Subject 
-            { 
-                Name = name,
-                Description = description 
-            };
-            this.subjectRepository.Add(newSubject.ToDal());
-        }
-        public bool DeleteSubject(int id)
-        {
-            this.GetIdExceptions(id);
-            bool result = false;
-            var subject = this.GetSubject(id);
-            if (subject != null)
-            {
-                this.subjectRepository.Delete(subject.ToDal());
-                result = true;
-            }
-            return result;
-        }
-        public void UpdateSubject(Subject subjects)
-        {
-            this.GetIdExceptions(subjects.Id);
-            this.subjectRepository.Update(subjects.ToDal());
-        }
-
-        #endregion
 
         #region Question
 
+        #region QuestionQueryServise
+
         public Question GetQuestion(int id)
         {
-            this.GetIdExceptions(id);
+            QuestionExceptionsHelper.GetIdExceptions(id);
             Question result = null;
-            var question = this.questionRepository.GetQuestion(id);
-            if(question != null)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = question.ToBll();
+                var question = this.questionRepository.GetQuestion(id);
+                if (question != null)
+                {
+                    result = question.ToBll();
+                }
             }
             return result;
         }
         public IEnumerable<Question> GetAllQuestions()
         {
             IEnumerable<Question> result = new List<Question>();
-            var questions = this.questionRepository.Data;
-            if (questions.Count() != 0)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = questions.Select(q => q.ToBll()).ToList();
-            }
-            return result;
-        }
-
-        public void CreateQuestion(int subjectId, int level, string topic, string text, string example, string description)
-        {
-            this.GetIdExceptions(subjectId, "subjectId");
-            this.GetQuestionLevelExceptions(level);
-            this.GetQuestionTopicExcetpions(topic);
-            this.GetQuestionTextExceptions(text);
-            var newQuestion = new Question
-            {
-                SubjectId = subjectId,
-                Level = level,
-                Topic = topic,
-                Text = text,
-                Example = example,
-                Description = description
-            };
-            this.questionRepository.Add(newQuestion.ToDal());
-        }
-        public void CreateQuestion(int subjectId, int level, string topic, string text, string example, string description, IEnumerable<Answer> answers, IEnumerable<Fake> fakes)
-        {
-            this.GetIdExceptions(subjectId, "subjectId");
-            this.GetQuestionLevelExceptions(level);
-            this.GetQuestionTopicExcetpions(topic);
-            this.GetQuestionTextExceptions(text);
-            this.GetQuestionAnswersExceptions(answers);
-            this.GetQuestionFakesExceptions(fakes);
-            var newQuestion = new Question
-            {
-                SubjectId = subjectId,
-                Level = level,
-                Topic = topic,
-                Text = text,
-                Example = example,
-                Description = description
-            };
-            this.questionRepository.Add(newQuestion.ToDal(), answers.Select(a => a.ToDal()).ToList(), fakes.Select(f => f.ToDal()).ToList());
-        }
-        public bool DeleteQuestion(int id)
-        {
-            this.GetIdExceptions(id);
-            bool result = false;
-            var question = this.GetQuestion(id);
-            if(question != null)
-            {
-                this.questionRepository.Delete(question.ToDal());
-                result = true;
-            }
-            return result;
-        }
-        public void UpdateQuestion(Question question)
-        {
-            this.GetIdExceptions(question.Id);
-            this.GetQuestionLevelExceptions(question.Level);
-            this.GetQuestionTopicExcetpions(question.Topic);
-            this.GetQuestionTextExceptions(question.Text);
-            this.questionRepository.Update(question.ToDal());
-        }
-
-        public int AddNewQuestionAnswers(int id, IEnumerable<Answer> answers)
-        {
-            this.GetIdExceptions(id);
-            this.GetQuestionAnswersExceptions(answers);
-            int result = 0;
-            foreach (var item in answers)
-            {
-                this.questionRepository.AddQuestionAnswer(id, item.ToDal());
-                result++;
-            }
-            return result;
-        }
-        public int DeleteQuestionAnswers(int id, IEnumerable<Answer> answers)
-        {
-            this.GetIdExceptions(id);
-            this.GetQuestionAnswersExceptions(answers);
-            int result = 0;
-            foreach (var item in answers)
-            {
-                this.questionRepository.DeleteAnswer(item.Id);
-                result++;
-            }
-            return result;
-        }
-
-        public int AddNewQuestionFakes(int id, IEnumerable<Fake> fakes)
-        {
-            this.GetIdExceptions(id);
-            this.GetQuestionFakesExceptions(fakes);
-            int result = 0;
-            foreach (var item in fakes)
-            {
-                this.questionRepository.AddQuestionFake(id, item.ToDal());
-                result++;
-            }
-            return result;
-        }
-        public int DeleteQuestionFakes(int id, IEnumerable<Fake> fakes)
-        {
-            this.GetIdExceptions(id);
-            this.GetQuestionFakesExceptions(fakes);
-            int result = 0;
-            foreach (var item in fakes)
-            {
-                this.questionRepository.DeleteFake(item.Id);
-                result++;
-            }
-            return result;
-        }
-
-        public void UpdateAnswer(int id, string text)
-        {
-            this.GetIdExceptions(id);
-            this.GetAnswerTextExceptions(text);
-            this.questionRepository.UpdateAnswer(id, text);
-        }
-        public void UpdateFake(int id, string text)
-        {
-            this.GetIdExceptions(id);
-            this.GetFakeTextExceptions(text);
-            this.questionRepository.UpdateFake(id, text);
-        }
-
-        public Answer GetAnswer(int id)
-        {
-            this.GetIdExceptions(id);
-            Answer result = null;
-            var answer = this.questionRepository.GetAnswer(id);
-            if(answer != null)
-            {
-                result = answer.ToBll();
-            }
-            return result;
-        }
-        public Fake GetFake(int id)
-        {
-            this.GetIdExceptions(id);
-            Fake result = null;
-            var fake = this.questionRepository.GetFake(id);
-            if (fake != null)
-            {
-                result = fake.ToBll();
+                var questions = this.questionRepository.Data;
+                if (questions.Count() != 0)
+                {
+                    result = questions.Select(q => q.ToBll()).ToList();
+                }
             }
             return result;
         }
 
         #endregion
 
+        #region QuestionCreationServise
+
+        public void CreateQuestion(int subjectId, int level, string topic, string text, string example, string description)
+        {
+            SubjectExceptionsHelper.GetIdExceptions(subjectId);
+            QuestionExceptionsHelper.GetLevelExceptions(level);
+            QuestionExceptionsHelper.GetTopicExcetpions(topic);
+            QuestionExceptionsHelper.GetTextExceptions(text);
+            var newQuestion = new Question
+            {
+                SubjectId = subjectId,
+                Level = level,
+                Topic = topic,
+                Text = text,
+                Example = example,
+                Description = description
+            };
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.questionRepository.Add(newQuestion.ToDal());
+                context.SaveChanges();
+            }
+        }
+        public void CreateQuestion(int subjectId, int level, string topic, string text, string example, string description, IEnumerable<Answer> answers, IEnumerable<Fake> fakes)
+        {
+            SubjectExceptionsHelper.GetIdExceptions(subjectId);
+            QuestionExceptionsHelper.GetLevelExceptions(level);
+            QuestionExceptionsHelper.GetTopicExcetpions(topic);
+            QuestionExceptionsHelper.GetTextExceptions(text);
+            AnswerExceptionsHelper.GetAnswersExceptions(answers);
+            AnswerExceptionsHelper.GetFakesExceptions(fakes);
+            var newQuestion = new Question
+            {
+                SubjectId = subjectId,
+                Level = level,
+                Topic = topic,
+                Text = text,
+                Example = example,
+                Description = description
+            };
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.questionRepository.Add(newQuestion.ToDal(), answers.Select(a => a.ToDal()).ToList(), fakes.Select(f => f.ToDal()).ToList());
+                context.SaveChanges();
+            }
+        }
+        public bool DeleteQuestion(int id)
+        {
+            QuestionExceptionsHelper.GetIdExceptions(id);
+            bool result = false;
+            using (var context = dbContextScopeFactory.Create())
+            {
+                var question = this.GetQuestion(id);
+                if (question != null)
+                {
+                    this.questionRepository.Delete(question.ToDal());
+                    result = true;
+                }
+                context.SaveChanges();
+            }
+            return result;
+        }
+        public void UpdateQuestion(Question question)
+        {
+            QuestionExceptionsHelper.GetQuestionsEceptions(question);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.questionRepository.Update(question.ToDal());
+                context.SaveChanges();
+            }
+        }
+
+        #endregion
+
+        #region QuestionAnswersManagmentServise
+
+        public int AddNewQuestionAnswers(int id, IEnumerable<Answer> answers)
+        {
+            QuestionExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetAnswersExceptions(answers);
+            int result = 0;
+            using (var context = dbContextScopeFactory.Create())
+            {
+                foreach (var item in answers)
+                {
+                    this.questionRepository.AddQuestionAnswer(id, item.ToDal());
+                    result++;
+                }
+                context.SaveChanges();
+            }
+            return result;
+        }
+        public int DeleteQuestionAnswers(int id, IEnumerable<Answer> answers)
+        {
+            QuestionExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetAnswersExceptions(answers);
+            int result = 0;
+            using (var context = dbContextScopeFactory.Create())
+            {
+                foreach (var item in answers)
+                {
+                    this.questionRepository.DeleteAnswer(item.Id);
+                    result++;
+                }
+                context.SaveChanges();
+            }
+            return result;
+        }
+
+        public int AddNewQuestionFakes(int id, IEnumerable<Fake> fakes)
+        {
+            QuestionExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetFakesExceptions(fakes);
+            int result = 0;
+            using (var context = dbContextScopeFactory.Create())
+            {
+                foreach (var item in fakes)
+                {
+                    this.questionRepository.AddQuestionFake(id, item.ToDal());
+                    result++;
+                }
+                context.SaveChanges();
+            }
+            return result;
+        }
+        public int DeleteQuestionFakes(int id, IEnumerable<Fake> fakes)
+        {
+            QuestionExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetFakesExceptions(fakes);
+            int result = 0;
+            using (var context = dbContextScopeFactory.Create())
+            {
+                foreach (var item in fakes)
+                {
+                    this.questionRepository.DeleteFake(item.Id);
+                    result++;
+                }
+                context.SaveChanges();
+            }
+            return result;
+        }
+
+        public void UpdateAnswer(int id, string text)
+        {
+            AnswerExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetAnswerTextExceptions(text);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.questionRepository.UpdateAnswer(id, text);
+                context.SaveChanges();
+            }
+        }
+        public void UpdateFake(int id, string text)
+        {
+            AnswerExceptionsHelper.GetIdExceptions(id);
+            AnswerExceptionsHelper.GetFakeTextExceptions(text);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.questionRepository.UpdateFake(id, text);
+                context.SaveChanges();
+            }
+        }
+
+        #endregion
+
+        #region AnswersQueryServise
+
+        public Answer GetAnswer(int id)
+        {
+            AnswerExceptionsHelper.GetIdExceptions(id);
+            Answer result = null;
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var answer = this.questionRepository.GetAnswer(id);
+                if (answer != null)
+                {
+                    result = answer.ToBll();
+                }
+            }
+            return result;
+        }
+        public Fake GetFake(int id)
+        {
+            AnswerExceptionsHelper.GetIdExceptions(id);
+            Fake result = null;
+            using (var context = dbContextScopeFactory.CreateReadOnly())
+            {
+                var fake = this.questionRepository.GetFake(id);
+                if (fake != null)
+                {
+                    result = fake.ToBll();
+                }
+            }
+            return result;
+        }
+
+        #endregion
+
+        #endregion
+
         #region Test
+
+        #region TestQueryService
 
         public Test GetTest(int id)
         {
-            this.GetIdExceptions(id);
+            TestExceptionsHelper.GetIdExceptions(id);
             Test result = null;
-            var test = this.testRepository.GetTest(id);
-            if (test != null)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = test.ToBll();
+                var test = this.testRepository.GetTest(id);
+                if (test != null)
+                {
+                    result = test.ToBll();
+                }
             }
             return result;
         }
         public IEnumerable<Test> GetAllTests()
         {
             IEnumerable<Test> result = new List<Test>();
-            var tests = this.testRepository.Data;
-            if(tests.Count() != 0)
+            using (var context = dbContextScopeFactory.CreateReadOnly())
             {
-                result = tests.Select(t => t.ToBll()).ToList();
+                var tests = this.testRepository.Data;
+                if (tests.Count() != 0)
+                {
+                    result = tests.Select(t => t.ToBll()).ToList();
+                }
             }
             return result;
         }
 
+        #endregion
+
+        #region TestCreationService
+
         public void CreateTest(int subjectId, string name, string topic, string description)
         {
-            this.GetIdExceptions(subjectId, "subjectId");
-            this.GetTestNameExceptions(name);
-            this.GetTestTopicExceptions(topic);
+            SubjectExceptionsHelper.GetIdExceptions(subjectId);
+            TestExceptionsHelper.GetNameExceptions(name);
+            TestExceptionsHelper.GetTopicExceptions(topic);
             Test newTest = new Test
             {
                 SubjectId = subjectId,
@@ -293,198 +320,97 @@ namespace BLL.Concrete
                 Topic = topic,
                 Description = description
             };
-            this.testRepository.Add(newTest.ToDal());
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.testRepository.Add(newTest.ToDal());
+                context.SaveChanges();
+            }
         }
-
         public bool DeleteTest(int id)
         {
-            this.GetIdExceptions(id);
+            TestExceptionsHelper.GetIdExceptions(id);
             bool result = false;
-            var test = this.GetTest(id);
-            if (test != null)
+            using (var context = dbContextScopeFactory.Create())
             {
-                this.testRepository.Delete(test.ToDal());
-                result = true;
+                var test = this.testRepository.GetTest(id);
+                if (test != null)
+                {
+                    this.testRepository.Delete(test);
+                    result = true;
+                }
+                context.SaveChanges();
             }
             return result;
         }
         public void UpdateTest(Test test)
         {
-            this.GetIdExceptions(test.Id);
-            this.GetTestNameExceptions(test.Name);
-            this.GetTestTopicExceptions(test.Topic);
-            this.testRepository.Update(test.ToDal());
+            TestExceptionsHelper.GetIdExceptions(test.Id);
+            TestExceptionsHelper.GetNameExceptions(test.Name);
+            TestExceptionsHelper.GetTopicExceptions(test.Topic);
+            using (var context = dbContextScopeFactory.Create())
+            {
+                this.testRepository.Update(test.ToDal());
+                context.SaveChanges();
+            }
         }
+
+        #endregion
+
+        #region TestQuestionsManagementService
 
         public int AddTestQuestions(int id, IEnumerable<int> questionsId)
         {
-            this.GetIdExceptions(id);
+            TestExceptionsHelper.GetIdExceptions(id);
             foreach (var item in questionsId)
             {
-                this.GetIdExceptions(item, "questionId");
+                QuestionExceptionsHelper.GetIdExceptions(item);
             }
             int result = 0;
-            foreach (var item in questionsId)
+            using (var context = dbContextScopeFactory.Create())
             {
-                this.testRepository.AddTestQuestion(id, item);
-                result++;
+                foreach (var item in questionsId)
+                {
+                    this.testRepository.AddTestQuestion(id, item);
+                    result++;
+                }
+                context.SaveChanges();
             }
             return result;
         }
         public int AddNewTestQuestions(int id, IEnumerable<Question> questions)
         {
-            this.GetIdExceptions(id);
-            this.GetQuestionsEceptions(questions);
+            TestExceptionsHelper.GetIdExceptions(id);
+            QuestionExceptionsHelper.GetQuestionsEceptions(questions);
             int result = 0;
-            foreach (var item in questions)
+            using (var context = dbContextScopeFactory.Create())
             {
-                this.testRepository.AddTestQuestion(id, item.ToDal(), item.Answers == null ? null : item.Answers.Value.Select(a => a.ToDal()).ToList(), item.Fakes == null ? null : item.Fakes.Value.Select(f => f.ToDal()).ToList());
-                result++;
+                foreach (var item in questions)
+                {
+                    this.testRepository.AddTestQuestion(id, item.ToDal(), item.Answers == null ? null : item.Answers.Select(a => a.ToDal()).ToList(), item.Fakes == null ? null : item.Fakes.Select(f => f.ToDal()).ToList());
+                    result++;
+                }
+                context.SaveChanges();
             }
             return result;
         }
         public int DeleteTestQuestions(int id, IEnumerable<int> questionsId)
         {
-            this.GetIdExceptions(id);
+            TestExceptionsHelper.GetIdExceptions(id);
             foreach (var item in questionsId)
             {
-                this.GetIdExceptions(item, "questionId");
+                QuestionExceptionsHelper.GetIdExceptions(item);
             }
             int result = 0;
-            foreach (var item in questionsId)
+            using (var context = dbContextScopeFactory.Create())
             {
-                this.testRepository.DeleteTestQuestion(id, item);
-                result++;
+                foreach (var item in questionsId)
+                {
+                    this.testRepository.DeleteTestQuestion(id, item);
+                    result++;
+                }
+                context.SaveChanges();
             }
             return result;
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void GetIdExceptions(int id)
-        {
-            if (id < 0)
-            {
-                throw new System.ArgumentOutOfRangeException("id", id, "Id is less than zero.");
-            }
-        }
-        private void GetIdExceptions(int id, string paramName)
-        {
-            if (id < 0)
-            {
-                throw new System.ArgumentOutOfRangeException(paramName, id, "Id is less than zero.");
-            }
-        }
-
-        #region Subject
-
-        private void GetSubjectNameExceptions(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new System.ArgumentException("Subject name is null, empty or consists only of white-space characters.", "name");
-            }
-        }
-
-        #endregion
-
-        #region Question
-
-        private void GetQuestionLevelExceptions(int level)
-        {
-            if (level < 0)
-            {
-                throw new System.ArgumentOutOfRangeException("level", level, "Question level is less than zero.");
-            }
-        }
-        private void GetQuestionTopicExcetpions(string topic)
-        {
-            if (string.IsNullOrWhiteSpace(topic))
-            {
-                throw new System.ArgumentException("Question topic is null, empty or consists only of white-space characters.", "topic");
-            }
-        }
-        private void GetQuestionTextExceptions(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new System.ArgumentException("Question text is null, empty or consists only of white-space characters.", "text");
-            }
-        }
-        private void GetQuestionAnswersExceptions(IEnumerable<Answer> answers)
-        {
-            if (answers == null)
-            {
-                throw new System.ArgumentNullException("answers", "Answers is null.");
-            }
-            foreach (var item in answers)
-            {
-                this.GetAnswerTextExceptions(item.Text);
-            }
-        }
-        private void GetQuestionFakesExceptions(IEnumerable<Fake> fakes)
-        {
-            if (fakes == null)
-            {
-                throw new System.ArgumentNullException("fakes", "Fakes is null.");
-            }
-            foreach (var item in fakes)
-            {
-                this.GetFakeTextExceptions(item.Text);
-            }
-        }
-
-        private void GetAnswerTextExceptions(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new System.ArgumentException("Answer text is null, empty or consists only of white-space characters.");
-            }
-        }
-        private void GetFakeTextExceptions(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new System.ArgumentException("Fake text is null, empty or consists only of white-space characters.");
-            }
-        }
-
-        #endregion
-
-        #region Test
-
-        private void GetTestNameExceptions(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new System.ArgumentException("Test name is null, empty or consists only of white-space characters.", "name");
-            }
-        }
-        private void GetTestTopicExceptions(string topic)
-        {
-            if (string.IsNullOrWhiteSpace(topic))
-            {
-                throw new System.ArgumentException("Test topic is null, empty or consists only of white-space characters.", "topic");
-            }
-        }
-
-        private void GetQuestionsEceptions(IEnumerable<Question> questions)
-        {
-            if (questions == null)
-            {
-                throw new System.ArgumentNullException("questions", "Questions is null.");
-            }
-            foreach (var item in questions)
-            {
-                this.GetQuestionLevelExceptions(item.Level);
-                this.GetQuestionTopicExcetpions(item.Topic);
-                this.GetQuestionTextExceptions(item.Text);
-                if(item.Answers!= null) this.GetQuestionAnswersExceptions(item.Answers.Value);
-                if (item.Fakes!= null) this.GetQuestionFakesExceptions(item.Fakes.Value);
-            }
-
         }
 
         #endregion

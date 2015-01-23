@@ -13,31 +13,37 @@ namespace MvcUI.Controllers
     public class HomeController : Controller
     {
         private IKnowledgeService knowledgeService;
+        private ISubjectQueryService subjectQueryService;
         private ITestService testService;
 
-        public HomeController(IKnowledgeService knowledgeService, ITestService testService)
+        public HomeController(IKnowledgeService knowledgeService, ISubjectQueryService subjectQueryService, ITestService testService)
         {
             if (knowledgeService == null)
             {
                 throw new System.ArgumentNullException("knowledgeService", "Knowledge service is null.");
+            }
+            if (subjectQueryService == null)
+            {
+                throw new System.ArgumentNullException("subjectQueryService", "Subject auery service is null.");
             }
             if (testService == null)
             {
                 throw new System.ArgumentNullException("testService", "Test service service is null.");
             }
             this.knowledgeService = knowledgeService;
+            this.subjectQueryService = subjectQueryService;
             this.testService = testService;
         }
 
         public ActionResult Index()
         {
-            var subjects = knowledgeService.GetAllSubjects();
+            var subjects = this.subjectQueryService.GetAllSubjects();
             var model = new List<SubjectEditor>(
                 subjects.Select(s =>
                     new SubjectEditor
                     {
                         Subject = s.ToWeb(),
-                        Tests = s.Tests.Value.Select(t => t.ToWeb())
+                        Tests = s.Tests.Select(t => t.ToWeb())
                     }));
             return View(model);
         }
@@ -65,12 +71,12 @@ namespace MvcUI.Controllers
                     Testing onTest = new Testing
                     {
                         Test = test.ToWeb(),
-                        Questions = new List<QuestionEditor>(test.Questions.Value.Select(q =>
+                        Questions = new List<QuestionEditor>(test.Questions.Select(q =>
                             new QuestionEditor
                             {
                                 Question = q.ToWeb(),
-                                Answers = q.Answers.Value.Select(a => a.ToWeb()).ToList(),
-                                Fakes = q.Fakes.Value.Select(f => f.ToWeb()).ToList()
+                                Answers = q.Answers.Select(a => a.ToWeb()).ToList(),
+                                Fakes = q.Fakes.Select(f => f.ToWeb()).ToList()
                             }))
                     };
                     string userId = Membership.GetUser(this.User.Identity.Name).ProviderUserKey.ToString();

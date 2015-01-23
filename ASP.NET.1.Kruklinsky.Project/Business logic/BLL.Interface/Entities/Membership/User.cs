@@ -14,7 +14,7 @@ namespace BLL.Interface.Entities
 
         public DateTime CreateDate { get; set; }
 
-        public Lazy<IEnumerable<Role>> Roles { get; set; }
-        public Lazy<Profile> Profile { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
+        public Profile Profile { get; set; }
     }
 }

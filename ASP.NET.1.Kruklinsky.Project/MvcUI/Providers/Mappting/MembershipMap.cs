@@ -37,8 +37,8 @@ namespace MvcUI.Providers
                  Email = item.Email,
                  IsApproved = item.IsApproved,
                  CreateDate = item.CreateDate,
-                 Profile = new Lazy<Profile>(() => item.Profile.Value.ToWeb()),
-                 Roles = new Lazy<IEnumerable<Role>>( () => item.Roles.Value.Select(r => r.ToWeb()).ToList())
+                 Profile = new Lazy<Profile>(() => item.Profile.ToWeb()),
+                 Roles = new Lazy<IEnumerable<Role>>( () => item.Roles.Select(r => r.ToWeb()).ToList())
             };
         }
 

@@ -2,14 +2,12 @@
 using BLL.Interface.Abstract;
 using DAL.Concrete;
 using DAL.Interface.Abstract;
-using Ninject.Modules;
+using AmbientDbContext;
+using AmbientDbContext.Interface;
 using ORM;
-using System;
-using System.Collections.Generic;
+
+using Ninject.Modules;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DependencyResolver
 {
@@ -18,6 +16,8 @@ namespace DependencyResolver
         public override void Load()
         {
             Bind<DbContext>().To<EFDbContext>();
+            Bind<IAmbientDbContextLocator>().To<AmbientDbContextLocator>();
+            Bind<IDbContextScopeFactory>().To<DbContextScopeFactory>().WithConstructorArgument((IDbContextFactory)null);
 
             Bind<IUserRepository>().To<UserRepository>();
             Bind<ISubjectRepository>().To<SubjectRepository>();
@@ -27,6 +27,8 @@ namespace DependencyResolver
 
             Bind<IUserService>().To<UserService>();
             Bind<IKnowledgeService>().To<KnowledgeService>();
+            Bind<ISubjectCreationService>().To<SubjectCreationService>();
+            Bind<ISubjectQueryService>().To<SubjectQueryService>();
             Bind<ITestService>().To<TestService>();
         }
     }

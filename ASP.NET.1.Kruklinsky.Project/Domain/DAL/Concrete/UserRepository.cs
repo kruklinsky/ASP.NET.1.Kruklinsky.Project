@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
+using System.Linq.Expressions;
+using AmbientDbContext.Interface;
+using ORM;
 
 namespace DAL.Concrete
 {
@@ -13,11 +16,29 @@ namespace DAL.Concrete
     {
         #region IRepository
 
-        private readonly DbContext context;
-        public UserRepository(DbContext context)
+        private readonly IAmbientDbContextLocator ambientDbContextLocator;
+        private DbContext context
         {
-            this.context = context;
+            get
+            {
+                var dbContext = this.ambientDbContextLocator.Get<EFDbContext>();
+                if (dbContext == null)
+                {
+                    throw new InvalidOperationException("It is impossible to use repository because DbContextScope has not been created.");
+                }
+                return dbContext;
+            }
         }
+
+        public UserRepository(IAmbientDbContextLocator ambientDbContextLocator)
+        {
+            if (ambientDbContextLocator == null)
+            {
+                throw new System.ArgumentNullException("ambientDbContextLocator", "Ambient dbContext locator is null.");
+            }
+            this.ambientDbContextLocator = ambientDbContextLocator;
+        }
+
         public IEnumerable<User> Data
         {
             get 
@@ -35,7 +56,7 @@ namespace DAL.Concrete
         }
         public void Delete(User item)
         {
-            var result = this.GetUser(item.Id.ToGuid());
+            var result = this.GetOrmUser(item.Id.ToGuid());
             if (result != null)
             {
                 this.context.Set<ORM.Model.Profile>().Remove(result.Profile);
@@ -46,7 +67,7 @@ namespace DAL.Concrete
 
         public void Update(User item)
         {
-            var result = this.GetUser(item.Id.ToGuid());
+            var result = this.GetOrmUser(item.Id.ToGuid());
             if (result != null)
             {
                 result.Password = item.Password;
@@ -59,20 +80,20 @@ namespace DAL.Concrete
 
         #region IUserRepository
 
-        public User GetUser(string email)
+        public User GetUser(string id)
         {
             User result = null;
-            var user = this.GetOrmUser(email);
+            var user = this.GetOrmUser(id.ToGuid());
             if (user != null)
             {
                 result = user.ToDal();
             }
             return result;
         }
-        public User GetUserById(string id)
+        public User GetUserByEmail(string email)
         {
             User result = null;
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(u => u.Email == email);
             if (user != null)
             {
                 result = user.ToDal();
@@ -83,7 +104,7 @@ namespace DAL.Concrete
         public Profile GetUserProfile(string id)
         {
             Profile result = null;
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(id.ToGuid());
             if (user != null)
             {
                 result = user.Profile.ToDal();
@@ -92,7 +113,7 @@ namespace DAL.Concrete
         }
         public void UpdateUserProfile(string id, Profile profile)
         {
-            var user = this.GetUser(id.ToGuid());
+            var user = this.GetOrmUser(id.ToGuid());
             if (user != null)
             {
                 var result = user.Profile;
@@ -110,7 +131,7 @@ namespace DAL.Concrete
         public IEnumerable<Role> GetUserRoles(string email)
         {
             IEnumerable<Role> result = new List<Role>();
-            var user = this.GetOrmUser(email);
+            var user = this.GetOrmUser(u => u.Email == email);
             if (user != null && user.Roles != null)
             {
                 var roles = user.Roles;
@@ -130,8 +151,8 @@ namespace DAL.Concrete
         }
         public void AddUserRole(string email, string roleName)
         {
-            var role = this.GetRole(roleName);
-            var user = this.GetOrmUser(email);
+            var role = this.GetOrmRole(r => r.RoleName == roleName);
+            var user = this.GetOrmUser(u => u.Email == email);
             if (role != null && user != null)
             {
                 if (user.Roles == null) user.Roles = new List<ORM.Model.Role>();
@@ -141,8 +162,8 @@ namespace DAL.Concrete
         }
         public void DeleteUserRole(string email, string roleName)
         {
-            var role = this.GetRole(roleName);
-            var user = this.GetOrmUser(email);
+            var role = this.GetOrmRole(r => r.RoleName == roleName);
+            var user = this.GetOrmUser(u => u.Email == email);
             if (role != null && user != null)
             {
                 user.Roles.Remove(role);
@@ -157,27 +178,27 @@ namespace DAL.Concrete
         }
         public bool RoleExists(string roleName)
         {
-            return this.GetRole(roleName) != null;
+            return this.GetOrmRole(r => r.RoleName == roleName) != null;
         }
 
         #endregion
 
         #region Private methods
 
-        private ORM.Model.User GetOrmUser(string email)
+        private ORM.Model.User GetOrmUser(Guid userId)
         {
             ORM.Model.User result = null;
-            var query = this.context.Set<ORM.Model.User>().Where(u => u.Email == email);
+            var query = this.context.Set<ORM.Model.User>().Where(u => u.UserId == userId);
             if (query.Count() != 0)
             {
                 result = query.First();
             }
             return result;
         }
-        private ORM.Model.User GetUser(Guid userId)
+        private ORM.Model.User GetOrmUser(Expression<Func<ORM.Model.User, bool>> predicat)
         {
             ORM.Model.User result = null;
-            var query = this.context.Set<ORM.Model.User>().Where(u => u.UserId == userId);
+            var query = this.context.Set<ORM.Model.User>().Where(predicat);
             if (query.Count() != 0)
             {
                 result = query.First();
@@ -195,10 +216,10 @@ namespace DAL.Concrete
             return result;
         }
 
-        private ORM.Model.Role GetRole(string roleName)
+        private ORM.Model.Role GetOrmRole(Expression<Func<ORM.Model.Role, bool>> predicate)
         {
             ORM.Model.Role result = null;
-            var query = this.context.Set<ORM.Model.Role>().Where(r => r.RoleName == roleName);
+            var query = this.context.Set<ORM.Model.Role>().Where(predicate);
             if (query.Count() != 0)
             {
                 result = query.First();

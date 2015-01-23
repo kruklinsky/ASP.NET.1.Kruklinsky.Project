@@ -1,4 +1,5 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
 using Ninject;
 using System;
@@ -27,6 +28,14 @@ namespace TestRepositoryTest
             kernel.Load(Assembly.GetExecutingAssembly());
             Console.WriteLine("Ok");
             return kernel.Get<IQuestionRepository>();
+        }
+        static IDbContextScopeFactory InjectScopeFactory()
+        {
+            Console.Write("Inject factory: ");
+            IKernel kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Ok");
+            return kernel.Get<IDbContextScopeFactory>();
         }
         static ITestRepository InjectTestRepository()
         {
@@ -211,15 +220,20 @@ namespace TestRepositoryTest
             IQuestionRepository repository = InjectQuestionRepository();
             ITestRepository testRepository = InjectTestRepository();
             ISubjectRepository subjectRepository = InjectSubjectRepository();
-            Prepare(testRepository,repository,subjectRepository);
-            AddSubjects(subjectRepository);
-            AddQuestions(repository,subjectRepository);
-            GetQuestions(repository);
-            AddTest(testRepository,subjectRepository);
-            GetTests(testRepository, repository);
-            AddTestQuestion(testRepository, repository);
-            AddTestQuestionV2(testRepository, repository,subjectRepository);
-            DeleteTestQuestion(testRepository, repository);
+            IDbContextScopeFactory dbContextScopeFactory = InjectScopeFactory();
+            using (var context = dbContextScopeFactory.Create())
+            {
+                Prepare(testRepository, repository, subjectRepository);
+                AddSubjects(subjectRepository);
+                AddQuestions(repository, subjectRepository);
+                GetQuestions(repository);
+                AddTest(testRepository, subjectRepository);
+                GetTests(testRepository, repository);
+                AddTestQuestion(testRepository, repository);
+                AddTestQuestionV2(testRepository, repository, subjectRepository);
+                DeleteTestQuestion(testRepository, repository);
+                context.SaveChanges();
+            }
             Console.ReadKey();
         }
     }

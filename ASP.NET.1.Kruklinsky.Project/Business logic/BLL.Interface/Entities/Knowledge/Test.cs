@@ -16,6 +16,6 @@ namespace BLL.Interface.Entities
         public string Description { get; set; }
 
 
-        public virtual Lazy<ICollection<Question>> Questions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

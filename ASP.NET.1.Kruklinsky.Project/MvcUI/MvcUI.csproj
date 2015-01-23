@@ -183,6 +183,7 @@
     <Compile Include="Providers\Concrete\MvcUIRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Log file\log4net-error.txt" />
     <Content Include="Content\admin\admin.css" />
     <Content Include="Content\admin\admin.js" />
     <Content Include="Content\admin\images\background.jpg" />
@@ -317,7 +318,6 @@
     <Content Include="Views\Result\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\Membership\" />
   </ItemGroup>
   <ItemGroup>

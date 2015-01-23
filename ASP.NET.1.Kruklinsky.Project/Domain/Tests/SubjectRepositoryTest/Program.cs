@@ -1,4 +1,5 @@
-﻿using DAL.Interface.Abstract;
+﻿using AmbientDbContext.Interface;
+using DAL.Interface.Abstract;
 using DAL.Interface.Entities;
 using Ninject;
 using System;
@@ -107,12 +108,17 @@ namespace SubjectRepositoryTest
             kernel.Load(Assembly.GetExecutingAssembly());
             ISubjectRepository subjectRepository = kernel.Get<ISubjectRepository>();
             ITestRepository testRepository = kernel.Get<ITestRepository>();
-            Prepare(subjectRepository, testRepository);
-            AddSubjects(subjectRepository);
-            GetSubjects(subjectRepository);
-            AddTests(testRepository, subjectRepository);
-            GetTests(testRepository);
-            GetSubjectTests(subjectRepository);
+            IDbContextScopeFactory dbContextScopeFactory = kernel.Get<IDbContextScopeFactory>();
+            using (var context = dbContextScopeFactory.Create())
+            {
+                Prepare(subjectRepository, testRepository);
+                AddSubjects(subjectRepository);
+                GetSubjects(subjectRepository);
+                AddTests(testRepository, subjectRepository);
+                GetTests(testRepository);
+                GetSubjectTests(subjectRepository);
+                context.SaveChanges();
+            }
             Console.ReadKey();
         }
     }

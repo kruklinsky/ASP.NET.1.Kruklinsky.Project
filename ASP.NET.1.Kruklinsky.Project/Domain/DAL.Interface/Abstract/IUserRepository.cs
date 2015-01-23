@@ -6,8 +6,8 @@ namespace DAL.Interface.Abstract
 {
     public interface IUserRepository : IRepository<User>
     {
-        User GetUser(string email);
-        User GetUserById(string id);
+        User GetUserByEmail(string email);
+        User GetUser(string id);
 
         Profile GetUserProfile(string id);
         void UpdateUserProfile(string id, Profile profile);

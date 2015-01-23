@@ -29,10 +29,10 @@ namespace MvcUI.Providers
         public override string[] GetRolesForUser(string email)
         {
             List<string> result = new List<string>();
-            var user = this.userService.GetUser(email);
+            var user = this.userService.GetUserByEmail(email);
             if (user != null)
             {
-                result = user.Roles.Value.Select(r => r.Name).ToList();
+                result = user.Roles.Select(r => r.Name).ToList();
             }
             return result.ToArray();
         }

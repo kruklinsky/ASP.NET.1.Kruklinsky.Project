@@ -12,27 +12,23 @@ namespace MvcUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private IKnowledgeService knowledgeService;
+        private ITestQueryService testQueryService;
         private ISubjectQueryService subjectQueryService;
-        private ITestService testService;
+        private ITestingService testingService;
 
-        public HomeController(IKnowledgeService knowledgeService, ISubjectQueryService subjectQueryService, ITestService testService)
+        public HomeController(ISubjectQueryService subjectQueryService, ITestingService testingService, ITestQueryService testQueryService)
         {
-            if (knowledgeService == null)
-            {
-                throw new System.ArgumentNullException("knowledgeService", "Knowledge service is null.");
-            }
             if (subjectQueryService == null)
             {
                 throw new System.ArgumentNullException("subjectQueryService", "Subject auery service is null.");
             }
-            if (testService == null)
+            if (testingService == null)
             {
                 throw new System.ArgumentNullException("testService", "Test service service is null.");
             }
-            this.knowledgeService = knowledgeService;
+            this.testQueryService = testQueryService;
             this.subjectQueryService = subjectQueryService;
-            this.testService = testService;
+            this.testingService = testingService;
         }
 
         public ActionResult Index()
@@ -52,7 +48,7 @@ namespace MvcUI.Controllers
         {
             if (testId > 0)
             {
-                var test = knowledgeService.GetTest(testId);
+                var test = this.testQueryService.GetTest(testId);
                 if (test != null)
                 {
                     return View(test.ToWeb());
@@ -65,7 +61,7 @@ namespace MvcUI.Controllers
         {
             if (!this.GetCart().IsStarted)
             {
-                var test = knowledgeService.GetTest(testId);
+                var test = this.testQueryService.GetTest(testId);
                 if (test != null)
                 {
                     Testing onTest = new Testing
@@ -80,7 +76,7 @@ namespace MvcUI.Controllers
                             }))
                     };
                     string userId = Membership.GetUser(this.User.Identity.Name).ProviderUserKey.ToString();
-                    int resultId = this.testService.StartTest(userId, testId, 1200);
+                    int resultId = this.testingService.StartTest(userId, testId, 1200);
                     this.GetCart().Start(onTest, resultId);
                 }
             }
@@ -99,28 +95,23 @@ namespace MvcUI.Controllers
         [HttpPost]
         public ActionResult Testing(Answers answers)
         {
-            if (this.GetCart().IsStarted)
+            var cart = this.GetCart();
+            if (cart.IsStarted)
             {
-                this.testService.FinishTest(this.GetCart().ResultId, this.GetCart().Finish(Request.Form));
-                this.DisposeCart();
+                this.testingService.FinishTest(cart.ResultId, cart.Finish(Request.Form));
             }
             return RedirectToAction("Index", "Home");
         }
 
         private Cart GetCart()
         {
-            Cart cart = (Cart)Session["Cart"];
+            Cart cart = (Cart)HttpContext.Session["Cart"];
             if (cart == null)
             {
                 cart = new Cart();
-                Session["Cart"] = cart;
+                HttpContext.Session["Cart"] = cart;
             }
             return cart;
-        }
-
-        private void DisposeCart()
-        {
-            Session["Cart"] = null;
         }
     }
 }

@@ -39,12 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IKnowledgeService.cs" />
-    <Compile Include="Abstract\ISubjectService.cs" />
-    <Compile Include="Abstract\ITestService.cs" />
-    <Compile Include="Abstract\IUserService.cs" />
+    <Compile Include="Abstract\Answers services\IAnswersQueryService.cs" />
+    <Compile Include="Abstract\Answers services\IQuestionAnswersManagmentService.cs" />
+    <Compile Include="Abstract\Question services\IQuestionCreationService.cs" />
+    <Compile Include="Abstract\Question services\IQuestionQueryService.cs" />
+    <Compile Include="Abstract\Result services\IResultQueryService.cs" />
+    <Compile Include="Abstract\Result services\ITestService.cs" />
+    <Compile Include="Abstract\Profile services\IProfileService.cs" />
+    <Compile Include="Abstract\Role services\IRoleQueryService.cs" />
+    <Compile Include="Abstract\Role services\IUserRolesManagementService.cs" />
+    <Compile Include="Abstract\Role services\IUserRolesQueryService.cs" />
     <Compile Include="Abstract\Subject Services\ISubjectCreationService.cs" />
     <Compile Include="Abstract\Subject Services\ISubjectQueryService.cs" />
+    <Compile Include="Abstract\Test services\ITestCreationService.cs" />
+    <Compile Include="Abstract\Test services\ITestQueryService.cs" />
+    <Compile Include="Abstract\Test services\ITestQuestionsManagementService.cs" />
+    <Compile Include="Abstract\User services\IUserCreationService.cs" />
+    <Compile Include="Abstract\User services\IUserQueryService.cs" />
+    <Compile Include="Abstract\User services\IUserSecurityService.cs" />
     <Compile Include="Entities\Knowledge\Answer.cs" />
     <Compile Include="Entities\Knowledge\Fake.cs" />
     <Compile Include="Entities\Knowledge\Question.cs" />

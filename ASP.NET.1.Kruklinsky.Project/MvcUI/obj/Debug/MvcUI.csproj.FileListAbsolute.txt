@@ -102,3 +102,7 @@ C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.Interface.pdb
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.dll
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\MvcUI\bin\AmbientDbContext.pdb

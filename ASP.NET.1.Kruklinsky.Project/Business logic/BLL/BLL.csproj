@@ -39,21 +39,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\ExceptionsHelpers\AnswerExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\QuestionExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\ResultExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\RoleExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\SubjectExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\TestExceptionsHelper.cs" />
-    <Compile Include="Concrete\ExceptionsHelpers\UserExceptionsHelper.cs" />
-    <Compile Include="Concrete\KnowledgeService.cs" />
+    <Compile Include="Concrete\Exceptions helpers\AnswerExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\QuestionExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\ResultExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\RoleExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\SubjectExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\TestExceptionsHelper.cs" />
+    <Compile Include="Concrete\Exceptions helpers\UserExceptionsHelper.cs" />
     <Compile Include="Concrete\Mapping\KnowledgeMap.cs" />
     <Compile Include="Concrete\Mapping\MembershipMap.cs" />
     <Compile Include="Concrete\Mapping\TestMap.cs" />
-    <Compile Include="Concrete\Subject services\SubjectCreationService.cs" />
-    <Compile Include="Concrete\Subject services\SubjectQueryService.cs" />
-    <Compile Include="Concrete\TestService.cs" />
-    <Compile Include="Concrete\UserService.cs" />
+    <Compile Include="Concrete\Services\Question repository services\Answers services\AnswersQueryService.cs" />
+    <Compile Include="Concrete\Services\Question repository services\Answers services\QuestionAnswersManagmentService.cs" />
+    <Compile Include="Concrete\Services\Question repository services\Question services\QuestionCreationService.cs" />
+    <Compile Include="Concrete\Services\Question repository services\Question services\QuestionQueryService.cs" />
+    <Compile Include="Concrete\Services\RepositoryService.cs" />
+    <Compile Include="Concrete\Services\Result repository services\ResultQueryService.cs" />
+    <Compile Include="Concrete\Services\Result repository services\TestingService.cs" />
+    <Compile Include="Concrete\Services\Test repository services\TestCreationService.cs" />
+    <Compile Include="Concrete\Services\Test repository services\TestQueryService.cs" />
+    <Compile Include="Concrete\Services\Test repository services\TestQuestionsManagementService.cs" />
+    <Compile Include="Concrete\Services\User repository services\Profile services\ProfileService.cs" />
+    <Compile Include="Concrete\Services\User repository services\Role services\RoleQueryService.cs" />
+    <Compile Include="Concrete\Services\User repository services\Role services\UserRolesManagementService.cs" />
+    <Compile Include="Concrete\Services\User repository services\Role services\UserRolesQueryService.cs" />
+    <Compile Include="Concrete\Services\Subject repository services\SubjectCreationService.cs" />
+    <Compile Include="Concrete\Services\Subject repository services\SubjectQueryService.cs" />
+    <Compile Include="Concrete\Services\User repository services\User services\UserCreationService.cs" />
+    <Compile Include="Concrete\Services\User repository services\User services\UserQueryService.cs" />
+    <Compile Include="Concrete\Services\User repository services\User services\UserSecurityService.cs" />
+    <Compile Include="Concrete\Services\User repository services\EmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +85,7 @@
       <Name>BLL.Interface</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

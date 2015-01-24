@@ -26,17 +26,33 @@ namespace MvcUI.Providers
         private int minRequiredNonalphanumericCharacters = 0;
         private string passwordStrengthRegularExpression = string.Empty;
 
-        private IUserService userService;
+        private IUserQueryService userQueryService;
+        private IUserCreationService userCreationService;
+        private IUserSecurityService userSecurityService;
 
-        public MvcUIMembershipProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
+        public MvcUIMembershipProvider() : this(
+            (IUserQueryService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserQueryService)),
+            (IUserCreationService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserCreationService)),
+            (IUserSecurityService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserSecurityService))
+            ) { }
 
-        public MvcUIMembershipProvider(IUserService userService)
+        public MvcUIMembershipProvider(IUserQueryService userQueryService,IUserCreationService userCreationService, IUserSecurityService userSecurityService)
         {
-            if (userService == null)
+            if(userQueryService == null)
             {
-                throw new System.ArgumentNullException("userService", "User service is null.");
+                throw new System.ArgumentNullException("userQueryService", "User query service is null.");
             }
-            this.userService = userService;
+            if (userCreationService == null)
+            {
+                throw new System.ArgumentNullException("userCreationService", "User creation service is null.");
+            }
+            if (userSecurityService == null)
+            {
+                throw new System.ArgumentNullException("userSecurityService", "User security service is null.");
+            }
+            this.userQueryService = userQueryService;
+            this.userCreationService = userCreationService;
+            this.userSecurityService = userSecurityService;
         }
 
         #region Added
@@ -46,7 +62,7 @@ namespace MvcUI.Providers
             bool result = false;
             if (IsValidEmail(email))
             {
-                var user = this.userService.GetUserByEmail(email);
+                var user = this.userQueryService.GetUserByEmail(email);
                 result = user != null;
             }
             return result;
@@ -102,11 +118,6 @@ namespace MvcUI.Providers
             get { return this.passwordStrengthRegularExpression; }
         }
 
-        /// <summary>
-        /// Checked
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="config"></param>
         public override void Initialize(string name, NameValueCollection config)
         {
             if (config == null)
@@ -165,7 +176,7 @@ namespace MvcUI.Providers
                 throw new System.ArgumentNullException("providerUserKey", "User key is null.");
             }
             User result = null;
-            var user = this.userService.GetUser(providerUserKey.ToString());
+            var user = this.userQueryService.GetUser(providerUserKey.ToString());
             if (user != null)
             {
                 result = user.ToWeb();
@@ -179,7 +190,7 @@ namespace MvcUI.Providers
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             User result = null;
-            var user = this.userService.GetUserByEmail(username);
+            var user = this.userQueryService.GetUserByEmail(username);
             if (user != null)
             {
                 result = user.ToWeb();
@@ -189,7 +200,7 @@ namespace MvcUI.Providers
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
             MembershipUserCollection result = new MembershipUserCollection();
-            var allUsers = this.userService.GetAllUsers();
+            var allUsers = this.userQueryService.GetAllUsers();
             if (allUsers.Count() != 0)
             {
                 foreach (var item in allUsers.Select(u => u.ToWeb()).ToList().Skip((pageIndex - 1) * pageSize).Take(pageSize))
@@ -218,26 +229,26 @@ namespace MvcUI.Providers
                 status = MembershipCreateStatus.DuplicateEmail;
                 return null;
             }
-            var result = this.userService.CreateUser(email, Crypto.HashPassword(password), isApproved);
+            var result = this.userCreationService.CreateUser(email, Crypto.HashPassword(password), isApproved);
             status = MembershipCreateStatus.Success;
             return result.ToWeb();
         }
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
-            return this.userService.DeleteUser(username);
+            return this.userCreationService.DeleteUser(username);
         }
         public override void UpdateUser(MembershipUser user)
         {
-            this.userService.UpdateUser(user.ToBll());
+            this.userCreationService.UpdateUser(user.ToBll());
         }
 
         public override bool ValidateUser(string username, string password)
         {
-            return this.userService.ValidateUser(username, password, new PasswordComparer(Crypto.VerifyHashedPassword));
+            return this.userSecurityService.ValidateUser(username, password, new PasswordComparer(Crypto.VerifyHashedPassword));
         }
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            return this.userService.ChangePassword(username, oldPassword, newPassword, new PasswordComparer(Crypto.VerifyHashedPassword));
+            return this.userSecurityService.ChangePassword(username, oldPassword, newPassword, new PasswordComparer(Crypto.VerifyHashedPassword));
         }
 
         #endregion

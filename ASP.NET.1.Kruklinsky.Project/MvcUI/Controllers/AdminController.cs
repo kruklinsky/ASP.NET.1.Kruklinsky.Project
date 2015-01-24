@@ -11,17 +11,43 @@ namespace MvcUI.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private IKnowledgeService knowledgeService;
+        private ITestQueryService testQueryService;
+        private ITestCreationService testCreationService;
+        private ITestQuestionsManagementService testQuestionsManagementService;
+
+        private IQuestionAnswersManagmentService questionAnswersManagmentService;
+        private IAnswersQueryService answersQueryService;
+
+        private IQuestionCreationService questionCreationService;
+        private IQuestionQueryService questionQueryService;
+
 
         private ISubjectCreationService subjectCreationService;
         private ISubjectQueryService subjectQueryService;
 
 
-        public AdminController(IKnowledgeService knowledgeService, ISubjectCreationService subjectCreationService, ISubjectQueryService subjectQueryService)
+        public AdminController(
+            ISubjectCreationService subjectCreationService, 
+            ISubjectQueryService subjectQueryService,
+            IQuestionAnswersManagmentService questionAnswersManagmentService,
+            IAnswersQueryService answersQueryService,
+            IQuestionCreationService questionCreationService,
+            IQuestionQueryService questionQueryService,
+            ITestQueryService testQueryService,
+            ITestCreationService testCreationService,
+            ITestQuestionsManagementService testQuestionsManagementService
+            )
         {
-            this.knowledgeService = knowledgeService;
+
             this.subjectCreationService = subjectCreationService;
             this.subjectQueryService = subjectQueryService;
+            this.questionAnswersManagmentService = questionAnswersManagmentService;
+            this.answersQueryService = answersQueryService;
+            this.questionCreationService = questionCreationService;
+            this.questionQueryService = questionQueryService;
+            this.testQueryService = testQueryService;
+            this.testCreationService = testCreationService;
+            this.testQuestionsManagementService = testQuestionsManagementService;
         }
 
         public ActionResult Index()
@@ -93,7 +119,7 @@ namespace MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.knowledgeService.CreateTest(test.SubjectId, test.Name, test.Topic, test.Description);
+                this.testCreationService.CreateTest(test.SubjectId, test.Name, test.Topic, test.Description);
                 return RedirectToAction("EditSubject", "Admin", new { subjectId = test.SubjectId });
             }
             return View(test);
@@ -102,7 +128,7 @@ namespace MvcUI.Controllers
         {
             if (testId > 0)
             {
-                var test = knowledgeService.GetTest(testId);
+                var test = this.testQueryService.GetTest(testId);
                 if (test != null)
                 {
                     var model = new TestEditor
@@ -122,7 +148,7 @@ namespace MvcUI.Controllers
             {
                 if (test.Id > 0)
                 {
-                    this.knowledgeService.UpdateTest(test.ToBll());
+                    this.testCreationService.UpdateTest(test.ToBll());
                 }
                 return RedirectToAction("Index", "Admin");
             }
@@ -143,7 +169,7 @@ namespace MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.knowledgeService.AddNewTestQuestions(question.TestId, new List<BLL.Interface.Entities.Question> { question.ToBll() });
+                this.testQuestionsManagementService.AddNewTestQuestions(question.TestId, new List<BLL.Interface.Entities.Question> { question.ToBll() });
                 return RedirectToAction("EditTest", "Admin", new { testId = question.TestId });
             }
             return View(question);
@@ -152,7 +178,7 @@ namespace MvcUI.Controllers
         {
             if (questionId > 0)
             {
-                var question = knowledgeService.GetQuestion(questionId);
+                var question = this.questionQueryService.GetQuestion(questionId);
                 if (question != null)
                 {
                     var model = new QuestionEditor
@@ -174,7 +200,7 @@ namespace MvcUI.Controllers
             {
                 if (question.Id > 0)
                 {
-                    this.knowledgeService.UpdateQuestion(question.ToBll());
+                    this.questionCreationService.UpdateQuestion(question.ToBll());
                 }
                 return RedirectToAction("EditQuestion", "Admin", new { questionId = question.Id });
             }
@@ -195,7 +221,7 @@ namespace MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.knowledgeService.AddNewQuestionAnswers(answer.QuestionId, new List<BLL.Interface.Entities.Answer> { answer.ToBll() });
+                this.questionAnswersManagmentService.AddNewQuestionAnswers(answer.QuestionId, new List<BLL.Interface.Entities.Answer> { answer.ToBll() });
                 return RedirectToAction("EditQuestion", "Admin", new { questionId = answer.QuestionId });
             }
             return View(answer);
@@ -205,7 +231,7 @@ namespace MvcUI.Controllers
         {
             if (answerId > 0)
             {
-                var answer = knowledgeService.GetAnswer(answerId);
+                var answer = this.answersQueryService.GetAnswer(answerId);
                 if (answer != null)
                 {
                     var model = answer.ToWeb();
@@ -221,7 +247,7 @@ namespace MvcUI.Controllers
             {
                 if (answer.Id > 0)
                 {
-                    this.knowledgeService.UpdateAnswer(answer.Id,answer.Text);
+                    this.questionAnswersManagmentService.UpdateAnswer(answer.Id,answer.Text);
                 }
                 return RedirectToAction("EditAnswer", "Admin", new { answerId = answer.Id });
             }
@@ -242,7 +268,7 @@ namespace MvcUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.knowledgeService.AddNewQuestionFakes(fake.QuestionId, new List<BLL.Interface.Entities.Fake> { fake.ToBll() });
+                this.questionAnswersManagmentService.AddNewQuestionFakes(fake.QuestionId, new List<BLL.Interface.Entities.Fake> { fake.ToBll() });
                 return RedirectToAction("EditQuestion", "Admin", new { questionId = fake.QuestionId });
 
             }
@@ -253,7 +279,7 @@ namespace MvcUI.Controllers
         {
             if (fakeId > 0)
             {
-                var fake = knowledgeService.GetFake(fakeId);
+                var fake = this.answersQueryService.GetFake(fakeId);
                 if (fake != null)
                 {
                     var model = fake.ToWeb();
@@ -269,7 +295,7 @@ namespace MvcUI.Controllers
             {
                 if (fake.Id > 0)
                 {
-                    this.knowledgeService.UpdateFake(fake.Id, fake.Text);
+                    this.questionAnswersManagmentService.UpdateFake(fake.Id, fake.Text);
                 }
                 return RedirectToAction("EditFake", "Admin", new { fakeId = fake.Id });
             }

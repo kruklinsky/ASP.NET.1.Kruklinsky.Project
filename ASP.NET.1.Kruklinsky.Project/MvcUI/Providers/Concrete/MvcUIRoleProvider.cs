@@ -8,17 +8,41 @@ namespace MvcUI.Providers
 {
     public class MvcUIRoleProvider : RoleProvider
     {
-        IUserService userService;
+        private IUserQueryService userQueryService;
+        private IRoleQueryService roleQueryService;
+        private IUserRolesQueryService userRolesQueryService;
+        private IUserRolesManagementService userRolesManagementService;
 
-        public MvcUIRoleProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
+        public MvcUIRoleProvider ()
+            : this(
+            (IUserQueryService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserQueryService)),
+            (IRoleQueryService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleQueryService)),
+            (IUserRolesQueryService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserRolesQueryService)),
+            (IUserRolesManagementService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserRolesManagementService))
+            ){ }
 
-        public MvcUIRoleProvider(IUserService userService)
+        public MvcUIRoleProvider(IUserQueryService userQueryService, IRoleQueryService roleQueryService, IUserRolesQueryService userRolesQueryService, IUserRolesManagementService userRolesManagementService)
         {
-            if (userService == null)
+            if(userQueryService == null)
             {
-                throw new System.ArgumentNullException("userService", "User service is null.");
+                throw new System.ArgumentNullException("userQueryService", "User query service is null.");
             }
-            this.userService = userService;
+            if (roleQueryService == null)
+            {
+                throw new System.ArgumentNullException("roleQueryService", "Role query service is null.");
+            }
+            if (userRolesQueryService == null)
+            {
+                throw new System.ArgumentNullException("userRolesQueryService", "User roles query service is null.");
+            }
+            if (userRolesManagementService == null)
+            {
+                throw new System.ArgumentNullException("userRolesManagementService", "User roles management service is null.");
+            }
+            this.userQueryService = userQueryService;
+            this.roleQueryService = roleQueryService;
+            this.userRolesQueryService = userRolesQueryService;
+            this.userRolesManagementService = userRolesManagementService;
         }
 
         #region Overridden
@@ -29,7 +53,7 @@ namespace MvcUI.Providers
         public override string[] GetRolesForUser(string email)
         {
             List<string> result = new List<string>();
-            var user = this.userService.GetUserByEmail(email);
+            var user = this.userQueryService.GetUserByEmail(email);
             if (user != null)
             {
                 result = user.Roles.Select(r => r.Name).ToList();
@@ -38,11 +62,11 @@ namespace MvcUI.Providers
         }
         public override bool IsUserInRole(string email, string roleName)
         {
-            return userService.IsUserInRole(email,roleName);
+            return this.userRolesQueryService.IsUserInRole(email, roleName);
         }
         public override string[] GetUsersInRole(string roleName)
         {
-            return userService.GetUsersInRole(roleName);
+            return this.userRolesQueryService.GetUsersInRole(roleName);
         }
         public override void AddUsersToRoles(string[] userNames, string[] roleNames)
         {
@@ -58,7 +82,7 @@ namespace MvcUI.Providers
             {
                 foreach (var roleName in roleNames)
                 {
-                    this.userService.AddUserToRole(email, roleName);
+                    this.userRolesManagementService.AddUserToRole(email, roleName);
                 }
             }
         }
@@ -76,18 +100,18 @@ namespace MvcUI.Providers
             {
                 foreach (var roleName in roleNames)
                 {
-                    this.userService.RemoveUserFromRole(email, roleName);
+                    this.userRolesManagementService.RemoveUserFromRole(email, roleName);
                 }
             }
         }
 
         public override string[] GetAllRoles()
         {
-            return this.userService.GetAllRoles();
+            return this.roleQueryService.GetAllRoles();
         }
         public override bool RoleExists(string roleName)
         {
-            return this.userService.RoleExists(roleName);
+            return this.roleQueryService.RoleExists(roleName);
         }
 
         #endregion

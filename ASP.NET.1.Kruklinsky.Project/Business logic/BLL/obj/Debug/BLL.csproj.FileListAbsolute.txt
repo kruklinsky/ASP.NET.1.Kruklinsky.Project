@@ -20,3 +20,7 @@ C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business l
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.dll
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.pdb
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.xml

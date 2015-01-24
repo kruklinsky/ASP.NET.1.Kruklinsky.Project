@@ -42,3 +42,5 @@ C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\Tes
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\Tests\SubjectRepositoryTest\obj\Debug\SubjectRepositoryTest.pdb
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\Tests\SubjectRepositoryTest\bin\Debug\AmbientDbContext.Interface.dll
 C:\Users\Александр\Desktop\save\ASP.NET.1.Kruklinsky.Project\Domain\Tests\SubjectRepositoryTest\bin\Debug\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Tests\SubjectRepositoryTest\bin\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Tests\SubjectRepositoryTest\bin\Debug\AmbientDbContext.Interface.pdb

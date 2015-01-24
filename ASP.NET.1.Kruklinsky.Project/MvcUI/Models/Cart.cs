@@ -63,6 +63,10 @@ namespace MvcUI.Models
                 answer.QuestionId = Test.Questions[i].Question.Id;
                 result.Add(answer);
             }
+            this.isStarted = false;
+            this.startTime = DateTime.MinValue;
+            this.resultId = -1;
+            this.Test = null;
             return result;
         }
 

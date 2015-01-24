@@ -29,7 +29,7 @@ namespace MvcUI.HtmlHelpers
         private static void AuthenticatedButtons(HtmlHelper html, bool isAdmin, ref StringBuilder result)
         {
             RolesButtons(html, isAdmin, result);
-            result.Append(html.RouteLink("Results |", new { controller = "Result", action = "Index" }, new { @id = "Button" }));
+            result.Append(html.RouteLink("Results | ", new { controller = "Result", action = "Index" }, new { @id = "Button" }));
             result.Append(html.RouteLink("Log Out", new { controller = "Account", action = "LogOut" }, new { @id = "Button" }));
         }
 

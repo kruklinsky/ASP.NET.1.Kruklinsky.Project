@@ -12,17 +12,27 @@ namespace MvcUI.Providers
 {
     public class MvcUIProfileProvider : ProfileProvider
     {
-        IUserService userService;
+        private IProfileService profileService;
+        private IUserQueryService userQueryService;
 
-        public MvcUIProfileProvider() : this((IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService))) { }
+        public MvcUIProfileProvider()
+            : this(
+            (IProfileService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IProfileService)),
+            (IUserQueryService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserQueryService))
+            ) { }
 
-        public MvcUIProfileProvider(IUserService userService)
+        public MvcUIProfileProvider(IProfileService profileService, IUserQueryService userQueryService)
         {
-            if (userService == null)
+            if (profileService == null)
             {
-                throw new System.ArgumentNullException("userService", "User service is null.");
+                throw new System.ArgumentNullException("profileService", "Profile service is null.");
             }
-            this.userService = userService;
+            if(userQueryService == null)
+            {
+                throw new System.ArgumentNullException("userQueryService", "User query service is null.");
+            }
+            this.profileService = profileService;
+            this.userQueryService = userQueryService;
         }
 
         #region Overridden
@@ -112,7 +122,7 @@ namespace MvcUI.Providers
         private SettingsPropertyValueCollection GetPropertyValues(string email, SettingsContext context, SettingsPropertyCollection collection)
         {
             var result = new SettingsPropertyValueCollection();
-            var user = this.userService.GetUserByEmail(email);
+            var user = this.userQueryService.GetUserByEmail(email);
             if (user != null)
             {
                 if (user.Profile != null)
@@ -138,7 +148,7 @@ namespace MvcUI.Providers
 
         private void SetPropertyValues(string email, SettingsContext context, SettingsPropertyValueCollection collection)
         {
-            var user = this.userService.GetUserByEmail(email);
+            var user = this.userQueryService.GetUserByEmail(email);
             if (user != null)
             {
                 Profile result = user.Profile == null ? new Profile() : user.Profile.ToWeb();
@@ -151,7 +161,7 @@ namespace MvcUI.Providers
             {
                 profile.GetType().GetProperty(value.Property.Name).SetValue(profile, value.PropertyValue);
             }
-            this.userService.UpdateUserProfile(userId, profile.ToBll());
+            this.profileService.UpdateUserProfile(userId, profile.ToBll());
         }
 
         #endregion

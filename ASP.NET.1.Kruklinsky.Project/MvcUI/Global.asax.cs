@@ -1,4 +1,5 @@
-﻿using MvcUI.Infrastructure;
+﻿using MvcUI.Binders;
+using MvcUI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,9 @@ namespace MvcUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-           System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver());
-           log4net.Config.XmlConfigurator.Configure();
+            System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver());
+            ModelBinders.Binders.Add(typeof(MvcUI.Models.Testing), new TestingModelBinder());
+            log4net.Config.XmlConfigurator.Configure();
         }
     }
 }

@@ -5,7 +5,6 @@ using DAL.Interface.Abstract;
 using AmbientDbContext;
 using AmbientDbContext.Interface;
 using ORM;
-
 using Ninject.Modules;
 using System.Data.Entity;
 

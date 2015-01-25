@@ -153,10 +153,13 @@
     <Compile Include="HtmlHelpers\Helpers.cs" />
     <Compile Include="HtmlHelpers\HomeHelpers.cs" />
     <Compile Include="HtmlHelpers\LayoutHelpers.cs" />
+    <Compile Include="Infrastructure\Abstract\ITestSession.cs" />
+    <Compile Include="Infrastructure\Abstract\ITestSessionFactory.cs" />
+    <Compile Include="Infrastructure\Concrete\TestSessionFactory.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Model binders\TestingModelBinder.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AdminModel.cs" />
-    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\Knowledge\Answer.cs" />
     <Compile Include="Models\Knowledge\Fake.cs" />

@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using MvcUI.Models;
 using System.Web.Security;
+using MvcUI.Binders;
+using MvcUI.Infrastructure.Abstract;
 
 namespace MvcUI.Controllers
 {
@@ -15,8 +17,9 @@ namespace MvcUI.Controllers
         private ITestQueryService testQueryService;
         private ISubjectQueryService subjectQueryService;
         private ITestingService testingService;
+        private ITestSessionFactory testSessionFactory;
 
-        public HomeController(ISubjectQueryService subjectQueryService, ITestingService testingService, ITestQueryService testQueryService)
+        public HomeController(ISubjectQueryService subjectQueryService, ITestingService testingService, ITestQueryService testQueryService, ITestSessionFactory testSessionFactory)
         {
             if (subjectQueryService == null)
             {
@@ -24,11 +27,20 @@ namespace MvcUI.Controllers
             }
             if (testingService == null)
             {
-                throw new System.ArgumentNullException("testService", "Test service service is null.");
+                throw new System.ArgumentNullException("testService", "Test service is null.");
+            }
+            if (testQueryService == null)
+            {
+                throw new System.ArgumentNullException("testQueryService", "Test query service is null.");
+            }
+            if(testSessionFactory == null)
+            {
+                throw new System.ArgumentNullException("testSessionFactory", "Test session factory is null.");
             }
             this.testQueryService = testQueryService;
             this.subjectQueryService = subjectQueryService;
             this.testingService = testingService;
+            this.testSessionFactory = testSessionFactory;
         }
 
         public ActionResult Index()
@@ -46,20 +58,17 @@ namespace MvcUI.Controllers
 
         public ActionResult Test(int testId)
         {
-            if (testId > 0)
+            var test = this.testQueryService.GetTest(testId);
+            if (test != null)
             {
-                var test = this.testQueryService.GetTest(testId);
-                if (test != null)
-                {
-                    return View(test.ToWeb());
-                }
+                return View(test.ToWeb());
             }
             return RedirectToAction("Index", "Home");
         }
 
         public ActionResult StartTest(int testId)
         {
-            if (!this.GetCart().IsStarted)
+            if (!this.testSessionFactory.GetTestSession().IsStarted)
             {
                 var test = this.testQueryService.GetTest(testId);
                 if (test != null)
@@ -77,7 +86,7 @@ namespace MvcUI.Controllers
                     };
                     string userId = Membership.GetUser(this.User.Identity.Name).ProviderUserKey.ToString();
                     int resultId = this.testingService.StartTest(userId, testId, 1200);
-                    this.GetCart().Start(onTest, resultId);
+                    this.testSessionFactory.GetTestSession().Start(onTest, resultId);
                 }
             }
             return RedirectToAction("Testing", "Home");
@@ -85,33 +94,27 @@ namespace MvcUI.Controllers
 
         public ActionResult Testing()
         {
-            if (this.GetCart().IsStarted)
+            if (this.testSessionFactory.GetTestSession().IsStarted)
             {
-                return View(this.GetCart().Test);
+                return View(this.testSessionFactory.GetTestSession().Test);
             }
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public ActionResult Testing(Answers answers)
+        public ActionResult Testing([ModelBinder(typeof(TestingModelBinder))] IEnumerable<Answers> answers)
         {
-            var cart = this.GetCart();
-            if (cart.IsStarted)
+            if (answers == null)
             {
-                this.testingService.FinishTest(cart.ResultId, cart.Finish(Request.Form));
+                throw new System.ArgumentNullException("answers", "Answers is null.");
+            }
+            var testSession = this.testSessionFactory.GetTestSession();
+            if (testSession.IsStarted)
+            {
+                this.testingService.FinishTest(testSession.ResultId, testSession.Finish(answers.ToList()));
+                return RedirectToAction("Index", "Result");
             }
             return RedirectToAction("Index", "Home");
-        }
-
-        private Cart GetCart()
-        {
-            Cart cart = (Cart)HttpContext.Session["Cart"];
-            if (cart == null)
-            {
-                cart = new Cart();
-                HttpContext.Session["Cart"] = cart;
-            }
-            return cart;
         }
     }
 }

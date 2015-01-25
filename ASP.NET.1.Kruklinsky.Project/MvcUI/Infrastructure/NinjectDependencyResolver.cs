@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using MvcUI.Providers.Abstract;
 using MvcUI.Providers.Concrete;
+using MvcUI.Infrastructure.Abstract;
+using MvcUI.Infrastructure.Concrete;
 
 namespace MvcUI.Infrastructure
 {
@@ -17,6 +19,7 @@ namespace MvcUI.Infrastructure
             base.Load();
             Bind<IAuthProvider>().To<FormsAuthProvider>();
             Bind<IVerifyProvider>().To<EmailVerifyProvider>().WithConstructorArgument("verifyUrl","http://localhost:3868//Verify/Verify");
+            Bind<ITestSessionFactory>().To<TestSessionFactory>();
         }
     }
 

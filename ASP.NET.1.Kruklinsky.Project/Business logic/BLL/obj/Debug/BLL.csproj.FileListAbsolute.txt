@@ -24,3 +24,16 @@ C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Krukl
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.dll
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.pdb
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\BLL.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\BLL.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\BLL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\DAL.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\DAL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\BLL.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\obj\Debug\BLL.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Business logic\BLL\obj\Debug\BLL.pdb

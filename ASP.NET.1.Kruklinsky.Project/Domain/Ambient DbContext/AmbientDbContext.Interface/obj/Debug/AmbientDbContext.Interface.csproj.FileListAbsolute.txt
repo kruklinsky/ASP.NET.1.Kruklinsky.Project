@@ -17,3 +17,13 @@ C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Krukl
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.csprojResolveAssemblyReference.cache
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.dll
 C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\AmbientDbContext.Interface.dll.config
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\AmbientDbContext.Interface.pdb
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\EntityFramework.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\EntityFramework.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.csprojResolveAssemblyReference.cache
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.dll
+C:\Users\Александр\Desktop\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\ASP.NET.1.Kruklinsky.Project\Domain\Ambient DbContext\AmbientDbContext.Interface\obj\Debug\AmbientDbContext.Interface.pdb

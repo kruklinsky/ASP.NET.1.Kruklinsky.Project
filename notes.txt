@@ -1,0 +1,32 @@
+Architecture
+- watch ASP.NET.1.Kruklinsky.Project\Solution items\AssemblyDependencies.dgml
+
+ORM
+- Entity Framework 
+  - Code first
+  - Fluent API
+  - Navigation properties and lazy loading
+
+DAL
+- Ambient context pattern
+- Repository pattern
+- Unit of work pattern
+
+BLL
+- Service design pattern
+
+MvcUI
+- Dependency injection
+- Moq unit testing
+- Exceptions logging
+- Custom html helpers
+- Custom model binding
+- Custom authentication
+- Filters
+  - Custom authorize attribute
+  - Custom íandle error attribute
+- Providers
+  - Custom Membership provider
+  - Custom Profile provider
+  - Custom Role provider
+- Ajax queries
